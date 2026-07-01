@@ -1,0 +1,157 @@
+Perfect! Let’s set up your **Canela + CanelaDeck fonts** with **Tailwind + Laravel + Vite**, fully ready for **development and production**.
+
+Here’s a complete step-by-step setup with example Blade usage:
+
+---
+
+## 1️⃣ Folder structure
+
+```
+resources/
+ ├─ css/
+ │   ├─ app.css        ← Tailwind entry
+ │   └─ main.css       ← custom styles including fonts
+ └─ js/
+     ├─ app.js         ← entry point
+     ├─ bootstrap.js
+     └─ ui.js          ← optional event listeners
+public/
+ └─ assets/
+     ├─ fonts/
+     │   ├─ Canela-Regular-Trial.woff2
+     │   ├─ Canela-Regular-Trial.woff
+     │   ├─ CanelaDeck-Regular-Trial.woff2
+     │   └─ CanelaDeck-Regular-Trial.woff
+     └─ img/           ← your images
+```
+
+---
+
+## 2️⃣ Add `@font-face` in `main.css`
+
+`resources/css/main.css`:
+
+```css
+@font-face {
+    font-family: 'Canela';
+    src: url('/assets/fonts/Canela-Regular-Trial.woff2') format('woff2'),
+         url('/assets/fonts/Canela-Regular-Trial.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'CanelaDeck';
+    src: url('/assets/fonts/CanelaDeck-Regular-Trial.woff2') format('woff2'),
+         url('/assets/fonts/CanelaDeck-Regular-Trial.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+```
+
+Then import it into your **Tailwind CSS entry** if needed:
+
+```css
+/* app.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './main.css';
+```
+
+---
+
+## 3️⃣ Add fonts to Tailwind config
+
+`tailwind.config.js`:
+
+```js
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./resources/**/*.blade.php",
+    "./resources/**/*.js",
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        canela: ['Canela', 'serif'],
+        caneladeck: ['CanelaDeck', 'serif'],
+      },
+    },
+  },
+  plugins: [],
+};
+```
+
+---
+
+## 4️⃣ Use fonts in Blade / HTML
+
+```blade
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <meta charset="UTF-8">
+    <title>Font Demo</title>
+</head>
+<body class="bg-gray-50 p-10">
+
+    <h1 class="font-canela text-5xl text-gray-800 mb-6">This is Canela</h1>
+    <p class="font-caneladeck text-lg text-gray-700">
+        This is CanelaDeck — perfect for paragraphs or body text.
+    </p>
+
+</body>
+</html>
+```
+
+* `font-canela` → Canela-Regular-Trial
+* `font-caneladeck` → CanelaDeck-Regular-Trial
+
+---
+
+## 5️⃣ Build for production
+
+1. Run development:
+
+```bash
+npm run dev
+```
+
+* Check locally; fonts load via `/assets/fonts/...`
+
+2. Run production build:
+
+```bash
+npm run build
+```
+
+* Tailwind CSS is minified
+* `@vite` in Blade automatically points to hashed CSS/JS
+* Fonts stay in `public/assets/fonts/` → no changes needed
+
+---
+
+## 6️⃣ Notes
+
+* **Keep fonts in `public`** for simplicity
+* You **do not need to import fonts in JS**
+* CSS + Tailwind classes handle font usage
+* Works **both locally and on server** (GoDaddy, etc.)
+
+---
+
+If you want, I can also make a **full “deployment-ready” folder structure diagram** showing:
+
+* `/resources/css`
+* `/resources/js`
+* `/public/assets/img`
+* `/public/assets/fonts`
+* `/public/build`
+
+…so you can see **exactly what to upload** to production.
+
+Do you want me to make that?
