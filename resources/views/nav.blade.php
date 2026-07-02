@@ -1,4 +1,4 @@
-<nav class=" sticky top-0 z-100 bg-white w-full m-auto py-3 px-4 md:py-5 md:px-8">
+<nav class=" z-100 bg-white w-full m-auto py-3 px-4 md:py-5 md:px-8">
 
     <div class="flex justify-between items-center">
         <a class="w-[110px] md:w-[140px] 2xl:w-[180px] flex items-center" href="{{ route('home') }}">
@@ -201,7 +201,7 @@
 
             <!-- Results Dropdown -->
             <div id="searchResults"
-                class="absolute left-[-260px] 2xl:left-[-250px] mt-[120px]
+                class="absolute left-[-260px] 2xl:left-[-250px] mt-[190px]
                     w-[300px]
                     bg-white shadow-lg rounded hidden z-40">
             </div>
@@ -493,7 +493,7 @@
             return;
         }
 
-        fetch(`/search?search=${query}`)
+        fetch(`/search?search=${encodeURIComponent(query)}`)
             .then(res => res.json())
             .then(data => {
 
@@ -558,7 +558,7 @@
             return;
         }
 
-        fetch(`/search?search=${query}`)
+        fetch(`/search?search=${encodeURIComponent(query)}`)
             .then(res => res.json())
             .then(data => {
 

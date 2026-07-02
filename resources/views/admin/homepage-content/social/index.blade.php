@@ -86,7 +86,7 @@
                         <thead>
                             <tr class="bg-gray-200 text-gray-700 text-left text-sm">
                                 <th class="py-3 px-4 border-b">ID</th>
-                                <th class="py-3 px-4 border-b">Icon</th>
+                                <th class="py-3 px-4 border-b">Icon Preview</th>
                                 <th class="py-3 px-4 border-b">Name</th>
                                 <th class="py-3 px-4 border-b">URL</th>
                                 <th class="py-3 px-4 border-b">Order</th>
@@ -104,9 +104,11 @@
                                         {{ $loop->iteration }}
                                     </td>
 
-                                    <!-- Icon -->
+                                    <!-- Icon Preview -->
                                     <td class="py-2 px-4">
-                                        @if ($social->icon)
+                                        @if ($social->icon_class)
+                                            <i class="{{ $social->icon_class }} text-2xl text-gray-700"></i>
+                                        @elseif ($social->icon)
                                             <img src="{{ asset($social->icon) }}"
                                                 class="h-10 w-10 rounded object-cover">
                                         @else
@@ -167,6 +169,8 @@
                                                         action="{{ route('admin.social.delete', encrypt($social->id)) }}"
                                                         method="POST" onsubmit="return confirm('Are you sure?');">
                                                         @csrf
+                                                        @method('DELETE')
+
                                                         <button type="submit"
                                                             class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                                             Delete

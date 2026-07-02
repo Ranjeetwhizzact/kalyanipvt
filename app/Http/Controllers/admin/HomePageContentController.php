@@ -136,22 +136,30 @@ class HomePageContentController extends Controller
         ]);
 
         $iconPath = null;
-
         if ($request->hasFile('icon')) {
             $file = $request->file('icon');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $destinationPath = public_path('social_icons');
-            $file->move($destinationPath, $fileName);
-
+            $file->move(public_path('social_icons'), $fileName);
             $iconPath = 'social_icons/' . $fileName;
         }
 
+        $homepageIconPath = null;
+        if ($request->hasFile('homepage_icon')) {
+            $file = $request->file('homepage_icon');
+            $fileName = time() . '_hp_' . $file->getClientOriginalName();
+            $file->move(public_path('social_icons'), $fileName);
+            $homepageIconPath = 'social_icons/' . $fileName;
+        }
+
         SocialMediaLinks::create([
-            'name' => $request->name,
-            'url' => $request->url,
-            'icon' => $iconPath,
-            'display_order' => $request->display_order,
-            'is_active' => $request->is_active ?? 0,
+            'name'                => $request->name,
+            'url'                 => $request->url,
+            'icon'                => $iconPath,
+            'icon_class'          => $request->icon_class,
+            'homepage_icon'       => $homepageIconPath,
+            'homepage_icon_class' => $request->homepage_icon_class,
+            'display_order'       => $request->display_order,
+            'is_active'           => $request->is_active ?? 0,
         ]);
 
         return redirect()->route('admin.social.index')
@@ -180,23 +188,31 @@ class HomePageContentController extends Controller
         ]);
 
         if ($request->hasFile('icon')) {
-
             if ($social->icon && file_exists(public_path($social->icon))) {
                 unlink(public_path($social->icon));
             }
-
             $file = $request->file('icon');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $destinationPath = public_path('social_icons');
-            $file->move($destinationPath, $fileName);
-
+            $file->move(public_path('social_icons'), $fileName);
             $social->icon = 'social_icons/' . $fileName;
         }
 
-        $social->name = $request->name;
-        $social->url = $request->url;
-        $social->display_order = $request->display_order;
-        $social->is_active = $request->is_active ?? 0;
+        if ($request->hasFile('homepage_icon')) {
+            if ($social->homepage_icon && file_exists(public_path($social->homepage_icon))) {
+                unlink(public_path($social->homepage_icon));
+            }
+            $file = $request->file('homepage_icon');
+            $fileName = time() . '_hp_' . $file->getClientOriginalName();
+            $file->move(public_path('social_icons'), $fileName);
+            $social->homepage_icon = 'social_icons/' . $fileName;
+        }
+
+        $social->name                = $request->name;
+        $social->url                 = $request->url;
+        $social->icon_class          = $request->icon_class;
+        $social->homepage_icon_class = $request->homepage_icon_class;
+        $social->display_order       = $request->display_order;
+        $social->is_active           = $request->is_active ?? 0;
         $social->save();
 
         return redirect()->route('admin.social.index')
@@ -294,21 +310,31 @@ class HomePageContentController extends Controller
 
     public function updateAchievementSettings(Request $request, $id)
     {
+        $setting_id = decrypt($id);
+
         $request->validate([
-            'section_heading' => 'required|string|max:255',
-            'section_description' => 'required|string',
+            'section_heading' => 'required|max:255',
+            'section_description' => 'required',
         ]);
 
-        $stat = HomepageStat::findOrFail(decrypt($id));
+        $setting = HomepageStat::whereNotNull('section_heading')
+            ->whereNotNull('section_description')
+            ->first();
 
-        $stat->update([
-            'section_heading' => $request->section_heading,
-            'section_description' => $request->section_description,
-        ]);
+        if (!$setting) {
+            $setting = HomepageStat::find($setting_id);
+        }
 
-        return redirect()->back()->with(
-            'success',
-            'Achievement settings updated successfully.'
-        );
+        if (!$setting) {
+            $setting = new HomepageStat();
+        }
+
+        $setting->section_heading = $request->section_heading;
+        $setting->section_description = $request->section_description;
+        $setting->is_active = 1;
+        $setting->save();
+
+        return redirect()->route('admin.stats.index')
+            ->with('success', 'Achievement Settings Updated Successfully!');
     }
 }

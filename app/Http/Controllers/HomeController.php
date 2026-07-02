@@ -12,6 +12,7 @@ use App\Models\SocialMediaLinks;
 use App\Models\Video;
 use App\Models\Page;
 use App\Models\CorporateMedia;
+use App\Models\FooterSetting;
 use App\Models\News;
 use App\Models\Section;
 use App\Models\Testimonal;
@@ -136,7 +137,7 @@ class HomeController extends Controller
             ->whereNotNull('subtitle')
             ->first();
 
-        return view('index', compact('pagesection', 'videos', 'banner', 'statSection', 'socialLinks', 'manufacturingPage', 'keyStrengthImage', 'keyStrength', 'internationalBusiness', 'business', 'companyProfile', 'news', 'testimonials', 'businessImage', 'setting', 'achievementSetting', 'activeModel', 'certificateSection','HomepageText'));
+        return view('index', compact('pagesection', 'videos', 'banner', 'statSection', 'socialLinks', 'manufacturingPage', 'keyStrengthImage', 'keyStrength', 'internationalBusiness', 'business', 'companyProfile', 'news', 'testimonials', 'businessImage', 'setting', 'achievementSetting', 'activeModel', 'certificateSection', 'HomepageText'));
     }
 
     public function contactUs()
@@ -173,7 +174,8 @@ class HomeController extends Controller
             ->where('status', 1)
             ->latest()
             ->first();
-        return view('about.corporate-overview', compact('videos'));
+        $footer = FooterSetting::get()->first();
+        return view('about.corporate-overview', compact('videos', 'footer'));
     }
 
     public function domesticBrandBusiness()

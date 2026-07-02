@@ -94,8 +94,14 @@
         </div>
 
         <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Address (Reach us at)</label>
+            <textarea name="address" rows="3"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition duration-150">{{ old('address', $contact->address) }}</textarea>
+        </div>
+
+        <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-            <select name="status" 
+            <select name="status"
                     class="w-full px-4 py-2 border border-gray-300 bg-white rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition duration-150">
                 <option value="active" {{ $contact->status == 'active' ? 'selected' : '' }}>Active</option>
                 <option value="inactive" {{ $contact->status == 'inactive' ? 'selected' : '' }}>Inactive</option>

@@ -11,6 +11,9 @@ class SocialMediaLinks extends Model
         'name',
         'url',
         'icon',
+        'icon_class',
+        'homepage_icon',
+        'homepage_icon_class',
         'display_order',
         'is_active',
     ];

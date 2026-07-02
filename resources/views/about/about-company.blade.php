@@ -23,7 +23,7 @@
                     </div>
 
                     <div>
-                        <div class="lg:max-w-[567px] px-2">
+                        <div class="px-2">
 
                             <h2 class="text-3xl xl:text-5xl text-orange-500 pt-7">
                                 {{ $section->section_key }}

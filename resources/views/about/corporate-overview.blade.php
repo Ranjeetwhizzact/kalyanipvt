@@ -32,13 +32,20 @@
             </div>
 
             <div class="mt-10 flex flex-col items-center">
-                <p class="text-xs font-medium text-gray-600 mb-2 font-inter">For more Video visit our YouTube Channel</p>
-                <a href=" https://www.youtube.com/@Kalyani_Industries_Limited" class="flex gap-4 items-center group"
-                    target="_blank">
+                <p class="text-xs font-medium text-gray-600 mb-2 font-inter">
+                    {{ $footer->youtube_label }}
+                </p>
+
+                <a href="{{ $footer->youtube_url }}" class="flex gap-4 items-center group" target="_blank"
+                    rel="noopener noreferrer">
+
                     <i class="ri-youtube-fill text-red-600 text-5xl transition-transform group-hover:scale-110"></i>
+
                     <div
                         class="border rounded-full px-6 py-2 flex items-center gap-4 bg-white shadow-sm hover:shadow-md transition-all">
-                        <span class="font-inter font-medium text-sm">@kalyani Pvt Ltd</span>
+                        <span class="font-inter font-medium text-sm">
+                            {{ $footer->youtube_channel_name }}
+                        </span>
                         <i class="ri-arrow-right-up-line text-red-500"></i>
                     </div>
                 </a>

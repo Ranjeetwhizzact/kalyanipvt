@@ -87,6 +87,7 @@
                                     <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Telephone Number</th>
                                     <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">WhatsApp</th>
                                     <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Email Address</th>
+                                    <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Address</th>
                                     <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
                                     <th scope="col" class="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
                                 </tr>
@@ -125,6 +126,9 @@
                                                 </a>
                                             </div>
                                         </td>
+                                        <td class="px-6 py-4 text-sm text-gray-700 max-w-xs">
+                                            {{ $contact->address ?? '-' }}
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm
                                                 @if($contact->status === 'active') bg-green-100 text-green-800 border border-green-200
@@ -161,7 +165,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" class="px-6 py-12 text-center">
+                                        <td colspan="7" class="px-6 py-12 text-center">
                                             <div class="flex flex-col items-center justify-center">
                                                 <i class="ri-inbox-line text-5xl text-gray-300 mb-3"></i>
                                                 <p class="text-gray-500 font-medium">No contacts found</p>

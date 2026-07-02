@@ -15,6 +15,8 @@ use App\Http\Controllers\admin\ProductUseage;
 use App\Http\Controllers\admin\CorporateMediaController;
 use App\Http\Controllers\admin\CertificatePageSectionController;
 use App\Http\Controllers\admin\CompanyProfileController;
+use App\Http\Controllers\admin\FooterLinkController;
+use App\Http\Controllers\admin\FooterSettingController;
 // use App\Http\Controllers\admin\SectionController;
 use App\Http\Controllers\admin\SectionController;
 use App\Http\Controllers\admin\SubCategoryController;
@@ -205,7 +207,7 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::get('/stat/edit/{id}', [HomePageContentController::class, 'statedit'])->name('admin.stats.edit');
     Route::post('/stat/update/{id}', [HomePageContentController::class, 'statupdate'])->name('admin.stats.update');
     Route::post('/stat/delete/{id}', [HomePageContentController::class, 'statdelete'])->name('admin.stats.delete');
-    Route::post('achievement-settings/{id}',[HomePageContentController::class, 'updateAchievementSettings'])->name('admin.stats.updateSettings');
+    Route::post('achievement-settings/{id}', [HomePageContentController::class, 'updateAchievementSettings'])->name('admin.stats.updateSettings');
 
     Route::get('/menu/get-all', [MenuController::class, 'index'])->name('admin.menus.index');
     Route::get('/menu/create', [MenuController::class, 'create'])->name('admin.menus.create');
@@ -269,6 +271,16 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::get('/contact/edit/{id}', [ContactController::class, 'edit'])->name('admin.contacts.edit');
     Route::put('/contact/update/{id}', [ContactController::class, 'update'])->name('admin.contacts.update');
     Route::delete('/contact/delete/{id}', [ContactController::class, 'destroy'])->name('admin.contacts.destroy');
+
+    Route::get('/footer-links/get-all', [FooterLinkController::class, 'index'])->name('admin.footer-links.index');
+    Route::get('/footer-links/create', [FooterLinkController::class, 'create'])->name('admin.footer-links.create');
+    Route::post('/footer-links/store', [FooterLinkController::class, 'store'])->name('admin.footer-links.store');
+    Route::get('/footer-links/edit/{id}', [FooterLinkController::class, 'edit'])->name('admin.footer-links.edit');
+    Route::put('/footer-links/update/{id}', [FooterLinkController::class, 'update'])->name('admin.footer-links.update');
+    Route::delete('/footer-links/delete/{id}', [FooterLinkController::class, 'destroy'])->name('admin.footer-links.destroy');
+
+    Route::get('/footer-settings/edit', [FooterSettingController::class, 'edit'])->name('admin.footer-settings.edit');
+    Route::put('/footer-settings/update', [FooterSettingController::class, 'update'])->name('admin.footer-settings.update');
 });
 
 // WILDCARD ROUTES - ALWAYS AT THE END!
