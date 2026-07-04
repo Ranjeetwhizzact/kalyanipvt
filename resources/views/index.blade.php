@@ -57,15 +57,18 @@
     @if ($socialLinks->count())
         <div class="sticky top-10 h-0 w-full flex justify-end z-40">
 
-            <ul class="w-14 h-96 flex flex-col p-2 bg-gray-50 rounded-lg gap-2 shadow-md">
+            <ul class="w-14 h-fit flex flex-col p-2 bg-gray-50 rounded-lg gap-2 shadow-md">
 
                 @foreach ($socialLinks as $social)
                     <li>
-                        <a href="{{ $social->url }}" target="_blank" title="{{ $social->title }}">
+                        <a href="{{ $social->url }}" target="_blank" title="{{ $social->name }}"
+                            class="flex items-center justify-center w-10 h-10 hover:scale-110 transition-transform duration-200">
 
-                            @if ($social->icon)
-                                <img src="{{ asset($social->icon) }}" alt="{{ $social->title }}"
-                                    class="w-10 h-auto object-contain rounded-md hover:scale-110 transition-transform duration-200">
+                            @if (!empty($social->homepage_icon_class))
+                                <i class="{{ $social->homepage_icon_class }} text-2xl text-gray-700"></i>
+                            @elseif(!empty($social->homepage_icon))
+                                <img src="{{ asset($social->homepage_icon) }}" alt="{{ $social->name }}"
+                                    class="w-10 h-auto object-contain rounded-md">
                             @endif
 
                         </a>
@@ -82,8 +85,8 @@
         <div class="lg:w-[785px] m-auto my-3">
             <h2
                 class="capitalize text-[20px] md:text-[30px] lg:text-[36px] 2xl:text-[39px] font-medium text-center dm_sans">
-                {{ $HomepageText->title }}</h2>
-            <p class="text-sm mt-4 text-center px-10">{{ $HomepageText->subtitle }}</p>
+                {{ $HomepageText?->title }}</h2>
+            <p class="text-sm mt-4 text-center px-10">{{ $HomepageText?->subtitle }}</p>
         </div>
         <div class="flex flex-wrap gap-5  p-8 z-20 m-auto md:w-[755px]  xl:w-[1250px] categorycard">
         </div>
@@ -211,11 +214,13 @@
     {{-- Dynamic Certificates --}}
     <section class="w-full  m-auto my-10">
         <div class="w-full h-[900px] md:h-[680px] xl:h-[441px] relative">
-            <img src="{{ asset($certificateSection->home_banner) }}" alt="" srcset="" class="absolute z-10 w-full h-full ">
+            <img src="{{ asset($certificateSection->home_banner) }}" alt="" srcset=""
+                class="absolute z-10 w-full h-full ">
             <img src="{{ asset($certificateSection->home_banner) }}" alt="" srcset=""
                 class="z-20 absolute w-full h-full opacity-95">
             <div class="z-30 absolute w-full h-full ">
-                <h1 class="uppercase text-center font-bold text-[35px] text-transparent bg-gradient-to-b from-[#BE8303] via-[#F6E692] to-[#C28A0D] bg-clip-text my-6">
+                <h1
+                    class="uppercase text-center font-bold text-[35px] text-transparent bg-gradient-to-b from-[#BE8303] via-[#F6E692] to-[#C28A0D] bg-clip-text my-6">
                     {{ $certificateSection->home_title }}
                 </h1>
 
@@ -505,23 +510,27 @@
 
     <!-- WhatsApp Icon -->
     <div id="myWhatsappButton" class="z-30"></div>
-    <div id="welcomeModal"
-        class="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 modal-transition hidden">
-        <div class="bg-white rounded-2xl shadow-2xl w-11/12 sm:w-3/4 lg:w-1/2 max-h-[90vh] overflow-y-auto relative mx-4">
-            <!-- Close button X (top right) -->
-            <button class="close-modal-btn absolute z-50 top-4 right-4 text-black hover:text-gray-800 transition-colors"
-                aria-label="Close">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
+    @if ($activeModel)
+        <div id="welcomeModal"
+            class="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 modal-transition hidden">
+            <div
+                class="bg-white rounded-2xl shadow-2xl w-11/12 sm:w-3/4 lg:w-1/2 max-h-[90vh] overflow-y-auto relative mx-4">
+                <!-- Close button X (top right) -->
+                <button
+                    class="close-modal-btn absolute z-50 top-4 right-4 text-black hover:text-gray-800 transition-colors"
+                    aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
 
-            <!-- Modal Content -->
-            <img src="{{ asset($activeModel->banner) }}" alt="Welcome" class="mx-auto mb-4 w-full h-auto">
+                <!-- Modal Content -->
+                <img src="{{ asset($activeModel->banner) }}" alt="Welcome" class="mx-auto mb-4 w-full h-auto">
 
+            </div>
         </div>
-    </div>
+    @endif
     @include('footer')
 
 @endsection
@@ -738,11 +747,11 @@
                             <ul class="absolute hidden group-hover:block bg-white text-black mt-0 rounded-lg shadow-lg w-full z-50">
                                 ${category.subcategories.map(sub =>
                                     `<li>
-                                                <a href="/${category.slug}/${sub.slug}"
-                                                class="block px-4 py-2 hover:bg-orange-50 ${currentSubcategoryId == sub.subcategory_id ? 'bg-orange-500 text-white' : ''}">
-                                                ${sub.subcategory_name}
-                                                </a>
-                                            </li>`).join("")}
+                                                                        <a href="/${category.slug}/${sub.slug}"
+                                                                        class="block px-4 py-2 hover:bg-orange-50 ${currentSubcategoryId == sub.subcategory_id ? 'bg-orange-500 text-white' : ''}">
+                                                                        ${sub.subcategory_name}
+                                                                        </a>
+                                                                    </li>`).join("")}
                                     </ul>
                                 </div>
                             </article>`;

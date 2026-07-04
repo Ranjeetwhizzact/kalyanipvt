@@ -529,7 +529,8 @@
                                                 @if (in_array($section->layout_type, ['grid_2', 'grid_3']))
                                                     <div class="flex flex-col">
                                                         <label class="text-sm font-medium mb-1">Desktop Height
-                                                            (vh)</label>
+                                                            (vh)
+                                                        </label>
 
                                                         <select name="image_height_desktop"
                                                             class="border p-2 rounded">

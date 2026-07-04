@@ -91,16 +91,141 @@
                         @enderror
                     </div>
 
-                    <!-- Icon Upload -->
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium mb-2">Upload Icon Image</label>
-                        <input type="file" name="icon" id="icon" class="w-full border p-2 rounded"
-                            accept="image/*">
+                    <!-- Header Icon Section -->
+                    <div class="mb-6 border rounded-lg p-4 bg-gray-50">
+                        <label class="block text-sm font-semibold mb-3 text-blue-700">Header Icon <span
+                                class="text-gray-400 font-normal text-xs">(shown in top black bar)</span></label>
 
-                        <!-- Preview -->
-                        <div
-                            class="w-32 h-32 border mt-3 rounded bg-gray-100 flex items-center justify-center overflow-hidden">
-                            <img id="icon_preview" class="hidden max-h-full max-w-full object-contain">
+                        <!-- Tab toggle -->
+                        <div class="flex border rounded-lg overflow-hidden mb-4 w-fit">
+                            <button type="button" id="tab-remix" onclick="switchTab('remix')"
+                                class="px-4 py-2 text-sm font-medium bg-blue-500 text-white transition">
+                                Remix Icon
+                            </button>
+                            <button type="button" id="tab-upload" onclick="switchTab('upload')"
+                                class="px-4 py-2 text-sm font-medium bg-white text-gray-700 transition">
+                                Upload Custom Icon
+                            </button>
+                        </div>
+
+                        <!-- Remix Icon Panel -->
+                        <div id="panel-remix">
+                            <select name="icon_class" id="icon_class_select" class="w-full px-4 py-2 border rounded-lg">
+                                <option value="">-- Select Icon --</option>
+                                <option value="ri-facebook-circle-fill"
+                                    {{ old('icon_class') == 'ri-facebook-circle-fill' ? 'selected' : '' }}>Facebook
+                                </option>
+                                <option value="ri-instagram-fill"
+                                    {{ old('icon_class') == 'ri-instagram-fill' ? 'selected' : '' }}>Instagram
+                                </option>
+                                <option value="ri-linkedin-fill"
+                                    {{ old('icon_class') == 'ri-linkedin-fill' ? 'selected' : '' }}>LinkedIn
+                                </option>
+                                <option value="ri-youtube-fill"
+                                    {{ old('icon_class') == 'ri-youtube-fill' ? 'selected' : '' }}>YouTube
+                                </option>
+                                <option value="ri-twitter-x-fill"
+                                    {{ old('icon_class') == 'ri-twitter-x-fill' ? 'selected' : '' }}>Twitter / X
+                                </option>
+                                <option value="ri-whatsapp-fill"
+                                    {{ old('icon_class') == 'ri-whatsapp-fill' ? 'selected' : '' }}>WhatsApp
+                                </option>
+                                <option value="ri-telegram-fill"
+                                    {{ old('icon_class') == 'ri-telegram-fill' ? 'selected' : '' }}>Telegram
+                                </option>
+                                <option value="ri-pinterest-fill"
+                                    {{ old('icon_class') == 'ri-pinterest-fill' ? 'selected' : '' }}>Pinterest
+                                </option>
+                                <option value="ri-mail-line"
+                                    {{ old('icon_class') == 'ri-mail-line' ? 'selected' : '' }}>Mail
+                                </option>
+                            </select>
+                            <div class="mt-3 flex items-center gap-3">
+                                <span class="text-sm text-gray-500">Preview:</span>
+                                <i id="icon_preview_class" class="text-2xl text-gray-700"></i>
+                            </div>
+                        </div>
+
+                        <!-- Upload Custom Icon Panel -->
+                        <div id="panel-upload" class="hidden">
+                            <input type="file" name="icon" id="icon" class="w-full border p-2 rounded"
+                                accept="image/*">
+                            <div
+                                class="w-20 h-20 border mt-3 rounded bg-gray-100 flex items-center justify-center overflow-hidden">
+                                <img id="icon_img_preview" class="hidden max-h-full max-w-full object-contain">
+                            </div>
+                            <p class="text-xs text-gray-400 mt-1">If you upload a custom icon, the Remix Icon selection
+                                above will be ignored.</p>
+                        </div>
+                    </div>
+
+                    <!-- Homepage Icon Section -->
+                    <div class="mb-6 border rounded-lg p-4 bg-orange-50">
+                        <label class="block text-sm font-semibold mb-3 text-orange-700">Homepage Icon <span
+                                class="text-gray-400 font-normal text-xs">(shown in sticky side panel on
+                                homepage)</span></label>
+
+                        <!-- Tab toggle -->
+                        <div class="flex border rounded-lg overflow-hidden mb-4 w-fit">
+                            <button type="button" id="hp-tab-remix" onclick="switchHpTab('remix')"
+                                class="px-4 py-2 text-sm font-medium bg-orange-500 text-white transition">
+                                Remix Icon
+                            </button>
+                            <button type="button" id="hp-tab-upload" onclick="switchHpTab('upload')"
+                                class="px-4 py-2 text-sm font-medium bg-white text-gray-700 transition">
+                                Upload Custom Icon
+                            </button>
+                        </div>
+
+                        <!-- Remix Icon Panel -->
+                        <div id="hp-panel-remix">
+                            <select name="homepage_icon_class" id="hp_icon_class_select"
+                                class="w-full px-4 py-2 border rounded-lg">
+                                <option value="">-- Select Icon --</option>
+                                <option value="ri-facebook-circle-fill"
+                                    {{ old('homepage_icon_class') == 'ri-facebook-circle-fill' ? 'selected' : '' }}>
+                                    Facebook</option>
+                                <option value="ri-instagram-fill"
+                                    {{ old('homepage_icon_class') == 'ri-instagram-fill' ? 'selected' : '' }}>
+                                    Instagram</option>
+                                <option value="ri-linkedin-fill"
+                                    {{ old('homepage_icon_class') == 'ri-linkedin-fill' ? 'selected' : '' }}>
+                                    LinkedIn</option>
+                                <option value="ri-youtube-fill"
+                                    {{ old('homepage_icon_class') == 'ri-youtube-fill' ? 'selected' : '' }}>
+                                    YouTube</option>
+                                <option value="ri-twitter-x-fill"
+                                    {{ old('homepage_icon_class') == 'ri-twitter-x-fill' ? 'selected' : '' }}>
+                                    Twitter / X</option>
+                                <option value="ri-whatsapp-fill"
+                                    {{ old('homepage_icon_class') == 'ri-whatsapp-fill' ? 'selected' : '' }}>
+                                    WhatsApp</option>
+                                <option value="ri-telegram-fill"
+                                    {{ old('homepage_icon_class') == 'ri-telegram-fill' ? 'selected' : '' }}>
+                                    Telegram</option>
+                                <option value="ri-pinterest-fill"
+                                    {{ old('homepage_icon_class') == 'ri-pinterest-fill' ? 'selected' : '' }}>
+                                    Pinterest</option>
+                                <option value="ri-mail-line"
+                                    {{ old('homepage_icon_class') == 'ri-mail-line' ? 'selected' : '' }}>
+                                    Mail</option>
+                            </select>
+                            <div class="mt-3 flex items-center gap-3">
+                                <span class="text-sm text-gray-500">Preview:</span>
+                                <i id="hp_icon_preview_class" class="text-2xl text-gray-700"></i>
+                            </div>
+                        </div>
+
+                        <!-- Upload Custom Icon Panel -->
+                        <div id="hp-panel-upload" class="hidden">
+                            <input type="file" name="homepage_icon" id="homepage_icon"
+                                class="w-full border p-2 rounded" accept="image/*">
+                            <div
+                                class="w-20 h-20 border mt-3 rounded bg-gray-100 flex items-center justify-center overflow-hidden">
+                                <img id="hp_icon_img_preview" class="hidden max-h-full max-w-full object-contain">
+                            </div>
+                            <p class="text-xs text-gray-400 mt-1">If you upload a custom icon, the Remix Icon selection
+                                above will be ignored.</p>
                         </div>
                     </div>
 
@@ -133,7 +258,63 @@
     </div>
     <script src="{{ asset('backend/admin/Scripts/jquery-1.6.3.js') }}" type="text/javascript"></script>
     <script src="{{ asset('backend/admin/Scripts/jquery.cleditor.js') }}" type="text/javascript"></script>
-    <script type="text/javascript"></script>
+    <script>
+        // --- Header icon tabs ---
+        function switchTab(tab) {
+            const isRemix = tab === 'remix';
+            document.getElementById('panel-remix').classList.toggle('hidden', !isRemix);
+            document.getElementById('panel-upload').classList.toggle('hidden', isRemix);
+            document.getElementById('tab-remix').className = 'px-4 py-2 text-sm font-medium transition ' + (isRemix ?
+                'bg-blue-500 text-white' : 'bg-white text-gray-700');
+            document.getElementById('tab-upload').className = 'px-4 py-2 text-sm font-medium transition ' + (!isRemix ?
+                'bg-blue-500 text-white' : 'bg-white text-gray-700');
+            if (isRemix) {
+                document.getElementById('icon').value = '';
+            } else {
+                document.getElementById('icon_class_select').value = '';
+                document.getElementById('icon_preview_class').className = 'text-2xl text-gray-700';
+            }
+        }
+        document.getElementById('icon_class_select').addEventListener('change', function() {
+            document.getElementById('icon_preview_class').className = this.value + ' text-2xl text-gray-700';
+        });
+        document.getElementById('icon').addEventListener('change', function(e) {
+            const preview = document.getElementById('icon_img_preview');
+            const file = e.target.files[0];
+            if (file) {
+                preview.src = URL.createObjectURL(file);
+                preview.classList.remove('hidden');
+            }
+        });
+
+        // --- Homepage icon tabs ---
+        function switchHpTab(tab) {
+            const isRemix = tab === 'remix';
+            document.getElementById('hp-panel-remix').classList.toggle('hidden', !isRemix);
+            document.getElementById('hp-panel-upload').classList.toggle('hidden', isRemix);
+            document.getElementById('hp-tab-remix').className = 'px-4 py-2 text-sm font-medium transition ' + (isRemix ?
+                'bg-orange-500 text-white' : 'bg-white text-gray-700');
+            document.getElementById('hp-tab-upload').className = 'px-4 py-2 text-sm font-medium transition ' + (!isRemix ?
+                'bg-orange-500 text-white' : 'bg-white text-gray-700');
+            if (isRemix) {
+                document.getElementById('homepage_icon').value = '';
+            } else {
+                document.getElementById('hp_icon_class_select').value = '';
+                document.getElementById('hp_icon_preview_class').className = 'text-2xl text-gray-700';
+            }
+        }
+        document.getElementById('hp_icon_class_select').addEventListener('change', function() {
+            document.getElementById('hp_icon_preview_class').className = this.value + ' text-2xl text-gray-700';
+        });
+        document.getElementById('homepage_icon').addEventListener('change', function(e) {
+            const preview = document.getElementById('hp_icon_img_preview');
+            const file = e.target.files[0];
+            if (file) {
+                preview.src = URL.createObjectURL(file);
+                preview.classList.remove('hidden');
+            }
+        });
+    </script>
 </body>
 
 <!-- Image Preview Script -->

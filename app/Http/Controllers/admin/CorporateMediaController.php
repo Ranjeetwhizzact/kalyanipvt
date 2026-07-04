@@ -37,13 +37,11 @@ class CorporateMediaController extends Controller
         if ($request->type == 'video' && $request->hasFile('video_url')) {
 
             $videoURL = $request->file('video_url')->store('videos', 'public');
-
         }
 
         if ($request->type == 'brochure' && $request->hasFile('file')) {
 
             $filePath = $request->file('file')->store('brochures', 'public');
-
         }
 
         CorporateMedia::create([
@@ -67,7 +65,6 @@ class CorporateMediaController extends Controller
         $media = CorporateMedia::findOrFail($media_id);
 
         return view('admin.corporate-media.edit', compact('media'));
-
     }
 
     public function update(Request $request, $id)
@@ -129,6 +126,5 @@ class CorporateMediaController extends Controller
         return redirect()
             ->route('admin.corporate-media.index')
             ->with('success', 'Corporate media deleted successfully');
-
     }
 }

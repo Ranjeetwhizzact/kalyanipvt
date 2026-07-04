@@ -240,6 +240,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             // Initialize cleditor
             if (typeof $ !== "undefined" && typeof $.fn.cleditor !== "undefined") {
+                $("#description").cleditor();
                 $("#featuresEditor").cleditor();
                 $("#usageEditor").cleditor();
             }

@@ -86,8 +86,15 @@
         </div>
 
         <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Address (Reach us at)</label>
+            <textarea name="address" rows="3"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition duration-150"
+                      placeholder="e.g. B/12th Floor, Kailas Business Park, Powai Road, Vikhroli (W), Mumbai-400 079">{{ old('address') }}</textarea>
+        </div>
+
+        <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-            <select name="status" 
+            <select name="status"
                     class="w-full px-4 py-2 border border-gray-300 bg-white rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition duration-150">
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>
