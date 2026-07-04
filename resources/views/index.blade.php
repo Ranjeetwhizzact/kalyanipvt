@@ -92,12 +92,12 @@
         </div>
     </section>
 
-    <section class="container  2xl:max-w-[1250px] mx-auto px-6 lg:px-10">
+    <section class="container   mx-auto px-6 lg:px-10">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
             <!-- Key Strength Section -->
             <div class="col-span-3 lg:col-span-1 flex flex-wrap">
                 @if ($keyStrength)
-                    <div class="md:h-[300px] lg:h-[445px] overflow-hidden relative">
+                    <div class="md:h-[342px] lg:h-[440px] overflow-hidden relative">
                         <h3 class="text-md sm:text-2xl lg:text-4xl font-normal flex">
                             <img src="{{ asset('list-icon.png') }}" alt="" class="object-contain mr-2 w-7 mt-2">
                             Our Key Strength
@@ -197,7 +197,7 @@
                         International Business
                     </h3>
 
-                    <p class="text-base text-zinc-500 h-20 overflow-hidden">
+                    <p class="text-base text-zinc-500 h-28 overflow-hidden">
                         {{ $business?->paragraph }}
                     </p>
 
