@@ -375,9 +375,10 @@
 
     // Initialize Cleditor if needed
     $(document).ready(function() {
-      // Uncomment if you want to use Cleditor for textareas
-      // $("#discription").cleditor();
-      // $("#short_discription").cleditor();
+      if (typeof $ !== "undefined" && typeof $.fn.cleditor !== "undefined") {
+        $("#discription").cleditor();
+        $("#short_discription").cleditor();
+      }
     });
   </script>
 </body>

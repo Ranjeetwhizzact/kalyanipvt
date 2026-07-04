@@ -103,7 +103,7 @@
                                 section content
                             </label>
 
-                            <textarea name="content" rows="4" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">{{ $section->content }}</textarea>
+                            <textarea id="content" name="content" rows="4" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">{{ $section->content }}</textarea>
 
                             @error('content')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -303,9 +303,13 @@
         </script>
 
     </div>
-    <script src="{{ asset('backend/admin/Scripts/jquery-1.6.3.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('backend/admin/Scripts/jquery.cleditor.js') }}" type="text/javascript"></script>
-    <script type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            if (typeof $ !== "undefined" && typeof $.fn.cleditor !== "undefined") {
+                $("#content").cleditor();
+            }
+        });
+    </script>
 </body>
 
 </html>

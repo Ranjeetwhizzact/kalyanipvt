@@ -2,6 +2,10 @@
 
 @section('title', 'Create Section')
 
+@section('styles')
+<link href="{{ asset('backend/admin/Content/cleditor/jquery.cleditor.css') }}" rel="stylesheet" type="text/css" />
+@endsection
+
 @section('content')
 <div class="main-content flex-1 p-8 bg-gray-50 min-h-screen">
     <div class="max-w-3xl mx-auto">
@@ -66,7 +70,7 @@
 
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Description</label>
-                        <textarea name="description" rows="3" class="w-full border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 border"></textarea>
+                        <textarea id="description" name="description" rows="3" class="w-full border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 border"></textarea>
                     </div>
 
                     <div>
@@ -106,7 +110,14 @@
 @endsection
 
 @section('scripts')
+<script src="{{ asset('backend/admin/Scripts/jquery.cleditor.js') }}" type="text/javascript"></script>
 <script>
+    $(document).ready(function() {
+        if (typeof $ !== "undefined" && typeof $.fn.cleditor !== "undefined") {
+            $("#description").cleditor();
+        }
+    });
+
     const sectionType = document.getElementById('section_type');
     const heroFields = document.getElementById('hero_fields');
     const sectionFields = document.getElementById('section_fields');
