@@ -70,15 +70,15 @@
                 </a>
             </div>
             <!-- <div class="group flex">
-                    <div class=" p-10 max-xl:p-2 bg-orange-500 text-white cursor-pointer flex-shrink-0">
-                        <img class="m-auto max-xl:w-10 max-xl:h-[40px]" src="./assets/product category/top-info/Vector-2.png')}}" alt="Product by Ingredient" loading="lazy">
-                        <h3 class="font-medium max-sm:text-xs text-center">Product by Ingredient</h3>
-                    </div>
-                    <div class="hidden group-hover:block p-10 max-xl:p-2 bg-orange-500 text-white cursor-pointer flex-shrink-0">
-                        <img class="m-auto max-xl:w-10 max-xl:h-[40px]" src="./assets/product category/top-info/Vector-2.png')}}" alt="Product by Ingredient" loading="lazy">
-                        <h3 class="font-medium max-sm:text-xs text-center">Product by Ingredient</h3>
-                    </div>
-                </div> -->
+                        <div class=" p-10 max-xl:p-2 bg-orange-500 text-white cursor-pointer flex-shrink-0">
+                            <img class="m-auto max-xl:w-10 max-xl:h-[40px]" src="./assets/product category/top-info/Vector-2.png')}}" alt="Product by Ingredient" loading="lazy">
+                            <h3 class="font-medium max-sm:text-xs text-center">Product by Ingredient</h3>
+                        </div>
+                        <div class="hidden group-hover:block p-10 max-xl:p-2 bg-orange-500 text-white cursor-pointer flex-shrink-0">
+                            <img class="m-auto max-xl:w-10 max-xl:h-[40px]" src="./assets/product category/top-info/Vector-2.png')}}" alt="Product by Ingredient" loading="lazy">
+                            <h3 class="font-medium max-sm:text-xs text-center">Product by Ingredient</h3>
+                        </div>
+                    </div> -->
         </div>
     </section>
 

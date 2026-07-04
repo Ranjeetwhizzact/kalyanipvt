@@ -9,16 +9,13 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
 
     <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
 
-    <link href="{{ asset('backend/admin/Content/cleditor/jquery.cleditor.css') }}"
-        rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/admin/Content/cleditor/jquery.cleditor.css') }}" rel="stylesheet" type="text/css" />
 
-    <link href="{{ asset('backend/admin/Content/Site.css') }}"
-        rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/admin/Content/Site.css') }}" rel="stylesheet" type="text/css" />
 
     <style>
         input:checked~div.sidebar {
@@ -73,12 +70,11 @@
 
                 <form
                     action="{{ isset($banner) ? route('admin.adsmodels.update', $banner->id) : route('admin.adsmodels.store') }}"
-                    method="POST"
-                    enctype="multipart/form-data">
+                    method="POST" enctype="multipart/form-data">
 
                     @csrf
 
-                    @if(isset($banner))
+                    @if (isset($banner))
                         @method('PUT')
                     @endif
 
@@ -88,10 +84,7 @@
                             Model Image
                         </label>
 
-                        <input type="file"
-                            name="banner"
-                            id="banner_image"
-                            accept="image/*"
+                        <input type="file" name="banner" id="banner_image" accept="image/*"
                             class="w-full px-4 py-2 border rounded-lg @error('banner_image') border-red-500 @enderror">
 
                         @error('banner_image')
@@ -107,8 +100,7 @@
                             Image Preview
                         </label>
 
-                        <img
-                            id="imagePreview"
+                        <img id="imagePreview"
                             src="{{ isset($banner) && $banner->banner_image ? asset('uploads/banner/' . $banner->banner_image) : '' }}"
                             alt="Preview"
                             class="{{ isset($banner) && $banner->banner_image ? '' : 'hidden' }} w-64 h-64 object-cover border rounded-lg shadow">
@@ -120,16 +112,13 @@
                             Status
                         </label>
 
-                        <select name="status"
-                            class="w-full px-4 py-2 border rounded-lg">
+                        <select name="status" class="w-full px-4 py-2 border rounded-lg">
 
-                            <option value="1"
-                                {{ (isset($banner) && $banner->status == 1) ? 'selected' : '' }}>
+                            <option value="1" {{ isset($banner) && $banner->status == 1 ? 'selected' : '' }}>
                                 Active
                             </option>
 
-                            <option value="0"
-                                {{ (isset($banner) && $banner->status == 0) ? 'selected' : '' }}>
+                            <option value="0" {{ isset($banner) && $banner->status == 0 ? 'selected' : '' }}>
                                 Inactive
                             </option>
 
@@ -138,8 +127,7 @@
 
                     <!-- Submit -->
                     <div class="text-right">
-                        <button type="submit"
-                            class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
+                        <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
 
                             {{ isset($banner) ? 'Update Banner' : 'Save Banner' }}
 
@@ -154,11 +142,9 @@
 
     </div>
 
-    <script src="{{ asset('backend/admin/Scripts/jquery-1.6.3.js') }}"
-        type="text/javascript"></script>
+    <script src="{{ asset('backend/admin/Scripts/jquery-1.6.3.js') }}" type="text/javascript"></script>
 
-    <script src="{{ asset('backend/admin/Scripts/jquery.cleditor.js') }}"
-        type="text/javascript"></script>
+    <script src="{{ asset('backend/admin/Scripts/jquery.cleditor.js') }}" type="text/javascript"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

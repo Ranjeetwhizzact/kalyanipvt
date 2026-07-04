@@ -4,12 +4,19 @@
 @section('styles')
 @endsection
 @section('content')
+<<<<<<< HEAD
     {{-- <header> --}}
     <header class="sticky top-0 bg-white z-50">
         @include('header')
         @include('nav')
     </header>
     {{-- </header> --}}
+=======
+<header class="sticky top-0 bg-white z-50">
+        @include('header')
+        @include('nav')
+        </header>
+>>>>>>> 9d9f8551668c17bc257d5f4c635c2bb151ab5794
     <section class="w-full max-sm:pt-2 ">
         <div class="flex md:flex-wrap lg:flex-nowrap items-start jusfity-center bg-gray-200">
             <div class="lg:w-1/2 md:p-7 lg:ps-24 lg:pt-12   max-sm:pt-5 max-sm:pl-2">
@@ -222,7 +229,11 @@
 
 @endsection
 @section('scripts')
+<<<<<<< HEAD
     <script>
+=======
+   <script>
+>>>>>>> 9d9f8551668c17bc257d5f4c635c2bb151ab5794
         document.addEventListener("DOMContentLoaded", function() {
 
             console.log("✅ Search JS Loaded");

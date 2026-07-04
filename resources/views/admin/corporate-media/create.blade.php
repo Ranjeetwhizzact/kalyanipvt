@@ -131,8 +131,8 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Description
                             </label>
-                            <textarea id="description" name="description" rows="4" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                                placeholder="Enter description">{{ old('description') }}</textarea>
+                            <textarea id="description" name="description" rows="4"
+                                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter description">{{ old('description') }}</textarea>
                         </div>
                         <!-- Status -->
                         <div class="md:col-span-2">

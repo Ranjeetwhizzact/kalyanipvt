@@ -57,16 +57,16 @@
                         </div>
                     </div>
                     <!-- <div class="grid lg:grid-cols-2 gap-5">
-            <div class="rounded-lg bg-orange-100 px-5 py-10">
-                <h5 class="text-xl font-medium mb-3">Farmer Support</h5>
-                <p class="text-base font-medium text-[#A09586]">Affordable pricing and expert guidance ensure farmers thrive in their endeavors.</p>
-            </div>
-            <div class="rounded-lg bg-orange-100 px-5 py-10">
-                <h5 class="text-xl font-medium mb-3">Farmer Support</h5>
-                <p class="text-base font-medium text-[#A09586]">Affordable pricing and expert guidance ensure farmers thrive in their endeavors.</p>
-            </div>
+                <div class="rounded-lg bg-orange-100 px-5 py-10">
+                    <h5 class="text-xl font-medium mb-3">Farmer Support</h5>
+                    <p class="text-base font-medium text-[#A09586]">Affordable pricing and expert guidance ensure farmers thrive in their endeavors.</p>
+                </div>
+                <div class="rounded-lg bg-orange-100 px-5 py-10">
+                    <h5 class="text-xl font-medium mb-3">Farmer Support</h5>
+                    <p class="text-base font-medium text-[#A09586]">Affordable pricing and expert guidance ensure farmers thrive in their endeavors.</p>
+                </div>
 
-           </div> -->
+               </div> -->
                 </div>
             </div>
 
@@ -98,16 +98,16 @@
                         </div>
                     </div>
                     <!-- <div class="grid lg:grid-cols-2 gap-5">
-          <div class="rounded-lg bg-orange-100 px-5 py-10">
-              <h5 class="text-xl font-medium mb-3">Farmer Support</h5>
-              <p class="text-base font-medium text-[#A09586]">Affordable pricing and expert guidance ensure farmers thrive in their endeavors.</p>
-          </div>
-          <div class="rounded-lg bg-orange-100 px-5 py-10">
-              <h5 class="text-xl font-medium mb-3">Farmer Support</h5>
-              <p class="text-base font-medium text-[#A09586]">Affordable pricing and expert guidance ensure farmers thrive in their endeavors.</p>
-          </div>
+              <div class="rounded-lg bg-orange-100 px-5 py-10">
+                  <h5 class="text-xl font-medium mb-3">Farmer Support</h5>
+                  <p class="text-base font-medium text-[#A09586]">Affordable pricing and expert guidance ensure farmers thrive in their endeavors.</p>
+              </div>
+              <div class="rounded-lg bg-orange-100 px-5 py-10">
+                  <h5 class="text-xl font-medium mb-3">Farmer Support</h5>
+                  <p class="text-base font-medium text-[#A09586]">Affordable pricing and expert guidance ensure farmers thrive in their endeavors.</p>
+              </div>
 
-         </div> -->
+             </div> -->
                 </div>
             </div>
             <div class="px-2 sm:px-3 lg:px-0 order-1 lg:order-2"><img src="{{ asset('banner/agrochemical.png') }}"
@@ -132,30 +132,30 @@
                             class="bg-gray-100 px-4 py-2 lg:px-6 lg:py-3 rounded-full text-gray-500 text-inter font-medium text-lg">Join
                             Now</a></div>
                     <!-- <div class="grid lg:grid-cols-2 gap-5">
-                    <div class="rounded-lg  px-5 py-10">
-                        <img src="/public/icon/rings.png" alt="" srcset=""  class="mb-5 w-5">
-                        <h5 class="text-lg  mb-3">Climate Adaptation</h5>
-                        <p class="text-sm ">Formulations tailored to meet the unique challenges of tropical agriculture.</p>
-                    </div>
-                    <div class="rounded-lg  px-5 py-10">
-                        <img src="/public/icon/rings.png" alt="" srcset=""  class="mb-5 w-5">
-                        <h5 class="text-lg  mb-3">Pest Resistance</h5>
-                        <p class="text-sm ">Advanced solutions designed to protect crops from prevalent pests in tropical regions</p>
-                    </div>
+                        <div class="rounded-lg  px-5 py-10">
+                            <img src="/public/icon/rings.png" alt="" srcset=""  class="mb-5 w-5">
+                            <h5 class="text-lg  mb-3">Climate Adaptation</h5>
+                            <p class="text-sm ">Formulations tailored to meet the unique challenges of tropical agriculture.</p>
+                        </div>
+                        <div class="rounded-lg  px-5 py-10">
+                            <img src="/public/icon/rings.png" alt="" srcset=""  class="mb-5 w-5">
+                            <h5 class="text-lg  mb-3">Pest Resistance</h5>
+                            <p class="text-sm ">Advanced solutions designed to protect crops from prevalent pests in tropical regions</p>
+                        </div>
 
 
-                   </div> -->
+                       </div> -->
                     <!-- <div class="grid lg:grid-cols-2 gap-5">
-            <div class="rounded-lg bg-orange-100 px-5 py-10">
-                <h5 class="text-xl font-medium mb-3">Farmer Support</h5>
-                <p class="text-base font-medium text-[#A09586]">Affordable pricing and expert guidance ensure farmers thrive in their endeavors.</p>
-            </div>
-            <div class="rounded-lg bg-orange-100 px-5 py-10">
-                <h5 class="text-xl font-medium mb-3">Farmer Support</h5>
-                <p class="text-base font-medium text-[#A09586]">Affordable pricing and expert guidance ensure farmers thrive in their endeavors.</p>
-            </div>
+                <div class="rounded-lg bg-orange-100 px-5 py-10">
+                    <h5 class="text-xl font-medium mb-3">Farmer Support</h5>
+                    <p class="text-base font-medium text-[#A09586]">Affordable pricing and expert guidance ensure farmers thrive in their endeavors.</p>
+                </div>
+                <div class="rounded-lg bg-orange-100 px-5 py-10">
+                    <h5 class="text-xl font-medium mb-3">Farmer Support</h5>
+                    <p class="text-base font-medium text-[#A09586]">Affordable pricing and expert guidance ensure farmers thrive in their endeavors.</p>
+                </div>
 
-           </div> -->
+               </div> -->
                 </div>
             </div>
 

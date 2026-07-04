@@ -121,8 +121,7 @@
                             <label class="block text-sm font-medium mb-2">
                                 Happy Customer Count
                             </label>
-                            <input type="text" name="happy_customer_count"
-                                value="{{ $setting->count ?? '3940+' }}"
+                            <input type="text" name="happy_customer_count" value="{{ $setting->count ?? '3940+' }}"
                                 class="w-full border rounded-lg px-3 py-2" required>
                         </div>
 

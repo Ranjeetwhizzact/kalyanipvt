@@ -8,7 +8,7 @@ use App\Models\FooterLink;
 use App\Models\FooterSetting;
 use App\Models\Menu;
 use App\Models\SocialMediaLinks;
-use App\Models\contact;
+use App\Models\Contact;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 

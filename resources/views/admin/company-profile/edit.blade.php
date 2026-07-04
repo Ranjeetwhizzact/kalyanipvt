@@ -103,7 +103,8 @@
                                 section content
                             </label>
 
-                            <textarea id="content" name="content" rows="4" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">{{ $section->content }}</textarea>
+                            <textarea id="content" name="content" rows="4"
+                                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">{{ $section->content }}</textarea>
 
                             @error('content')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

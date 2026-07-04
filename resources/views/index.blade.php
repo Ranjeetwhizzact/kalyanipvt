@@ -747,11 +747,11 @@
                             <ul class="absolute hidden group-hover:block bg-white text-black mt-0 rounded-lg shadow-lg w-full z-50">
                                 ${category.subcategories.map(sub =>
                                     `<li>
-                                                                    <a href="/${category.slug}/${sub.slug}"
-                                                                    class="block px-4 py-2 hover:bg-orange-50 ${currentSubcategoryId == sub.subcategory_id ? 'bg-orange-500 text-white' : ''}">
-                                                                    ${sub.subcategory_name}
-                                                                    </a>
-                                                                </li>`).join("")}
+                                                                        <a href="/${category.slug}/${sub.slug}"
+                                                                        class="block px-4 py-2 hover:bg-orange-50 ${currentSubcategoryId == sub.subcategory_id ? 'bg-orange-500 text-white' : ''}">
+                                                                        ${sub.subcategory_name}
+                                                                        </a>
+                                                                    </li>`).join("")}
                                     </ul>
                                 </div>
                             </article>`;

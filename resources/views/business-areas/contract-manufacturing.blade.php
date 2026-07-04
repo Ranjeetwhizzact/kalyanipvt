@@ -53,15 +53,15 @@
                         </div>
                     </div>
                     <!-- <div class="grid lg:grid-cols-2 gap-5">
-          <div class="rounded-lg bg-orange-100 px-5 py-10">
-              <h5 class="text-xl font-medium mb-3">Farmer Support</h5>
-              <p class="text-base font-medium text-[#A09586]">Affordable pricing and expert guidance ensure farmers thrive in their endeavors.</p>
-          </div>
-          <div class="rounded-lg bg-orange-100 px-5 py-10">
-              <h5 class="text-xl font-medium mb-3">Farmer Support</h5>
-              <p class="text-base font-medium text-[#A09586]">Affordable pricing and expert guidance ensure farmers thrive in their endeavors.</p>
-          </div>
-         </div> -->
+                  <div class="rounded-lg bg-orange-100 px-5 py-10">
+                      <h5 class="text-xl font-medium mb-3">Farmer Support</h5>
+                      <p class="text-base font-medium text-[#A09586]">Affordable pricing and expert guidance ensure farmers thrive in their endeavors.</p>
+                  </div>
+                  <div class="rounded-lg bg-orange-100 px-5 py-10">
+                      <h5 class="text-xl font-medium mb-3">Farmer Support</h5>
+                      <p class="text-base font-medium text-[#A09586]">Affordable pricing and expert guidance ensure farmers thrive in their endeavors.</p>
+                  </div>
+                 </div> -->
                 </div>
             </div>
             <div class="px-2 sm:px-3 lg:px-0 order-1 lg:order-2"><img src="{{ asset('banner/manufacturone.png') }}"
@@ -85,16 +85,16 @@
                         our agrochemical products meet the highest benchmarks for safety and efficacy.</p>
 
                     <!-- <div class="grid lg:grid-cols-2 gap-5">
-            <div class="rounded-lg bg-orange-100 px-5 py-10">
-                <h5 class="text-xl font-medium mb-3">Farmer Support</h5>
-                <p class="text-base font-medium text-[#A09586]">Affordable pricing and expert guidance ensure farmers thrive in their endeavors.</p>
-            </div>
-            <div class="rounded-lg bg-orange-100 px-5 py-10">
-                <h5 class="text-xl font-medium mb-3">Farmer Support</h5>
-                <p class="text-base font-medium text-[#A09586]">Affordable pricing and expert guidance ensure farmers thrive in their endeavors.</p>
-            </div>
+                    <div class="rounded-lg bg-orange-100 px-5 py-10">
+                        <h5 class="text-xl font-medium mb-3">Farmer Support</h5>
+                        <p class="text-base font-medium text-[#A09586]">Affordable pricing and expert guidance ensure farmers thrive in their endeavors.</p>
+                    </div>
+                    <div class="rounded-lg bg-orange-100 px-5 py-10">
+                        <h5 class="text-xl font-medium mb-3">Farmer Support</h5>
+                        <p class="text-base font-medium text-[#A09586]">Affordable pricing and expert guidance ensure farmers thrive in their endeavors.</p>
+                    </div>
 
-           </div> -->
+                   </div> -->
                 </div>
             </div>
 
