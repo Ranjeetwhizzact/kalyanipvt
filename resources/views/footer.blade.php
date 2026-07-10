@@ -18,12 +18,14 @@
         {{-- Call us on --}}
         <div class="text-sm md:text-md 2xl:text-lg">
             <h6 class="text-white font-bold mb-1">Call us on</h6>
-            <div class="flex flex-wrap">
-                @foreach($contactDetails as $contact)
-                    <p>{{ $contact->contact_number }}</p>
-                    @unless($loop->last)
-                        &nbsp;/&nbsp;
-                    @endunless
+            <div class="flex flex-wrap gap-x-2 gap-y-1">
+                @php
+                    $numbers = $contactDetails->pluck('contact_number')->filter(fn($val) => !is_null($val) && trim($val) !== '')->all();
+                @endphp
+                @foreach($numbers as $index => $number)
+                    <span>
+                        {{ $number }}@if($index < count($numbers) - 1)<span class="text-white/60">&nbsp;/</span>@endif
+                    </span>
                 @endforeach
             </div>
         </div>
@@ -32,9 +34,11 @@
         <div class="text-md relative">
             <h6 class="text-white mb-0 font-bold">Email us at:</h6>
             @foreach($contactDetails as $contact)
-                <p>
-                    <a href="mailto:{{ $contact->mail }}" class="md:text-md 2xl:text-lg">{{ $contact->mail }}</a>
-                </p>
+                @if(!empty($contact->mail))
+                    <p>
+                        <a href="mailto:{{ $contact->mail }}" class="md:text-md 2xl:text-lg hover:text-red-500">{{ $contact->mail }}</a>
+                    </p>
+                @endif
             @endforeach
         </div>
 
