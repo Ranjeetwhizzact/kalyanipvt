@@ -29,11 +29,11 @@
         </div>
 
         {{-- Email us at --}}
-        <div class="text-sm md:text-md 2xl:text-lg relative">
+        <div class="text-md relative">
             <h6 class="text-white mb-0 font-bold">Email us at:</h6>
             @foreach($contactDetails as $contact)
                 <p>
-                    <a href="mailto:{{ $contact->mail }}">{{ $contact->mail }}</a>
+                    <a href="mailto:{{ $contact->mail }}" class="md:text-md 2xl:text-lg">{{ $contact->mail }}</a>
                 </p>
             @endforeach
         </div>
@@ -43,7 +43,7 @@
             <h6 class="text-white mb-0 font-bold">Reach us at:</h6>
             @foreach($contactDetails as $contact)
                 @if(!empty($contact->address))
-                    <p>{{ $contact->address }}</p>
+                    <p class="md:text-md 2xl:text-lg">{{ $contact->address }}</p>
                 @endif
             @endforeach
         </div>
@@ -54,7 +54,7 @@
     <div class="bg-[#D16B00] text-white pb-4 pt-2 px-8 md:px-16 2xl:px-32">
         <div class="border-t border-white/30 mb-4"></div>
 
-        <div class="flex flex-col md:flex-row justify-between items-center text-sm md:text-md 2xl:text-lg">
+        <div class="flex flex-col md:flex-row justify-between items-center text-xs md:text-sm md:text-md 2xl:text-lg">
             <p>{{ $footerSetting?->copyright_text }}</p>
             <div class="flex gap-6 mt-3 md:mt-0">
                 @if($footerSetting?->privacy_policy_url)
