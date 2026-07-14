@@ -108,12 +108,28 @@
 
                                     <!-- Video Preview -->
                                     <td class="py-2 px-4">
-                                        @if ($video->video_path)
-                                            <video width="120" height="70" controls class="rounded">
-                                                <source src="{{ asset($video->video_path) }}" type="video/mp4">
-                                                Your browser does not support the video tag.
-                                            </video>
-                                        @endif
+                                        <div class="flex items-center space-x-3">
+                                            @if ($video->thumbnail_path)
+                                                <img src="{{ asset($video->thumbnail_path) }}" alt="Thumbnail" class="w-20 h-12 object-cover rounded shadow">
+                                            @elseif ($video->video_type === 'embed' && preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|win/|user/[^/]+/|embed/)|youtu\.be/|youtube\.com/shorts/)([^"&?/\s]{11})%i', $video->video_path, $match))
+                                                <img src="https://img.youtube.com/vi/{{ $match[1] }}/default.jpg" alt="YouTube Thumbnail" class="w-20 h-12 object-cover rounded shadow">
+                                            @elseif ($video->video_type === 'file' && $video->video_path)
+                                                <video width="80" height="50" class="rounded shadow" preload="metadata">
+                                                    <source src="{{ asset($video->video_path) }}" type="video/mp4">
+                                                </video>
+                                            @else
+                                                <div class="w-20 h-12 bg-gray-200 rounded flex items-center justify-center text-xs text-gray-400">No Image</div>
+                                            @endif
+                                            
+                                            <div class="text-xs text-gray-500">
+                                                <span class="font-semibold block uppercase text-[10px] text-gray-400">{{ $video->video_type ?? 'file' }}</span>
+                                                @if($video->video_type === 'embed')
+                                                    <a href="{{ $video->video_path }}" target="_blank" class="text-blue-500 hover:underline inline-block truncate max-w-[120px]">
+                                                        Link <i class="ri-external-link-line font-normal"></i>
+                                                    </a>
+                                                @endif
+                                            </div>
+                                        </div>
                                     </td>
 
                                     <!-- Description -->

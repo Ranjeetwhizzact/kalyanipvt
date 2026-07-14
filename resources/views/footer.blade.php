@@ -20,7 +20,11 @@
             <h6 class="text-white font-bold mb-1">Call us on</h6>
             <div class="flex flex-wrap gap-x-2 gap-y-1">
                 @php
-                    $numbers = $contactDetails->pluck('contact_number')->filter(fn($val) => !is_null($val) && trim($val) !== '')->all();
+                    $numbers = $contactDetails->pluck('contact_number')
+                        ->map(fn($val) => is_null($val) ? '' : trim($val, " /"))
+                        ->filter(fn($val) => $val !== '')
+                        ->values()
+                        ->all();
                 @endphp
                 @foreach($numbers as $index => $number)
                     <span>
