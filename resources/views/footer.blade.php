@@ -57,14 +57,10 @@
         <div class="flex flex-col md:flex-row justify-between items-center text-xs md:text-sm">
             <p>{{ $footerSetting?->copyright_text }}</p>
             <div class="flex gap-6 mt-3 md:mt-0">
-                @if ($footerSetting?->privacy_policy_url)
-                    <a href="{{ $footerSetting->privacy_policy_url }}" class="underline underline-offset-2">Privacy
-                        Policy</a>
-                @endif
-                @if ($footerSetting?->terms_of_use_url)
-                    <a href="{{ $footerSetting->terms_of_use_url }}" class="underline underline-offset-2">Terms of
-                        Use</a>
-                @endif
+                <a href="{{ route('page.show', 'privacy-policy') }}" class="underline underline-offset-2">Privacy
+                    Policy</a>
+                <a href="{{ route('page.show', 'terms-and-condition') }}" class="underline underline-offset-2">Terms of
+                    Use</a>
             </div>
         </div>
     </div>

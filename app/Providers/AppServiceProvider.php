@@ -33,12 +33,12 @@ class AppServiceProvider extends ServiceProvider
 
             $categories = Category::with('subcategories')->get();
 
-            $corporateBrochure = CorporateMedia::where('type', 'brochure')
+            $corporateBrochure = CorporateMedia::query()->where('type', 'brochure')
                 ->where('status', 1)
                 ->latest()
                 ->first();
 
-            $headerMenu = Menu::where('location', 'header')
+            $headerMenu = Menu::query()->where('location', 'header')
                 ->with([
                     'items' => function ($query) {
                         $query->where('status', 'active');
@@ -47,9 +47,9 @@ class AppServiceProvider extends ServiceProvider
                 ])
                 ->get();
 
-            $contactDetails = Contact::where('status', 1)->get();
+            $contactDetails = Contact::query()->where('status', 1)->get();
 
-            $footerLinks = FooterLink::where('is_active', 1)
+            $footerLinks = FooterLink::query()->where('is_active', 1)
                 ->orderBy('column_group')
                 ->orderBy('sort_order')
                 ->get()
@@ -57,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
 
             $footerSetting = FooterSetting::first();
 
-            $socialLinks = SocialMediaLinks::where('is_active', 1)
+            $socialLinks = SocialMediaLinks::query()->where('is_active', 1)
                 ->orderBy('display_order')
                 ->get();
 
