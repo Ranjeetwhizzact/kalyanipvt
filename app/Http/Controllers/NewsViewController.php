@@ -21,7 +21,7 @@ class NewsViewController extends Controller
     {
         $news = News::orderBy('id', 'desc')->paginate(12);
 
-        $newsdetail = News::where('slug', $request->slug)->firstOrFail();
+        $newsdetail = News::query()->where('slug', $request->slug)->firstOrFail();
 
         return view('news.newdetails', [
             'news' => $news,
