@@ -14,7 +14,7 @@ class CertificatePageSectionController extends Controller
     public function index()
     {
         try {
-            $sections = CertificatePageSection::orderBy('created_at', 'desc')->paginate(10);
+            $sections = CertificatePageSection::whereNotNull('title')->orderBy('created_at', 'desc')->paginate(10);
 
             $certificateSection = CertificatePageSection::select(
                 'id',
@@ -24,6 +24,8 @@ class CertificatePageSectionController extends Controller
                 ->whereNotNull('home_title')
                 ->whereNotNull('home_banner')
                 ->first();
+
+            $certificateSection = $certificateSection ?? new CertificatePageSection();
 
             return view('admin.certificate-page-sections.index', compact('sections', 'certificateSection'));
         } catch (Exception $e) {
@@ -205,7 +207,9 @@ class CertificatePageSectionController extends Controller
 
     public function updatebanner(Request $request, $id)
     {
-        $section = CertificatePageSection::findOrFail(decrypt($id));
+        $section_id = decrypt($id);
+        $section = $section_id ? CertificatePageSection::find($section_id) : null;
+        $section = $section ?? new CertificatePageSection();
 
         $section->home_title = $request->home_title;
 

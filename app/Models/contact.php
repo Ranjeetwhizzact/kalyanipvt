@@ -12,6 +12,8 @@ class Contact extends Model
         'contact_number',
         'whatsapp_number',
         'mail',
+        'address',
+        'map_link',
         'status'
     ];
 }

@@ -24,7 +24,7 @@ class CategoryController extends Controller
 
     public function edit(Request $request, $id)
     {
-        $category = Category::find(decrypt($id));
+        $category = Category::query()->find(decrypt($id));
         return view('admin.category.create', ['category' => $category]);
     }
 

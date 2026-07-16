@@ -62,6 +62,12 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ route('admin.contact-settings.edit') }}"
+                            class="block pl-3 py-2 hover:bg-gray-700 transition-colors">
+                            Contact Settings
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('admin.footer-links.index') }}"
                             class="block pl-3 py-2 hover:bg-gray-700 transition-colors">
                             Footer Links

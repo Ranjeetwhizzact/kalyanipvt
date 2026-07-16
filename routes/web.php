@@ -221,7 +221,7 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::post('/menu-items/store', [MenuItemController::class, 'store'])->name('admin.menu-items.store');
     Route::get('/menu-items/edit/{id}', [MenuItemController::class, 'edit'])->name('admin.menu-items.edit');
     Route::post('/menu-items/update/{id}', [MenuItemController::class, 'update'])->name('admin.menu-items.update');
-    Route::post('/menu-items/delete/{id}', [MenuItemController::class, 'destory'])->name('admin.menu-items.destroy');
+    Route::post('/menu-items/delete/{id}', [MenuItemController::class, 'destroy'])->name('admin.menu-items.destroy');
 
     Route::get('/pages/get-all', [PageController::class, 'index'])->name('admin.pages.index');
     Route::get('/pages/create', [PageController::class, 'create'])->name('admin.pages.create');
@@ -271,6 +271,8 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::get('/contact/edit/{id}', [ContactController::class, 'edit'])->name('admin.contacts.edit');
     Route::put('/contact/update/{id}', [ContactController::class, 'update'])->name('admin.contacts.update');
     Route::delete('/contact/delete/{id}', [ContactController::class, 'destroy'])->name('admin.contacts.destroy');
+    Route::get('/contact-settings/edit', [ContactController::class, 'editSettings'])->name('admin.contact-settings.edit');
+    Route::put('/contact-settings/update', [ContactController::class, 'updateSettings'])->name('admin.contact-settings.update');
 
     Route::get('/footer-links/get-all', [FooterLinkController::class, 'index'])->name('admin.footer-links.index');
     Route::get('/footer-links/create', [FooterLinkController::class, 'create'])->name('admin.footer-links.create');

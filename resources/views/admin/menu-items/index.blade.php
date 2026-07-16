@@ -165,10 +165,7 @@
                                                             action="{{ route('admin.menu-items.destroy', encrypt($item->id)) }}"
                                                             method="POST"
                                                             onsubmit="return confirm('Are you sure you want to delete this menu item?');">
-
                                                             @csrf
-                                                            @method('DELETE')
-
                                                             <input type="submit"
                                                                 class="cursor-pointer w-full text-left" value="Delete">
 

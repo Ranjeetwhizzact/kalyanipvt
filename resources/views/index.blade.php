@@ -92,12 +92,12 @@
         </div>
     </section>
 
-    <section class="container  2xl:max-w-[1250px] mx-auto px-6 lg:px-10">
+    <section class="container   mx-auto px-6 lg:px-10">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
             <!-- Key Strength Section -->
             <div class="col-span-3 lg:col-span-1 flex flex-wrap">
                 @if ($keyStrength)
-                    <div class="md:h-[300px] lg:h-[445px] overflow-hidden relative">
+                    <div class="md:h-[342px] lg:h-[440px] overflow-hidden relative">
                         <h3 class="text-md sm:text-2xl lg:text-4xl font-normal flex">
                             <img src="{{ asset('list-icon.png') }}" alt="" class="object-contain mr-2 w-7 mt-2">
                             Our Key Strength
@@ -197,7 +197,7 @@
                         International Business
                     </h3>
 
-                    <p class="text-base text-zinc-500 h-20 overflow-hidden">
+                    <p class="text-base text-zinc-500 h-28 overflow-hidden">
                         {{ $business?->paragraph }}
                     </p>
 
@@ -333,38 +333,75 @@
                     <div class="swiper-wrapper">
 
                         @forelse($videos as $video)
-                            <div class="swiper-slide bg-slate-400 w-[320px] rounded-lg relative overflow-hidden">
+                            @php
+                                $youtubeId = null;
+                                $isYoutube = false;
+                                if ($video->video_type === 'embed') {
+                                    preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|win/|user/[^/]+/|embed/)|youtu\.be/|youtube\.com/shorts/)([^"&?/\s]{11})%i', $video->video_path, $match);
+                                    $youtubeId = $match[1] ?? null;
+                                    $isYoutube = !empty($youtubeId);
+                                }
+                                $videoSrc = (str_starts_with($video->video_path ?? '', 'http://') || str_starts_with($video->video_path ?? '', 'https://'))
+                                    ? $video->video_path
+                                    : asset($video->video_path ?? '');
+                                $thumbnailUrl = $video->thumbnail_path
+                                    ? asset($video->thumbnail_path)
+                                    : ($youtubeId ? "https://img.youtube.com/vi/{$youtubeId}/hqdefault.jpg" : null);
+                            @endphp
+                            <div class="swiper-slide w-[320px] rounded-lg relative overflow-hidden bg-black">
 
-                                <!-- Video Element -->
-                                <video class="absolute z-10 rounded-lg w-full h-full object-cover" preload="metadata">
-                                    <source src="{{ asset($video->video_path) }}" type="video/mp4">
-                                </video>
+                                <!-- Thumbnail / Cover Image -->
+                                @if($thumbnailUrl)
+                                    <img src="{{ $thumbnailUrl }}" alt="{{ $video->description }}"
+                                         class="absolute z-10 w-full h-full object-cover rounded-lg">
+                                @elseif($video->video_type === 'file' && $video->video_path)
+                                    <video class="absolute z-10 rounded-lg w-full h-full object-cover" preload="metadata">
+                                        <source src="{{ $videoSrc }}" type="video/mp4">
+                                    </video>
+                                @else
+                                    <div class="absolute z-10 w-full h-full bg-gray-800 flex items-center justify-center">
+                                        <i class="ri-youtube-fill text-red-500 text-6xl"></i>
+                                    </div>
+                                @endif
 
                                 <!-- Dark Overlay -->
-                                <div class="absolute z-20 w-full bottom-0 h-full opacity-30 bg-black rounded-lg"></div>
+                                <div class="absolute z-20 inset-0 bg-black/40 rounded-lg"></div>
 
-                                <!-- Play Button -->
-                                <div class="absolute z-30 w-full h-full flex justify-center items-center">
-                                    <button onclick="playVideo(this)"
-                                        class="w-[61.29px] h-[61.29px] border-2 rounded-full border-white
-                            bg-white/20 backdrop-blur-md shadow-lg flex items-center justify-center">
-                                        <i class="ri-play-large-fill text-3xl text-white"></i>
-                                    </button>
+                                <!-- Play Button — YouTube opens in new tab, file opens modal -->
+                                <div class="absolute z-30 inset-0 flex justify-center items-center">
+                                    @if($isYoutube)
+                                        <a href="{{ $video->video_path }}" target="_blank" rel="noopener"
+                                           class="w-[61px] h-[61px] border-2 rounded-full border-white bg-white/20 backdrop-blur-md shadow-lg flex items-center justify-center transition-transform hover:scale-110 hover:bg-red-600/70">
+                                            <i class="ri-play-large-fill text-3xl text-white"></i>
+                                        </a>
+                                    @else
+                                        <button onclick="openVideoModal('{{ $video->video_type ?? 'file' }}', '{{ $videoSrc }}')"
+                                            class="w-[61px] h-[61px] border-2 rounded-full border-white bg-white/20 backdrop-blur-md shadow-lg flex items-center justify-center transition-transform hover:scale-110">
+                                            <i class="ri-play-large-fill text-3xl text-white"></i>
+                                        </button>
+                                    @endif
                                 </div>
 
-                                <!-- Description -->
-                                <div class="absolute z-40 w-full h-16 bottom-0">
-                                    <div class="h-12 overflow-hidden px-4 text-ellipsis">
-                                        <p class="text-white overflow-hidden">
-                                            {{ \Illuminate\Support\Str::limit($video->description, 120) }}
-                                        </p>
+                                <!-- YouTube badge -->
+                                @if($isYoutube)
+                                    <div class="absolute z-30 top-3 right-3">
+                                        <span class="bg-red-600 text-white text-xs px-2 py-0.5 rounded-full flex items-center gap-1">
+                                            <i class="ri-youtube-fill"></i> YouTube
+                                        </span>
                                     </div>
+                                @endif
+
+                                <!-- Description -->
+                                <div class="absolute z-40 w-full bottom-0 px-4 pb-3 pt-6 bg-gradient-to-t from-black/80 to-transparent">
+                                    <p class="text-white text-sm line-clamp-2">
+                                        {{ \Illuminate\Support\Str::limit($video->description, 100) }}
+                                    </p>
                                 </div>
 
                             </div>
                         @empty
                             <div class="swiper-slide flex items-center justify-center">
-                                <p>No videos available</p>
+                                <p class="text-gray-400">No videos available</p>
                             </div>
                         @endforelse
 
@@ -531,49 +568,119 @@
             </div>
         </div>
     @endif
+
+    <!-- Video Player Modal -->
+    <div id="videoPlayerModal" class="fixed inset-0 z-[110] flex items-center justify-center bg-black/80 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div class="relative bg-black rounded-2xl border border-white/10 shadow-2xl w-11/12 max-w-4xl aspect-video overflow-hidden">
+            <!-- Close Button -->
+            <button onclick="closeVideoModal()" class="absolute top-4 right-4 z-50 bg-black/60 hover:bg-black text-white hover:text-red-500 p-2 rounded-full transition-colors border border-white/15" aria-label="Close modal">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- Video Player (File Source) -->
+            <video id="modalVideoPlayer" class="w-full h-full hidden" controls autoplay>
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+
+            <!-- Video Player (Embed Source) -->
+            <iframe id="modalEmbedPlayer" class="w-full h-full hidden" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; webshare" allowfullscreen></iframe>
+        </div>
+    </div>
+
     @include('footer')
 
 @endsection
 @section('scripts')
     <script>
-        function playVideo(button) {
-
-            let slide = button.closest('.swiper-slide');
-            let video = slide.querySelector('video');
-
-            // Pause all other videos
-            document.querySelectorAll('.swiper-slide video').forEach(v => {
-                if (v !== video) {
-                    v.pause();
-                    let otherButton = v.closest('.swiper-slide').querySelector('button');
-                    if (otherButton) otherButton.style.display = "flex";
-                }
-            });
-
-            // Toggle play / pause
-            if (video.paused) {
-                video.play();
-                button.style.display = "none";
-            } else {
-                video.pause();
-                button.style.display = "flex";
+        function getYoutubeEmbedUrl(url) {
+            let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            let match = url.match(regExp);
+            if (match && match[2].length === 11) {
+                return "https://www.youtube.com/embed/" + match[2] + "?autoplay=1&rel=0";
             }
-
-            // When video ends → show play button again
-            video.onended = function() {
-                button.style.display = "flex";
-            };
+            if (url.includes('/shorts/')) {
+                let parts = url.split('/shorts/');
+                if (parts[1]) {
+                    let id = parts[1].split(/[?#&]/)[0];
+                    return "https://www.youtube.com/embed/" + id + "?autoplay=1&rel=0";
+                }
+            }
+            return url;
         }
 
-        // Clicking on video pauses it
-        document.addEventListener('click', function(e) {
-            if (e.target.tagName === "VIDEO") {
-                let video = e.target;
-                let button = video.closest('.swiper-slide').querySelector('button');
+        function getVimeoEmbedUrl(url) {
+            let regExp = /vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)(?:$|\/|\?)/;
+            let match = url.match(regExp);
+            if (match) {
+                return "https://player.vimeo.com/video/" + match[1] + "?autoplay=1";
+            }
+            return url;
+        }
 
-                if (!video.paused) {
-                    video.pause();
-                    button.style.display = "flex";
+        function openVideoModal(type, src) {
+            const modal = document.getElementById('videoPlayerModal');
+            const videoPlayer = document.getElementById('modalVideoPlayer');
+            const embedPlayer = document.getElementById('modalEmbedPlayer');
+
+            // Hide both players initially
+            videoPlayer.classList.add('hidden');
+            embedPlayer.classList.add('hidden');
+            videoPlayer.pause();
+            videoPlayer.src = "";
+            embedPlayer.src = "";
+
+            if (type === 'file') {
+                videoPlayer.src = src;
+                videoPlayer.classList.remove('hidden');
+                videoPlayer.load();
+                videoPlayer.play().catch(err => console.log("Autoplay blocked or failed:", err));
+            } else {
+                let embedUrl = src;
+                if (src.includes('youtube.com') || src.includes('youtu.be')) {
+                    embedUrl = getYoutubeEmbedUrl(src);
+                } else if (src.includes('vimeo.com')) {
+                    embedUrl = getVimeoEmbedUrl(src);
+                }
+                embedPlayer.src = embedUrl;
+                embedPlayer.classList.remove('hidden');
+            }
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+            }, 10);
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('videoPlayerModal');
+            const videoPlayer = document.getElementById('modalVideoPlayer');
+            const embedPlayer = document.getElementById('modalEmbedPlayer');
+
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                videoPlayer.pause();
+                videoPlayer.src = "";
+                embedPlayer.src = "";
+            }, 300);
+        }
+
+        // Close on clicking outside the player container
+        document.getElementById('videoPlayerModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeVideoModal();
+            }
+        });
+
+        // Close on pressing Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('videoPlayerModal');
+                if (modal && !modal.classList.contains('hidden')) {
+                    closeVideoModal();
                 }
             }
         });

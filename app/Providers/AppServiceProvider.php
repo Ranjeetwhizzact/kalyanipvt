@@ -47,7 +47,9 @@ class AppServiceProvider extends ServiceProvider
                 ])
                 ->get();
 
-            $contactDetails = Contact::query()->where('status', 1)->get();
+            $contactDetails = Contact::query()->where('status', 'active')->get();
+
+            $contactSettings = \App\Models\ContactPageSetting::first();
 
             $footerLinks = FooterLink::query()->where('is_active', 1)
                 ->orderBy('column_group')
@@ -66,6 +68,7 @@ class AppServiceProvider extends ServiceProvider
                 'corporateBrochure' => $corporateBrochure,
                 'headerMenu'        => $headerMenu,
                 'contactDetails'    => $contactDetails,
+                'contactSettings'   => $contactSettings,
                 'footerLinks'       => $footerLinks,
                 'footerSetting'     => $footerSetting,
                 'socialLinks'       => $socialLinks,

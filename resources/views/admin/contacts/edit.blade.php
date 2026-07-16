@@ -100,6 +100,13 @@
         </div>
 
         <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Map Link (Google Maps URL)</label>
+            <input type="url" name="map_link" value="{{ old('map_link', $contact->map_link) }}"
+                   placeholder="e.g. https://maps.app.goo.gl/..."
+                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition duration-150">
+        </div>
+
+        <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
             <select name="status"
                     class="w-full px-4 py-2 border border-gray-300 bg-white rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition duration-150">

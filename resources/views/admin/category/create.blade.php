@@ -115,7 +115,7 @@
                             @endif
                         </p>
                     </div>
-                    <a href="{{ url('category-list') }}"
+                    <a href="{{ url('viewcategory') }}"
                         class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors flex items-center gap-2">
                         <i class="ri-arrow-left-line"></i>
                         Back to List
@@ -150,12 +150,9 @@
                 @endif
 
                 <!-- Form -->
-                <form action="{{ isset($category->id) ? url('updatecategory/' . $category->id) : url('storecategory') }}"
-                    method="POST" enctype="multipart/form-data" class="space-y-6">
+                <form action="{{ url('storecategory') }}" method="POST" enctype="multipart/form-data"
+                    class="space-y-6">
                     @csrf
-                    @if (isset($category->id))
-                        @method('PUT')
-                    @endif
 
                     <input type="hidden" name="id" value="{{ isset($category->id) ? $category->id : '' }}">
 

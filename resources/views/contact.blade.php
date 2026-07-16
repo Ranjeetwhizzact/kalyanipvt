@@ -15,90 +15,65 @@
                 <div>
 
                     <h2 class="font-poppins text-2xl md:text-3xl lg:text-5xl ">
-                        Get In Touch
+                        {{ $contactSettings->heading ?? 'Get In Touch' }}
                     </h2>
-                    <p class="text-gray-600 text-base mt-4">Lorem ipsum is placeholder text commonly used in the graphic,
-                        print, and publishing industries for previewing layouts and visual mockups.</p>
+                    <p class="text-gray-600 text-base mt-4">{{ $contactSettings->description ?? 'Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.' }}</p>
                 </div>
                 <div class="my-8">
-                    <h3 class="text-xl font-inter capitalize font-medium">call us</h3>
+                    <h3 class="text-xl font-inter capitalize font-medium">{{ $contactSettings->call_us_heading ?? 'call us' }}</h3>
                     <div class="lg:w-[500px] my-2">
 
-                        <p class=" text-gray-600">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis ex
-                            repudiandae iure, accusantium beatae minus?</p>
+                        <p class=" text-gray-600">{{ $contactSettings->call_us_description ?? 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis ex repudiandae iure, accusantium beatae minus?' }}</p>
                     </div>
                     <ul class="mx-0 flex flex-wrap gap-2 font-inter my-4">
-                        @foreach ($contactDetails as $contact)
-                            {{-- Contact Number --}}
-                            @if (!empty($contact->contact_number))
+                        @if(!empty($contactSettings->phone_numbers) && is_array($contactSettings->phone_numbers))
+                            @foreach ($contactSettings->phone_numbers as $phone)
                                 @php
-                                    $number = preg_replace('/\D/', '', $contact->contact_number);
-                                    $prefix = strlen($number) == 10 ? '+91' : '022';
+                                    $number = preg_replace('/\D/', '', $phone);
+                                    $prefix = '';
+                                    if (strlen($number) == 10) {
+                                        $prefix = '+91';
+                                    }
+                                    if (strpos(trim($phone), '+') === 0) {
+                                        $prefix = '';
+                                    }
                                 @endphp
-
                                 <li>
                                     <a href="tel:{{ $prefix }}{{ $number }}"
                                         class="px-3 py-1 text-xs md:text-base lg:text-xs 2xl:text-base rounded-md bg-orange-200">
-                                        {{ $prefix }} {{ $number }}
+                                        {{ $phone }}
                                     </a>
                                 </li>
-                            @endif
-
-                            {{-- WhatsApp Number --}}
-                            @if (!empty($contact->whatsapp_number))
-                                @php
-                                    $whatsapp = preg_replace('/\D/', '', $contact->whatsapp_number);
-                                    $waPrefix = strlen($whatsapp) == 10 ? '+91' : '022';
-                                @endphp
-
-                                <li>
-                                    <a href="https://wa.me/{{ $whatsapp }}"
-                                        class="px-3 py-1 text-xs md:text-base lg:text-xs 2xl:text-base rounded-md bg-orange-200">
-                                        {{ $waPrefix }} {{ $whatsapp }}
-                                    </a>
-                                </li>
-                            @endif
-                        @endforeach
-                        {{-- <li><a href=""
-                                class="px-3 py-1 text-xs md:text-base lg:text-xs  2xl:text-base rounded-md bg-orange-200">+91
-                                7098689589</a></li>
-                        <li><a href=""
-                                class="px-3 py-1 text-xs md:text-base lg:text-xs  2xl:text-base rounded-md bg-orange-200">+91
-                                7098689589</a></li>
-                        <li><a href=""
-                                class="px-3 py-1 text-xs md:text-base lg:text-xs  2xl:text-base rounded-md bg-orange-200">+91
-                                7098689589</a></li> --}}
+                            @endforeach
+                        @endif
                     </ul>
                 </div>
                 <div class="grid sm:grid-cols-2 gap-10 px-2">
                     <div class="">
-                        <h5 class="font-medium capitalize font-inter text-xl ">Mail Us</h5>
-                        <p class="text-gray-600 text-base my-3">Lorem ipsum is placeholder text commonly used in the
-                            graphic,</p>
-                        {{-- <a href=""
-                            class="px-3 py-1 text-xs md:text-base lg:text-xs  2xl:text-base rounded-md bg-orange-200 inline-block">info@kalyan.com</a> --}}
-                        @forelse($contactDetails as $contact)
-                            @if (!empty($contact->mail))
-                                <a href="mailto:{{ $contact->mail }}"
-                                    class="px-3 py-1 text-xs md:text-base lg:text-xs 2xl:text-base rounded-md bg-orange-200 inline-flex items-center my-1">
+                        <h5 class="font-medium capitalize font-inter text-xl ">{{ $contactSettings->mail_us_heading ?? 'Mail Us' }}</h5>
+                        <p class="text-gray-600 text-base my-3">{{ $contactSettings->mail_us_description ?? 'Lorem ipsum is placeholder text commonly used in the graphic,' }}</p>
+                        @if(!empty($contactSettings->emails) && is_array($contactSettings->emails))
+                            @foreach($contactSettings->emails as $email)
+                                <a href="mailto:{{ $email }}"
+                                    class="px-3 py-1 text-xs md:text-base lg:text-xs 2xl:text-base rounded-md bg-orange-200 inline-flex items-center my-1 mr-2">
                                     <i class="ri-mail-line pr-2"></i>
-                                    <span>{{ $contact->mail }}</span>
+                                    <span>{{ $email }}</span>
                                 </a>
-                            @endif
-                        @empty
-                            {{-- No email found --}}
-                        @endforelse
-
+                            @endforeach
+                        @endif
                     </div>
                     <div class="">
                         <h5 class="font-medium capitalize font-inter text-xl mb-2">Address</h5>
-                        <p class="text-gray-600 text-base my-3">12th Floor, B wing, Kailash Business Park, Ghatkopar
-                            Powai link road, Vikhroli(W),
-                            Mumbai 400079</p>
-                        <a href=""
-                            class="px-3 py-1 text-xs md:text-base lg:text-xs  2xl:text-base rounded-md bg-orange-200 inline-block">View
-                            Map</a>
-
+                        @if(!empty($contactSettings->address))
+                            <p class="text-gray-600 text-base my-3">{{ $contactSettings->address }}</p>
+                            @if (!empty($contactSettings->map_link))
+                                <a href="{{ $contactSettings->map_link }}" target="_blank"
+                                    class="px-3 py-1 text-xs md:text-base lg:text-xs 2xl:text-base rounded-md bg-orange-200 inline-block mb-4">View
+                                    Map</a>
+                            @endif
+                        @else
+                            <p class="text-gray-600 text-base my-3">Address not available.</p>
+                        @endif
                     </div>
                 </div>
             </div>

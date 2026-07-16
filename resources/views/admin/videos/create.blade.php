@@ -66,20 +66,27 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                        <!-- Video Upload -->
+                        <!-- Video Type (Hidden, forced to embed) -->
+                        <input type="hidden" name="video_type" value="embed">
+
+                        <!-- Video URL (Embed) -->
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Upload Video
+                                Embedded Video Link (YouTube, Vimeo, etc.)
                             </label>
+                            <input type="url" name="video_url" id="video_url" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                placeholder="Enter video URL (e.g. https://www.youtube.com/watch?v=...)" required>
+                        </div>
 
-                            <input type="file" name="video_path" id="video_path" accept="video/*"
+                        <!-- Thumbnail Image -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Thumbnail Image (Optional, recommended for embedded videos)
+                            </label>
+                            <input type="file" name="thumbnail_path" id="thumbnail_path" accept="image/*"
                                 class="w-full border p-2 rounded mb-3">
-
-                            <!-- Preview Box -->
-                            <div
-                                class="w-full border rounded bg-gray-100 flex items-center justify-center overflow-hidden">
-                                <video id="video_preview" class="hidden w-full max-h-96" controls>
-                                </video>
+                            <div class="w-full max-w-xs border rounded bg-gray-100 flex items-center justify-center overflow-hidden">
+                                <img id="thumbnail_preview" class="hidden w-full h-auto" />
                             </div>
                         </div>
 
@@ -142,19 +149,16 @@
     </script>
 </body>
 <script>
-    document.getElementById('video_path').addEventListener('change', function() {
-
+    document.getElementById('thumbnail_path').addEventListener('change', function() {
         const file = this.files[0];
-        const preview = document.getElementById('video_preview');
+        const preview = document.getElementById('thumbnail_preview');
 
         if (file) {
             const reader = new FileReader();
-
             reader.onload = function(e) {
                 preview.src = e.target.result;
                 preview.classList.remove('hidden');
             };
-
             reader.readAsDataURL(file);
         }
     });
