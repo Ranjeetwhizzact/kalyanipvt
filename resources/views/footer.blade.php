@@ -18,7 +18,7 @@
         {{-- Call us on --}}
         <div class="text-sm md:text-md 2xl:text-lg">
             <h6 class="text-white font-bold mb-1">Call us on</h6>
-            <div class="flex flex-wrap gap-x-2 gap-y-1">
+            <div class="flex flex-col gap-y-1">
                 @php
                     $numbers = $contactDetails
                         ->pluck('contact_number')
@@ -27,12 +27,14 @@
                         ->values()
                         ->all();
                 @endphp
-                @foreach ($numbers as $index => $number)
-                    <span>
-                        {{ $number }}@if ($index < count($numbers) - 1)
-                            <span class="text-white/60">&nbsp;/</span>
+                @foreach (array_chunk($numbers, 2) as $pair)
+                    <div class="flex items-center gap-x-2">
+                        <span>{{ $pair[0] }}</span>
+                        @if (isset($pair[1]))
+                            <span class="text-white/60">/</span>
+                            <span>{{ $pair[1] }}</span>
                         @endif
-                    </span>
+                    </div>
                 @endforeach
             </div>
         </div>
