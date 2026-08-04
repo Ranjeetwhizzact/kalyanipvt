@@ -8,6 +8,7 @@ class FooterSetting extends Model
 {
     protected $table = 'footer_settings';
     protected $fillable = [
+        'logo',
         'copyright_text',
         'privacy_policy_url',
         'terms_of_use_url',

@@ -30,13 +30,13 @@
 
     @if ($section->section_paragraph || $layout?->paragraph)
         <div class="max-w-6xl mx-auto px-6 lg:px-12">
-            <p class="mt-3 max-w-5xl text-[18px] leading-9 font-medium"
+            <div class="mt-3 max-w-5xl text-[18px] leading-9 font-medium rich-text-content"
                 style="
                     color: {{ $layout->text_colors ?? '#4B5563' }};
                     text-align: {{ $layout->text_alignment ?? 'left' }};
                 ">
-                {{ $section->section_paragraph ?? $layout->paragraph }}
-            </p>
+                {!! $section->section_paragraph ?? $layout->paragraph !!}
+            </div>
         </div>
     @endif
 

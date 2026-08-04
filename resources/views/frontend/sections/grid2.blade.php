@@ -37,10 +37,10 @@
                 @endif
 
                 @if ($contentLayout->paragraph)
-                    <p class="text-base text-gray-600 font-inter my-7"
+                    <div class="text-base text-gray-600 font-inter my-7 rich-text-content"
                         style="color: {{ $contentLayout->text_colors ?? '#000000' }};">
-                        {{ $contentLayout->paragraph }}
-                    </p>
+                        {!! $contentLayout->paragraph !!}
+                    </div>
                 @endif
 
                 {{-- BOX POINTS --}}

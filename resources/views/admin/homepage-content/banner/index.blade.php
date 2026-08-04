@@ -90,8 +90,13 @@
                             @forelse($banners as $banner)
                                 <tr class="border-b hover:bg-gray-50 text-sm">
                                     <td class="py-2 px-4"> {{ $loop->iteration }} </td>
-                                    <td class="py-2 px-4"> <img src="{{ asset($banner->banner_image) }}"
-                                            class="w-20 h-12 object-cover rounded"> </td>
+                                    <td class="py-2 px-4">
+                                        @if ($banner->banner_image)
+                                            <img src="{{ asset($banner->banner_image) }}" class="w-20 h-12 object-cover rounded">
+                                        @else
+                                            <span class="px-2 py-1 rounded text-xs bg-blue-100 text-blue-800 font-semibold border border-blue-200">Text Only (Section Header)</span>
+                                        @endif
+                                    </td>
                                     <td class="py-2 px-4 font-medium"> {{ $banner->title }} </td>
                                     <td class="py-2 px-4"> {{ $banner->subtitle }} </td>
                                     <td class="py-2 px-4"> <a href="{{ $banner->link }}" class="text-blue-600 underline"

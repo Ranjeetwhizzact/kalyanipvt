@@ -9,6 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="{{ asset('backend/admin/Content/cleditor/jquery.cleditor.css') }}" rel="stylesheet" type="text/css" />
 
     <script src="//unpkg.com/alpinejs" defer></script>
 
@@ -27,6 +28,27 @@
 
         .main-content {
             transition: margin-left .3s ease
+        }
+
+        .rich-text-content ul {
+            list-style-type: disc !important;
+            margin-left: 1.5rem !important;
+            margin-bottom: 1rem !important;
+        }
+        .rich-text-content ol {
+            list-style-type: decimal !important;
+            margin-left: 1.5rem !important;
+            margin-bottom: 1rem !important;
+        }
+        .rich-text-content strong, .rich-text-content b {
+            font-weight: bold !important;
+        }
+        .rich-text-content p {
+            margin-bottom: 0.75rem !important;
+        }
+        .rich-text-content a {
+            color: #3b82f6 !important;
+            text-decoration: underline !important;
         }
     </style>
 
@@ -134,7 +156,7 @@
 
                             <div class="flex flex-col">
                                 <label class="text-sm font-medium mb-1">Section Paragraph</label>
-                                <textarea name="section_paragraph" placeholder="Section description" class="border p-2 rounded col-span-2"></textarea>
+                                <textarea name="section_paragraph" placeholder="Section description" class="border p-2 rounded col-span-2 cleditor-editor"></textarea>
                             </div>
                         </div>
 
@@ -226,7 +248,7 @@
                                     {{-- SECTION PARAGRAPH --}}
                                     <div class="flex flex-col col-span-2">
                                         <label class="text-sm font-medium mb-1">Paragraph</label>
-                                        <textarea name="section_paragraph" class="border p-2 rounded" rows="3">{{ $section->section_paragraph }}</textarea>
+                                        <textarea name="section_paragraph" class="border p-2 rounded cleditor-editor" rows="3">{{ $section->section_paragraph }}</textarea>
                                     </div>
 
 
@@ -368,7 +390,7 @@
 
                                         <div class="flex flex-col col-span-2">
                                             <label class="text-sm font-medium mb-1">Paragraph</label>
-                                            <textarea name="paragraph" class="border p-2 rounded"></textarea>
+                                            <textarea name="paragraph" class="border p-2 rounded cleditor-editor"></textarea>
                                         </div>
 
                                         <div class="flex flex-col">
@@ -511,7 +533,7 @@
                                                 {{-- PARAGRAPH --}}
                                                 <div class="flex flex-col col-span-2">
                                                     <label class="text-sm font-medium mb-1">Layout Paragraph</label>
-                                                    <textarea name="paragraph" class="border p-2 rounded w-full" rows="5">{{ old('paragraph', $layout->paragraph) }}</textarea>
+                                                    <textarea name="paragraph" class="border p-2 rounded w-full cleditor-editor" rows="5">{{ old('paragraph', $layout->paragraph) }}</textarea>
                                                 </div>
 
                                                 {{-- IMAGE --}}
@@ -669,9 +691,9 @@
                                             class="w-40 mt-3 mb-3 rounded shadow">
                                     @endif
 
-                                    <p class="text-gray-600">
-                                        {{ $layout->paragraph }}
-                                    </p>
+                                    <div class="text-gray-600 rich-text-content">
+                                        {!! $layout->paragraph !!}
+                                    </div>
 
 
                                     <!-- ================= POINTS ================= -->
@@ -829,31 +851,33 @@
 
         <script>
             function toggleEdit(id) {
-
                 let el = document.getElementById(id);
-
                 if (!el) return;
-
                 el.classList.toggle('hidden');
-
-            }
-        </script>
-
-        <script>
-            function toggleEdit(id) {
-
-                let el = document.getElementById(id);
-
-                el.classList.toggle('hidden');
-
+                initializeEditorsIn(el);
             }
 
             function toggleSection(id) {
-
                 let el = document.getElementById('section_' + id);
-
+                if (!el) return;
                 el.classList.toggle('hidden');
+                initializeEditorsIn(el);
+            }
 
+            function initializeEditorsIn(container) {
+                if (!container.classList.contains('hidden')) {
+                    $(container).find('.cleditor-editor').each(function() {
+                        var editor = $(this).data("cleditor");
+                        if (!editor) {
+                            $(this).cleditor({
+                                width: '100%',
+                                height: '250px'
+                            });
+                        } else {
+                            editor.refresh();
+                        }
+                    });
+                }
             }
         </script>
 
@@ -886,6 +910,22 @@
 
     </div>
 
+    <script src="{{ asset('backend/admin/Scripts/jquery-1.6.3.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('backend/admin/Scripts/jquery.cleditor.js') }}" type="text/javascript"></script>
+    <script>
+        $(document).ready(function() {
+            if (typeof $.fn.cleditor !== "undefined") {
+                $('.cleditor-editor').each(function() {
+                    if ($(this).is(':visible')) {
+                        $(this).cleditor({
+                            width: '100%',
+                            height: '250px'
+                        });
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

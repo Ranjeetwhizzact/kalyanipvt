@@ -98,7 +98,7 @@
                         {{ $product->title }}
                     </h1>
                     <p class="font-inter">
-                        {{ $product->description }}
+                        {!! $product->description !!}
                     </p>
                 </div>
                 <div class="mt-4 flex flex-wrap items-center gap-4 mb-5">

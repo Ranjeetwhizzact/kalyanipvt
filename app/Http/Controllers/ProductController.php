@@ -8,6 +8,7 @@ use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use App\Models\ProductPageSetting;
 
 class ProductController extends Controller
 {
@@ -18,7 +19,9 @@ class ProductController extends Controller
             ->get();
         Log::info($cat);
 
-        return view('products.products', compact('cat')); // product.html page
+        $productPageSetting = ProductPageSetting::first();
+
+        return view('products.products', compact('cat', 'productPageSetting')); // product.html page
     }
 
     public function generateSlugs()
@@ -35,7 +38,7 @@ class ProductController extends Controller
 
             $count = 1;
             while (
-                Product::where('slug', $slug)
+                Product::query()->where('slug', $slug)
                 ->where('id', '!=', $product->id)
                 ->exists()
             ) {
@@ -55,20 +58,19 @@ class ProductController extends Controller
     {
         $categories = Category::all();
 
-        $subcategories = Subcategory::where('category_id', $category->id)
+        $subcategories = Subcategory::query()->where('category_id', $category->id)
             ->withCount('products')
             ->get();
 
         $products = collect();
 
         if (strtolower($category->name) === 'export zone') {
-            $categoryIds = Category::whereIn('name', ['Export Zone', 'AgroChemicals', 'Public Health Pesticides'])
+            $categoryIds = Category::query()->whereIn('name', ['Export Zone', 'AgroChemicals', 'Public Health Pesticides'], 'and', false)
                 ->pluck('id');
 
             $subcategoryIds = $subcategories->pluck('id');
 
-            $products = Product::whereIn('category_id', $categoryIds)
-                ->whereIn('category_id', $categoryIds)
+            $products = Product::query()->whereIn('category_id', $categoryIds, 'and', false)
                 ->orWhereIn('subcategory_id', $subcategoryIds)
                 ->latest()
                 ->get();
@@ -79,14 +81,15 @@ class ProductController extends Controller
 
     public function displaysubcategory($categorySlug, $subcategorySlug)
     {
-        $category = Category::where('slug', $categorySlug)->firstOrFail();
-        $subcategory = Subcategory::where('slug', $subcategorySlug)
+        $categories = Category::all();
+        $category = Category::query()->where('slug', $categorySlug)->firstOrFail();
+        $subcategory = Subcategory::query()->where('slug', $subcategorySlug)
             ->where('category_id', $category->id)
             ->firstOrFail();
 
-        $products = Product::where('subcategory_id', $subcategory->id)->get();
+        $products = Product::query()->where('subcategory_id', $subcategory->id)->get();
 
-        return view('products.subcategory', compact('category', 'subcategory', 'products'));  // subcategory.show
+        return view('products.subcategory', compact('category', 'subcategory', 'products', 'categories'));  // subcategory.show
     }
 
     // public function displayproduct($categorySlug, $subcategorySlug, $productSlug)
@@ -141,11 +144,11 @@ class ProductController extends Controller
 
         // Related Products
         if ($product->subcategory_id) {
-            $relatedProducts = Product::where('subcategory_id', $product->subcategory_id)
+            $relatedProducts = Product::query()->where('subcategory_id', $product->subcategory_id)
                 ->where('id', '!=', $product->id)
                 ->get();
         } else {
-            $relatedProducts = Product::where('category_id', $product->category_id)
+            $relatedProducts = Product::query()->where('category_id', $product->category_id)
                 ->where('id', '!=', $product->id)
                 ->get();
         }
@@ -175,7 +178,7 @@ class ProductController extends Controller
 
     public function search(Request $request)
     {
-        $products = Product::with(['subcategory.category'])
+        $products = Product::with(['category', 'subcategory.category'])
             ->where(function ($q) use ($request) {
                 $q->where('composition', 'LIKE', '%' . $request->search . '%')
                     ->orWhere('title', 'LIKE', '%' . $request->search . '%');
@@ -190,7 +193,7 @@ class ProductController extends Controller
     {
         $query = $request->q;
 
-        $products = Product::with(['subcategory.category'])
+        $products = Product::with(['category', 'subcategory.category'])
             ->where('title', 'LIKE', "%{$query}%")
             ->orWhere('composition', 'LIKE', "%{$query}%")
             ->limit(10)

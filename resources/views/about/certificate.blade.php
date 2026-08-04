@@ -32,9 +32,9 @@
                         </h5>
                         {{-- Paragraph --}}
                         @if ($heroSection->paragraph)
-                            <p class="text-sm lg:text-base font-inter hidden md:block">
-                                {{ $heroSection->paragraph }}
-                            </p>
+                            <div class="text-sm lg:text-base font-inter hidden md:block rich-text-content">
+                                {!! $heroSection->paragraph !!}
+                            </div>
                         @endif
 
                     </div>
@@ -73,9 +73,9 @@
                             @endif
                             {{-- Paragraph --}}
                             @if ($section->paragraph)
-                                <p class="text-base text-gray-600 font-inter mb-4 whitespace-pre-line">
-                                    {{ $section->paragraph }}
-                                </p>
+                                <div class="text-base text-gray-600 font-inter mb-4 rich-text-content">
+                                    {!! $section->paragraph !!}
+                                </div>
                             @endif
                             {{-- Points (Bullet List) --}}
                             @if (!empty($section->point) && is_array($section->point))
@@ -107,9 +107,9 @@
                             @endif
                             {{-- Paragraph --}}
                             @if ($section->paragraph)
-                                <p class="text-base text-gray-600 font-inter mb-4 whitespace-pre-line">
-                                    {{ $section->paragraph }}
-                                </p>
+                                <div class="text-base text-gray-600 font-inter mb-4 rich-text-content">
+                                    {!! $section->paragraph !!}
+                                </div>
                             @endif
                             {{-- Points --}}
                             @if (!empty($section->point) && is_array($section->point))

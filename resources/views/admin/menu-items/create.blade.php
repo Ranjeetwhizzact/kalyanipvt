@@ -196,8 +196,8 @@
                             <select name="status"
                                 class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
 
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
 
                             </select>
 

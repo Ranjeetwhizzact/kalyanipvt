@@ -104,7 +104,7 @@
                                 <td class="py-3 px-4">{{$item->title}}</td>
                                 <td class="py-3 px-4 table-cell">
                                     <p class=" line-clamp-3 h-18 overflow-hidden text-ellipsis">
-                                    {{$item->description}}
+                                    {{ strip_tags($item->description) }}
                                     </p>
                                 </td>
 

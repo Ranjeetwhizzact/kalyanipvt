@@ -88,7 +88,45 @@
                 {{ $HomepageText?->title }}</h2>
             <p class="text-sm mt-4 text-center px-10">{{ $HomepageText?->subtitle }}</p>
         </div>
-        <div class="flex flex-wrap gap-5  p-8 z-20 m-auto md:w-[755px]  xl:w-[1250px] categorycard">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 p-8 z-20 m-auto max-w-[1400px] categorycard">
+            @foreach ($categories as $category)
+                @php
+                    $categoryURL = '/' . $category->slug . '.html';
+                @endphp
+                <article class="bg-[#FBF6EE] p-6 rounded-xl max-w-full relative w-full h-[400px] lg:h-[390px]">
+                    <div class="h-48 lg-[300px] w-full rounded-xl mb-2 overflow-hidden">
+                        <a href="{{ $categoryURL }}">
+                            <img class="h-[300px] w-full object-cover" src="{{ asset($category->img) }}"
+                                alt="{{ $category->name }}" />
+                        </a>
+                    </div>
+                    <h3 class="text-2xl font-normal capitalize mb-2">{{ $category->name }}</h3>
+                    <div class="h-10 overflow-hidden text-zinc-500 font-normal text-sm mb-5 line-clamp-2">
+                        {!! $category->short_discription !!}
+                    </div>
+                    <div class="relative group mt-5">
+                        <button
+                            class="flex text-[#ED7D0B] justify-between items-center py-[14px] px-4 cursor-pointer bg-orange-100 rounded-lg w-full">
+                            <span class="font-medium text-[14px]">Select Option</span>
+                            <svg class="w-5 h-5 transition-transform duration-300 group-hover:rotate-180"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <ul
+                            class="absolute hidden group-hover:block bg-white text-black mt-0 rounded-lg shadow-lg w-full z-50">
+                            @foreach ($category->subcategories as $sub)
+                                <li>
+                                    <a href="/{{ $category->slug }}/{{ $sub->slug }}"
+                                        class="block px-4 py-2 hover:bg-orange-50 {{ request()->get('subcatid') == $sub->id || request()->get('subid') == $sub->id ? 'bg-orange-500 text-white' : '' }}">
+                                        {{ $sub->name }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </article>
+            @endforeach
         </div>
     </section>
 
@@ -100,10 +138,15 @@
                     <div class="md:h-[342px] lg:h-[440px] overflow-hidden relative">
                         <h3 class="text-md sm:text-2xl lg:text-4xl font-normal flex">
                             <img src="{{ asset('list-icon.png') }}" alt="" class="object-contain mr-2 w-7 mt-2">
-                            Our Key Strength
+                            {{ $manufacturingPage->title ?? 'Our Key Strength' }}
                         </h3>
-                        <p class="text-zinc-500 text-base mt-3">
-                            {{ $keyStrength->paragraph }}
+                        {{-- @if (!empty($keyStrength->heading))
+                            <h4 class="font-medium text-base md:text-lg mt-2 text-[#ED7D0B] line-clamp-2">
+                                {{ $keyStrength->heading }}
+                            </h4>
+                        @endif --}}
+                        <p class="text-zinc-500 text-base mt-3 line-clamp-6 md:line-clamp-9 lg:line-clamp-[12]">
+                            {!! $keyStrength->paragraph !!}
                         </p>
                     </div>
 
@@ -194,11 +237,11 @@
                         <img src="{{ asset('list-icon.png') }}" alt=""
                             class="mr-2 w-6 h-6 self-center mt-1 object-contain">
 
-                        International Business
+                        {{ $internationalBusiness->title ?? 'International Business' }}
                     </h3>
 
-                    <p class="text-base text-zinc-500 h-28 overflow-hidden">
-                        {{ $business?->paragraph }}
+                    <p class="text-base text-zinc-500 h-32 overflow-hidden line-clamp-4">
+                        {!! $business?->paragraph !!}
                     </p>
 
                     <a href="{{ route('page.show', $internationalBusiness->slug) }}" class="font-semibold text-blue-600">
@@ -337,23 +380,31 @@
                                 $youtubeId = null;
                                 $isYoutube = false;
                                 if ($video->video_type === 'embed') {
-                                    preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|win/|user/[^/]+/|embed/)|youtu\.be/|youtube\.com/shorts/)([^"&?/\s]{11})%i', $video->video_path, $match);
+                                    preg_match(
+                                        '%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|win/|user/[^/]+/|embed/)|youtu\.be/|youtube\.com/shorts/)([^"&?/\s]{11})%i',
+                                        $video->video_path,
+                                        $match,
+                                    );
                                     $youtubeId = $match[1] ?? null;
                                     $isYoutube = !empty($youtubeId);
                                 }
-                                $videoSrc = (str_starts_with($video->video_path ?? '', 'http://') || str_starts_with($video->video_path ?? '', 'https://'))
-                                    ? $video->video_path
-                                    : asset($video->video_path ?? '');
+                                $videoSrc =
+                                    str_starts_with($video->video_path ?? '', 'http://') ||
+                                    str_starts_with($video->video_path ?? '', 'https://')
+                                        ? $video->video_path
+                                        : asset($video->video_path ?? '');
                                 $thumbnailUrl = $video->thumbnail_path
                                     ? asset($video->thumbnail_path)
-                                    : ($youtubeId ? "https://img.youtube.com/vi/{$youtubeId}/hqdefault.jpg" : null);
+                                    : ($youtubeId
+                                        ? "https://img.youtube.com/vi/{$youtubeId}/hqdefault.jpg"
+                                        : null);
                             @endphp
                             <div class="swiper-slide w-[320px] rounded-lg relative overflow-hidden bg-black">
 
                                 <!-- Thumbnail / Cover Image -->
-                                @if($thumbnailUrl)
-                                    <img src="{{ $thumbnailUrl }}" alt="{{ $video->description }}"
-                                         class="absolute z-10 w-full h-full object-cover rounded-lg">
+                                @if ($thumbnailUrl)
+                                    <img src="{{ $thumbnailUrl }}" alt="{{ strip_tags($video->description) }}"
+                                        class="absolute z-10 w-full h-full object-cover rounded-lg">
                                 @elseif($video->video_type === 'file' && $video->video_path)
                                     <video class="absolute z-10 rounded-lg w-full h-full object-cover" preload="metadata">
                                         <source src="{{ $videoSrc }}" type="video/mp4">
@@ -369,13 +420,14 @@
 
                                 <!-- Play Button — YouTube opens in new tab, file opens modal -->
                                 <div class="absolute z-30 inset-0 flex justify-center items-center">
-                                    @if($isYoutube)
+                                    @if ($isYoutube)
                                         <a href="{{ $video->video_path }}" target="_blank" rel="noopener"
-                                           class="w-[61px] h-[61px] border-2 rounded-full border-white bg-white/20 backdrop-blur-md shadow-lg flex items-center justify-center transition-transform hover:scale-110 hover:bg-red-600/70">
+                                            class="w-[61px] h-[61px] border-2 rounded-full border-white bg-white/20 backdrop-blur-md shadow-lg flex items-center justify-center transition-transform hover:scale-110 hover:bg-red-600/70">
                                             <i class="ri-play-large-fill text-3xl text-white"></i>
                                         </a>
                                     @else
-                                        <button onclick="openVideoModal('{{ $video->video_type ?? 'file' }}', '{{ $videoSrc }}')"
+                                        <button
+                                            onclick="openVideoModal('{{ $video->video_type ?? 'file' }}', '{{ $videoSrc }}')"
                                             class="w-[61px] h-[61px] border-2 rounded-full border-white bg-white/20 backdrop-blur-md shadow-lg flex items-center justify-center transition-transform hover:scale-110">
                                             <i class="ri-play-large-fill text-3xl text-white"></i>
                                         </button>
@@ -383,18 +435,20 @@
                                 </div>
 
                                 <!-- YouTube badge -->
-                                @if($isYoutube)
+                                @if ($isYoutube)
                                     <div class="absolute z-30 top-3 right-3">
-                                        <span class="bg-red-600 text-white text-xs px-2 py-0.5 rounded-full flex items-center gap-1">
+                                        <span
+                                            class="bg-red-600 text-white text-xs px-2 py-0.5 rounded-full flex items-center gap-1">
                                             <i class="ri-youtube-fill"></i> YouTube
                                         </span>
                                     </div>
                                 @endif
 
                                 <!-- Description -->
-                                <div class="absolute z-40 w-full bottom-0 px-4 pb-3 pt-6 bg-gradient-to-t from-black/80 to-transparent">
+                                <div
+                                    class="absolute z-40 w-full bottom-0 px-4 pb-3 pt-6 bg-gradient-to-t from-black/80 to-transparent">
                                     <p class="text-white text-sm line-clamp-2">
-                                        {{ \Illuminate\Support\Str::limit($video->description, 100) }}
+                                        {!! $video->description !!}
                                     </p>
                                 </div>
 
@@ -468,9 +522,10 @@
                                 </div>
 
                                 {{-- MESSAGE --}}
-                                <p class="font-semibold text-lg mt-[30px] h-28 overflow-hidden text-ellipsis line-clamp-4">
-                                    {{ \Illuminate\Support\Str::limit($item->message, 200) }}
-                                </p>
+                                <div
+                                    class="font-semibold text-lg mt-[30px] h-28 overflow-hidden text-ellipsis line-clamp-4 rich-text-content">
+                                    {!! $item->message !!}
+                                </div>
 
                                 {{-- DATE --}}
                                 <p class="font-medium text-[#64748B] mt-[35px]">
@@ -570,11 +625,16 @@
     @endif
 
     <!-- Video Player Modal -->
-    <div id="videoPlayerModal" class="fixed inset-0 z-[110] flex items-center justify-center bg-black/80 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
-        <div class="relative bg-black rounded-2xl border border-white/10 shadow-2xl w-11/12 max-w-4xl aspect-video overflow-hidden">
+    <div id="videoPlayerModal"
+        class="fixed inset-0 z-[110] flex items-center justify-center bg-black/80 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div
+            class="relative bg-black rounded-2xl border border-white/10 shadow-2xl w-11/12 max-w-4xl aspect-video overflow-hidden">
             <!-- Close Button -->
-            <button onclick="closeVideoModal()" class="absolute top-4 right-4 z-50 bg-black/60 hover:bg-black text-white hover:text-red-500 p-2 rounded-full transition-colors border border-white/15" aria-label="Close modal">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <button onclick="closeVideoModal()"
+                class="absolute top-4 right-4 z-50 bg-black/60 hover:bg-black text-white hover:text-red-500 p-2 rounded-full transition-colors border border-white/15"
+                aria-label="Close modal">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
@@ -586,7 +646,9 @@
             </video>
 
             <!-- Video Player (Embed Source) -->
-            <iframe id="modalEmbedPlayer" class="w-full h-full hidden" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; webshare" allowfullscreen></iframe>
+            <iframe id="modalEmbedPlayer" class="w-full h-full hidden" src="" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; webshare"
+                allowfullscreen></iframe>
         </div>
     </div>
 
@@ -612,7 +674,8 @@
         }
 
         function getVimeoEmbedUrl(url) {
-            let regExp = /vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)(?:$|\/|\?)/;
+            let regExp =
+                /vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)(?:$|\/|\?)/;
             let match = url.match(regExp);
             if (match) {
                 return "https://player.vimeo.com/video/" + match[1] + "?autoplay=1";
@@ -709,7 +772,6 @@
             fetch("http://127.0.0.1:8000/api/categories")
                 .then(response => response.json())
                 .then(data => {
-                    let categorycard = document.querySelector(".categorycard");
                     let dropdowns = document.querySelectorAll(".categorylist");
                     let homecategory = document.querySelector(".homecategory");
                     let catlinktabs = document.querySelectorAll('.allcatlinks');
@@ -717,7 +779,6 @@
 
                     // Clear existing content
                     dropdowns.forEach(dropdown => (dropdown.innerHTML = ""));
-                    if (categorycard) categorycard.innerHTML = "";
                     if (homecategory) homecategory.innerHTML = "";
                     if (sidebar) sidebar.innerHTML = "";
 
@@ -830,41 +891,7 @@
                         }
 
 
-                        // Category Card
-                        if (categorycard) {
-                            let col = `<article class="bg-[#FBF6EE] p-6 rounded-xl max-w-full relative w-[320px] lg:w-[380px] h-[400px] lg:h-[390px]">
-                        <div class="h-48 lg-[300px] w-full rounded-xl mb-2 overflow-hidden">
-                            <a href="${categoryURL}">
-                                <img class="h-[300px] w-full object-cover" src="http://127.0.0.1:8000${category.category_image}" alt="${category.category_name}" />
-                            </a>
-                        </div>
-                        <h3 class="text-2xl font-normal capitalize mb-2">${category.category_name}</h3>
-                        <div class="h-10 overflow-hidden">
-                            <p class="text-zinc-500 font-normal text-sm mb-5">
-                                ${category.category_short_description}
-                            </p>
-                        </div>
-                        <div class="relative group mt-5">
-                            <button class="flex text-[#ED7D0B] justify-between items-center py-[14px] px-4 cursor-pointer bg-orange-100 rounded-lg w-[275px] lg:w-[335px]">
-                                <span class="font-medium text-[14px]">Select Option</span>
-                                <svg class="w-5 h-5 transition-transform duration-300 group-hover:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </button>
-                            <ul class="absolute hidden group-hover:block bg-white text-black mt-0 rounded-lg shadow-lg w-full z-50">
-                                ${category.subcategories.map(sub =>
-                                    `<li>
-                                                                        <a href="/${category.slug}/${sub.slug}"
-                                                                        class="block px-4 py-2 hover:bg-orange-50 ${currentSubcategoryId == sub.subcategory_id ? 'bg-orange-500 text-white' : ''}">
-                                                                        ${sub.subcategory_name}
-                                                                        </a>
-                                                                    </li>`).join("")}
-                                    </ul>
-                                </div>
-                            </article>`;
 
-                            categorycard.innerHTML += col;
-                        }
                     });
 
                     if (catlinktabs.length) catlinktabs.forEach(tab => (tab.innerHTML = catlinksHTML));

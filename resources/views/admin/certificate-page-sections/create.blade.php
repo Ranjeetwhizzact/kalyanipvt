@@ -42,6 +42,10 @@
                 display: inline;
             }
         }
+        .ck-editor__editable_inline {
+            min-height: 150px;
+            color: #000;
+        }
     </style>
 
 </head>
@@ -92,7 +96,7 @@
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Paragraph</label>
-                            <textarea name="paragraph" rows="4" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"></textarea>
+                            <textarea name="paragraph" rows="4" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 cleditor-editor"></textarea>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
@@ -162,7 +166,7 @@
 
                             <div class="md:col-span-2">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Paragraph</label>
-                                <textarea name="paragraph" rows="4" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"></textarea>
+                                <textarea name="paragraph" rows="4" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 cleditor-editor"></textarea>
                             </div>
 
                             <div class="md:col-span-2">
@@ -204,7 +208,16 @@
     </div>
     <script src="{{ asset('backend/admin/Scripts/jquery-1.6.3.js') }}" type="text/javascript"></script>
     <script src="{{ asset('backend/admin/Scripts/jquery.cleditor.js') }}" type="text/javascript"></script>
-    <script type="text/javascript"></script>
+    <script>
+        $(document).ready(function() {
+            if (typeof $.fn.cleditor !== "undefined") {
+                $('.cleditor-editor').cleditor({
+                    width: '100%',
+                    height: 250
+                });
+            }
+        });
+    </script>
 </body>
 <script>
     function previewImage(inputId, imgId) {
@@ -242,6 +255,24 @@
             });
         }
 
+        function initializeVisibleEditors() {
+            if (typeof $ !== "undefined" && typeof $.fn.cleditor !== "undefined") {
+                $('.cleditor-editor').each(function() {
+                    var editor = $(this).data("cleditor");
+                    if ($(this).is(':visible')) {
+                        if (!editor) {
+                            $(this).cleditor({
+                                width: '100%',
+                                height: '250px'
+                            });
+                        } else {
+                            editor.refresh();
+                        }
+                    }
+                });
+            }
+        }
+
         // Initially disable both
         disableInputs(heroForm, true);
         disableInputs(sectionForm, true);
@@ -267,8 +298,26 @@
                 disableInputs(sectionForm, false);
             }
 
+            // Small timeout to allow element to render block display before checking visibility
+            setTimeout(initializeVisibleEditors, 50);
         });
 
+        // Initialize on load just in case
+        initializeVisibleEditors();
+
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', function() {
+                if (typeof $ !== "undefined" && typeof $.fn.cleditor !== "undefined") {
+                    $('.cleditor-editor').each(function() {
+                        var editor = $(this).data("cleditor");
+                        if (editor) {
+                            editor.updateTextArea();
+                        }
+                    });
+                }
+            });
+        }
     });
 </script>
 <script>

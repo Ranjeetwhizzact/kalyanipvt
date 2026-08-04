@@ -552,7 +552,7 @@ INSERT INTO `pages` (`id`, `title`, `slug`, `status`, `created_at`, `updated_at`
 (3, 'International Business', 'international-business', '1', '2026-03-13 06:34:35', '2026-03-13 06:34:35'),
 (4, 'Contract Manufacturing', 'contract-manufacturing', '1', '2026-03-13 06:35:01', '2026-03-13 06:35:01'),
 (5, 'Grow with Kalyani', 'grow-with-kalyani', '1', '2026-03-13 06:35:20', '2026-03-13 06:35:20'),
-(6, 'Manufacturing Strenght', 'manufacturing-strenght', '1', '2026-03-14 14:42:34', '2026-03-14 14:42:34'),
+(6, 'Manufacturing Strength', 'manufacturing-strenght', '1', '2026-03-14 14:42:34', '2026-03-14 14:42:34'),
 (7, 'Research and Development', 'research-and-development', '1', '2026-03-14 14:42:50', '2026-03-14 14:42:50'),
 (8, 'Product Development', 'product-development', '1', '2026-03-14 14:43:04', '2026-03-14 14:43:04'),
 (9, 'Marketing Network', 'marketing-network', '1', '2026-03-14 14:43:21', '2026-03-14 14:43:21'),

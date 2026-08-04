@@ -17,9 +17,9 @@
                     {{ $layout->subheading }}
                 </p>
 
-                <p class="text-gray-600 mb-5">
-                    {{ $layout->paragraph }}
-                </p>
+                <div class="text-gray-600 mb-5 rich-text-content">
+                    {!! $layout->paragraph !!}
+                </div>
             </div>
 
             @if (!empty($layout->link_text) || !empty($layout->link_url))

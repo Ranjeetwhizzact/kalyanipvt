@@ -55,14 +55,20 @@
         <div class="main-content flex-1 p-6 ml-64 transition-all duration-300">
             <!-- Welcome Section -->
             <div class="bg-white p-6 rounded-lg shadow-md max-w-4xl mx-auto mt-10">
-                @if (session('status') == 'success')
+                @if (session('status') == 'success' || session('success'))
                     <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
                         role="alert">
                         <strong class="font-bold">Success!</strong>
-                        <span class="block sm:inline">{{ session('msg') }}</span>
+                        <span class="block sm:inline">{{ session('msg') ?? session('success') }}</span>
                     </div>
                 @endif
-                <h2 class="text-2xl font-semibold mb-6">Subcategory</h2>
+                <h2 class="text-2xl font-semibold mb-6">
+                    @if (isset($subcategory->id))
+                        Edit Subcategory
+                    @else
+                        Add Subcategory
+                    @endif
+                </h2>
                 <form action="{{ url('storesubcategory') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <!-- Row for Input Fields: Name, Category, Image -->
@@ -75,9 +81,9 @@
                             <div class="col-span-1">
                                 <label for="fileInput" class="block text-sm font-medium text-gray-700 mb-2">Upload
                                     photos</label>
-                                <label for="fileInput">
-                                    <img src="{{ $subcategory->img ?? asset('backend/assests/img/article2.png') }}"
-                                        alt="Selected Image" class="h-20 object-cover" id="selectedImage">
+                                <label for="fileInput" class="cursor-pointer">
+                                    <img src="{{ isset($subcategory->img) ? asset($subcategory->img) : asset('backend/assests/img/article2.png') }}"
+                                        alt="Selected Image" class="h-20 object-cover rounded border" id="selectedImage">
                                 </label>
                                 <div id="imageContainer">
                                     <input type="file" name="img" id="fileInput" class="hidden" accept="image/*">
@@ -87,23 +93,23 @@
                             <div class="col-span-1">
                                 <label for="fileInput" class="block text-sm font-medium text-gray-700 mb-2">Upload
                                     photos</label>
-                                <label for="fileInput">
+                                <label for="fileInput" class="cursor-pointer">
                                     <img src="{{ asset('backend/assests/img/article2.png') }}" alt="Default Image"
-                                        class="h-20 object-cover" id="selectedImageicon">
+                                        class="h-20 object-cover rounded border" id="selectedImage">
                                 </label>
                                 <div id="imageContainer">
-                                    <input type="file" name="img" id="fileInput" class="hidden" accept="image/*"
-                                        required>
+                                    <input type="file" name="img" id="fileInput" class="hidden" accept="image/*">
                                 </div>
                             </div>
                         @endif
-                        @if (isset($category->id))
+
+                        @if (isset($subcategory->id))
                             <div class="col-span-1">
                                 <label for="fileInputicon" class="block text-sm font-medium text-gray-700 mb-2">Upload
                                     icon</label>
-                                <label for="fileInputicon">
-                                    <img src="{{ asset('backend/assests/img/article2.png') }}" alt="Selected Image"
-                                        class="h-20 object-cover" id="selectedImageicon">
+                                <label for="fileInputicon" class="cursor-pointer">
+                                    <img src="{{ isset($subcategory->icon) ? asset($subcategory->icon) : asset('backend/assests/img/article2.png') }}" alt="Selected Image"
+                                        class="h-20 object-cover rounded border" id="selectedImageicon">
                                 </label>
                                 <div id="imageContainer">
                                     <input type="file" name="icon" id="fileInputicon" class="hidden"
@@ -114,31 +120,32 @@
                             <div class="col-span-1">
                                 <label for="fileInputicon" class="block text-sm font-medium text-gray-700 mb-2">Upload
                                     icon</label>
-                                <label for="fileInputicon">
+                                <label for="fileInputicon" class="cursor-pointer">
                                     <img src="{{ asset('backend/assests/img/article2.png') }}" alt="Default Image"
-                                        class="h-20 object-cover" id="selectedImageicon">
+                                        class="h-20 object-cover rounded border" id="selectedImageicon">
                                 </label>
                                 <div id="imageContainer">
                                     <input type="file" name="icon" id="fileInputicon" class="hidden"
-                                        accept="image/*" required>
+                                        accept="image/*">
                                 </div>
                             </div>
                         @endif
+
                         <div class="col-span-2 md:col-span-1">
-                            <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Product
+                            <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Subcategory
                                 Name</label>
                             <input type="text" id="title" name="name"
                                 value="{{ isset($subcategory->name) ? $subcategory->name : '' }}"
                                 class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="Enter product name" required />
+                                placeholder="Enter subcategory name" required />
                         </div>
+
                         <div class="mb-4 col-span-2 md:col-span-1">
-                            <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Product
-                                Status</label>
+                            <label for="category_id" class="block text-sm font-medium text-gray-700 mb-2">Category</label>
                             <select id="category_id" name="category_id"
                                 class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                 required>
-                                <option value="" disabled selected>Select product status</option>
+                                <option value="" disabled {{ !isset($subcategory->category_id) ? 'selected' : '' }}>Select category</option>
 
                                 @if ($category)
                                     @foreach ($category as $c)
@@ -149,55 +156,46 @@
                                     @endforeach
                                 @endif
                             </select>
-
                         </div>
 
                         <div class="col-span-2">
                             <label for="short_discription" class="block text-sm font-medium text-gray-700 mb-2">Short
-                                Discription</label>
-                            <textarea id="short_discription" name="short_discription" value=""
+                                Description</label>
+                            <textarea id="short_discription" name="short_discription"
                                 class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="Enter product name" rows="7" required>{{ isset($subcategory->short_discription) ? $subcategory->short_discription : '' }}</textarea>
+                                placeholder="Enter short description" rows="5">{{ isset($subcategory->short_discription) ? $subcategory->short_discription : '' }}</textarea>
                         </div>
                         <div class="col-span-2">
                             <label for="discription"
-                                class="block text-sm font-medium text-gray-700 mb-2">Discription</label>
-                            <textarea id="discription" name="discription" value=""
+                                class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <textarea id="discription" name="discription"
                                 class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="Enter product name" rows="7" required>{{ isset($subcategory->discription) ? $subcategory->discription : '' }}</textarea>
+                                placeholder="Enter description" rows="7">{{ isset($subcategory->discription) ? $subcategory->discription : '' }}</textarea>
                         </div>
-                        <!-- Category Input -->
-                        <!-- Image Input -->
-                        <!-- Status Input (Full Row) -->
 
                         <div class="mb-4 col-span-2 md:col-span-1">
-                            <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Product
-                                Status</label>
+                            <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Status</label>
                             <select id="status" name="is_active"
-                                value="{{ isset($subcategory->is_active) ? $subcategory->is_active : '' }}"
                                 class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                 required>
-                                <option value="" disabled selected>Select product status</option>
-                                <option
-                                    {{ isset($subcategory->is_active) && $subcategory->is_active == 'active' ? 'selected' : '' }}>
+                                <option value="" disabled {{ !isset($subcategory->is_active) ? 'selected' : '' }}>Select status</option>
+                                <option value="active"
+                                    {{ isset($subcategory->is_active) && (strtolower($subcategory->is_active) == 'active') ? 'selected' : '' }}>
                                     Active</option>
-                                <option
-                                    {{ isset($subcategory->is_active) && $subcategory->is_active == 'inactive' ? 'selected' : '' }}>
+                                <option value="inactive"
+                                    {{ isset($subcategory->is_active) && (strtolower($subcategory->is_active) == 'inactive') ? 'selected' : '' }}>
                                     Inactive</option>
                             </select>
                         </div>
+
                         <!-- Actions: Submit Button -->
                         <div class="col-span-2 flex justify-end">
                             <button type="submit"
-                                class="bg-blue-500 text-white px-6
-           py-2 rounded-lg 
-            hover:bg-blue-600
-            focus:outline-none focus:ring-2 
-            focus:ring-blue-500 
-            focus:ring-opacity-50">
+                                class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
                                 Submit
                             </button>
                         </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -221,19 +219,22 @@
 </body>
 <script>
     function previewImage(inputId, imgId) {
-        document.getElementById(inputId).addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file && file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = document.getElementById(imgId);
-                    img.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            } else {
-                alert('Please select a valid image file.');
-            }
-        });
+        const el = document.getElementById(inputId);
+        if (el) {
+            el.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.getElementById(imgId);
+                        if (img) img.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                } else if (file) {
+                    alert('Please select a valid image file.');
+                }
+            });
+        }
     }
 
     // Apply to both file inputs

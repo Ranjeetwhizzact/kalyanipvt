@@ -48,7 +48,7 @@ class MenuItemController extends Controller
             'title' => 'required|string|max:255',
             'sort_order' => 'nullable|integer',
             'target' => 'nullable|in:_self,_blank',
-            'status' => 'nullable|boolean',
+            'status' => 'required|in:active,inactive',
         ]);
 
         try {
@@ -60,7 +60,7 @@ class MenuItemController extends Controller
                 'title' => $request->title,
                 'sort_order' => $request->sort_order ?? 0,
                 'target' => $request->target ?? '_self',
-                'status' => $request->status ?? 1,
+                'status' => $request->status ?? 'active',
             ]);
 
             return redirect()

@@ -16,3 +16,28 @@
   -webkit-text-stroke: 2px #f97316; /* orange-500 */
   text-stroke: 2px #f97316;
 }
+
+.rich-text-content ul {
+  list-style-type: disc !important;
+  margin-left: 1.5rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.rich-text-content ol {
+  list-style-type: decimal !important;
+  margin-left: 1.5rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.rich-text-content strong, .rich-text-content b {
+  font-weight: bold !important;
+}
+
+.rich-text-content p {
+  margin-bottom: 0.75rem !important;
+}
+
+.rich-text-content a {
+  color: #3b82f6 !important;
+  text-decoration: underline !important;
+}

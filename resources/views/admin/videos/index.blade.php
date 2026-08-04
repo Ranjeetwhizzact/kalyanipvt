@@ -134,7 +134,7 @@
 
                                     <!-- Description -->
                                     <td class="py-2 px-4">
-                                        {{ \Illuminate\Support\Str::limit($video->description, 50) }}
+                                        {{ \Illuminate\Support\Str::limit(strip_tags($video->description), 50) }}
                                     </td>
 
                                     <!-- Sequence No -->

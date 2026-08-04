@@ -112,7 +112,7 @@ class ContactController extends Controller
      */
     public function editSettings()
     {
-        $settings = \App\Models\ContactPageSetting::first();
+        $settings = \App\Models\ContactPageSetting::query()->first();
         if (!$settings) {
             $settings = \App\Models\ContactPageSetting::create([
                 'heading' => 'Get In Touch',
@@ -146,7 +146,7 @@ class ContactController extends Controller
             'mail_us_description' => 'nullable|string',
         ]);
 
-        $settings = \App\Models\ContactPageSetting::first();
+        $settings = \App\Models\ContactPageSetting::query()->first();
         if (!$settings) {
             $settings = new \App\Models\ContactPageSetting();
         }

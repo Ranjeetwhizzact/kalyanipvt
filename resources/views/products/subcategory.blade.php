@@ -33,79 +33,34 @@
                 $activeCategorySlug = $category->slug;
             @endphp
             <div class="flex allcatlinks">
-
-                {{-- AgroChemicals --}}
-                <a href="{{ route('category.show', 'agrochemicals') }}"
-                    class="cursor-pointer flex-shrink-0 group transform duration-300
-                    w-32 h-[170px] sm:w-36 sm:h-36 md:w-[170px] md:h-[170px]
-                    flex justify-center items-center
-                    {{ $activeCategorySlug == 'agrochemicals' ? 'bg-orange-500 text-white' : 'hover:bg-orange-500' }}">
-
-                    <div>
-                        <img class="m-auto w-10 h-10 lg:w-14 duration-300 object-contain
-                        {{ $activeCategorySlug == 'agrochemicals'
-                            ? 'invert brightness-0'
-                            : 'group-hover:invert group-hover:brightness-0' }}"
-                            src="{{ asset('categoryicon/1743166977agroicon.png') }}" alt="AgroChemicals" loading="lazy">
-
-                        <div class="w-20 lg:w-28 whitespace-normal block">
-                            <h3
-                                class="font-medium text-xs sm:text-sm md:text-base text-center
-                                {{ $activeCategorySlug == 'agrochemicals' ? 'text-white' : 'group-hover:text-white' }}">
-                                AgroChemicals
-                            </h3>
-                        </div>
-                    </div>
-                </a>
-
-                {{-- Public Health Pesticides --}}
-                <a href="{{ route('category.show', 'public-health-pesticides') }}"
-                    class="cursor-pointer flex-shrink-0 group transform duration-300
+                @foreach($categories as $catItem)
+                    @php
+                        $isCurrent = $activeCategorySlug == $catItem->slug;
+                        // Determine the category icon url: fallback to category image, then a default Vector icon.
+                        $iconUrl = $catItem->icon ? $catItem->icon : ($catItem->img ? $catItem->img : 'Vector.png');
+                    @endphp
+                    <a href="{{ route('category.show', $catItem->slug) }}"
+                        class="cursor-pointer flex-shrink-0 group transform duration-300
                         w-32 h-[170px] sm:w-36 sm:h-36 md:w-[170px] md:h-[170px]
                         flex justify-center items-center
-                        {{ $activeCategorySlug == 'public-health-pesticides' ? 'bg-orange-500 text-white' : 'hover:bg-orange-500' }}">
+                        {{ $isCurrent ? 'bg-orange-500 text-white' : 'hover:bg-orange-500' }}">
 
-                    <div>
-                        <img class="m-auto w-10 h-10 lg:w-14 duration-300 object-contain
-                            {{ $activeCategorySlug == 'public-health-pesticides'
-                                ? 'invert brightness-0'
-                                : 'group-hover:invert group-hover:brightness-0' }}"
-                            src="{{ asset('categoryicon/1743230429public_health.png') }}" alt="Public Health Pesticides"
-                            loading="lazy">
+                        <div>
+                            <img class="m-auto w-10 h-10 lg:w-14 duration-300 object-contain
+                                {{ $isCurrent ? 'invert brightness-0' : 'group-hover:invert group-hover:brightness-0' }}"
+                                src="{{ asset($iconUrl) }}" alt="{{ $catItem->name }}"
+                                onerror="this.src='{{ asset('Vector.png') }}';">
 
-                        <div class="w-20 lg:w-28 whitespace-normal block">
-                            <h3
-                                class="font-medium text-xs sm:text-sm md:text-base text-center
-                                {{ $activeCategorySlug == 'public-health-pesticides' ? 'text-white' : 'group-hover:text-white' }}">
-                                Public Health Pesticides
-                            </h3>
+                            <div class="w-20 lg:w-28 whitespace-normal block">
+                                <h3
+                                    class="font-medium text-xs sm:text-sm md:text-base text-center
+                                    {{ $isCurrent ? 'text-white' : 'group-hover:text-white' }}">
+                                    {{ $catItem->name }}
+                                </h3>
+                            </div>
                         </div>
-                    </div>
-                </a>
-
-                {{-- Export Zone --}}
-                <a href="{{ route('category.show', 'export-zone') }}"
-                    class="cursor-pointer flex-shrink-0 group transform duration-300
-                    w-32 h-[170px] sm:w-36 sm:h-36 md:w-[170px] md:h-[170px]
-                    flex justify-center items-center
-                    {{ $activeCategorySlug == 'export-zone' ? 'bg-orange-500 text-white' : 'hover:bg-orange-500' }}">
-
-                    <div>
-                        <img class="m-auto w-10 h-10 lg:w-14 duration-300 object-contain
-                            {{ $activeCategorySlug == 'export-zone' ? 'invert brightness-0' : 'group-hover:invert group-hover:brightness-0' }}"
-                            src="{{ asset('categoryicon/1750848005images__1_-removebg-preview.png') }}" alt="Export Zone"
-                            loading="lazy">
-
-                        <div class="w-20 lg:w-28 whitespace-normal block">
-                            <h3
-                                class="font-medium text-xs sm:text-sm md:text-base text-center
-                                {{ $activeCategorySlug == 'export-zone' ? 'text-white' : 'group-hover:text-white' }}">
-                                Export Zone
-                            </h3>
-                        </div>
-                    </div>
-                </a>
-
+                    </a>
+                @endforeach
             </div>
             {{-- <div class="flex allcatlinks">
                 <a href="#"
@@ -156,7 +111,7 @@
                 <div class="lg:w-[400px] xl:w-[500px]">
                     <h1 class="text-3xl max-sm:text-2xl font-bold mb-5">{{ $subcategory->name }}</h1>
                     <p class="mb-3 max-sm:text-xs text-zinc-600">
-                        {{ $subcategory->discription ?? 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis quam eos nemo, sunt at laudantium voluptatum eligendi, maxime aliquid voluptatem alias! Dolores cumque facere et!' }}
+                        {!! $subcategory->discription ?? 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis quam eos nemo, sunt at laudantium voluptatum eligendi, maxime aliquid voluptatem alias! Dolores cumque facere et!' !!}
                     </p>
                     {{-- <a class="font-bold text-blue-500 hover:underline" href="/category/{{ $subcategory->id }}">Learn
                         More</a> --}}
@@ -237,7 +192,7 @@
 
                 clearTimeout(debounceTimer);
 
-                if (query.length < 2) {
+                if (query.length < 3) {
                     resultsBox.classList.add('hidden');
                     return;
                 }
@@ -262,23 +217,25 @@
 
                             data.forEach(product => {
 
-                                // safety check
-                                if (!product.subcategory || !product.subcategory
-                                    .category) return;
-
-                                let url =
-                                    `/${product.subcategory.category.slug}/${product.subcategory.slug}/${product.slug}`;
+                                let url;
+                                if (product.subcategory && product.subcategory.category) {
+                                    url = `/${product.subcategory.category.slug}/${product.subcategory.slug}/${product.slug}`;
+                                } else if (product.category) {
+                                    url = `/${product.category.slug}/default/${product.slug}`;
+                                } else {
+                                    return;
+                                }
 
                                 let item = `
                             <a href="${url}"
                                class="block px-4 py-2 hover:bg-gray-100 border-b">
 
                                 <div class="font-medium text-sm">
-                                    ${product.title}
+                                    ${product.composition ?? ''}
                                 </div>
 
                                 <div class="text-xs text-gray-500">
-                                    ${product.composition ?? ''}
+                                    ${product.title}
                                 </div>
 
                             </a>

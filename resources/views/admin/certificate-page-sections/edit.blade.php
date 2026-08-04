@@ -42,6 +42,10 @@
                 display: inline;
             }
         }
+        .ck-editor__editable_inline {
+            min-height: 150px;
+            color: #000;
+        }
     </style>
 
 </head>
@@ -101,7 +105,7 @@
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Paragraph</label>
-                                <textarea name="paragraph" rows="5" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">{{ old('paragraph', $section->paragraph) }}</textarea>
+                                <textarea name="paragraph" rows="5" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 cleditor-editor">{{ old('paragraph', $section->paragraph) }}</textarea>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
@@ -166,7 +170,7 @@
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Paragraph</label>
-                                <textarea name="paragraph" rows="5" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">{{ old('paragraph', $section->paragraph) }}</textarea>
+                                <textarea name="paragraph" rows="5" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 cleditor-editor">{{ old('paragraph', $section->paragraph) }}</textarea>
                             </div>
 
                             <div class="md:col-span-2">
@@ -239,7 +243,16 @@
     </div>
     <script src="{{ asset('backend/admin/Scripts/jquery-1.6.3.js') }}" type="text/javascript"></script>
     <script src="{{ asset('backend/admin/Scripts/jquery.cleditor.js') }}" type="text/javascript"></script>
-    <script type="text/javascript"></script>
+    <script>
+        $(document).ready(function() {
+            if (typeof $.fn.cleditor !== "undefined") {
+                $('.cleditor-editor').cleditor({
+                    width: '100%',
+                    height: 250
+                });
+            }
+        });
+    </script>
 </body>
 <script>
     function previewImage(inputId, imgId) {
@@ -268,21 +281,65 @@
         const sectionType = document.getElementById('section_type');
         const heroFields = document.getElementById('hero_fields');
         const sectionFields = document.getElementById('section_fields');
+        const form = document.querySelector('form');
+
+        function disableInputs(container, disable) {
+            const inputs = container.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => {
+                input.disabled = disable;
+            });
+        }
+
+        function initializeVisibleEditors() {
+            if (typeof $ !== "undefined" && typeof $.fn.cleditor !== "undefined") {
+                $('.cleditor-editor').each(function() {
+                    var editor = $(this).data("cleditor");
+                    if ($(this).is(':visible')) {
+                        if (!editor) {
+                            $(this).cleditor({
+                                width: '100%',
+                                height: '250px'
+                            });
+                        } else {
+                            editor.refresh();
+                        }
+                    }
+                });
+            }
+        }
 
         function toggleFields() {
-
             if (sectionType.value === 'hero') {
                 heroFields.style.display = 'block';
                 sectionFields.style.display = 'none';
+                disableInputs(heroFields, false);
+                disableInputs(sectionFields, true);
             } else {
                 heroFields.style.display = 'none';
                 sectionFields.style.display = 'block';
+                disableInputs(heroFields, true);
+                disableInputs(sectionFields, false);
             }
+
+            // Small timeout to allow element display block render before checking visibility
+            setTimeout(initializeVisibleEditors, 50);
+        }
+
+        if (form) {
+            form.addEventListener('submit', function() {
+                if (typeof $ !== "undefined" && typeof $.fn.cleditor !== "undefined") {
+                    $('.cleditor-editor').each(function() {
+                        var editor = $(this).data("cleditor");
+                        if (editor) {
+                            editor.updateTextArea();
+                        }
+                    });
+                }
+            });
         }
 
         sectionType.addEventListener('change', toggleFields);
         toggleFields(); // Run on page load
-
     });
 </script>
 <script>

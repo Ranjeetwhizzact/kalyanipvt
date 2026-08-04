@@ -14,7 +14,7 @@ class SubCategoryController extends Controller
     //
     public function viewsubcategory()
     {
-        $subcategory = Subcategory::where('name', '<>', null)->orderBy('id', 'desc')->paginate(10);
+        $subcategory = Subcategory::whereNotNull('name')->orderBy('id', 'desc')->paginate(10);
         return view('admin.subcategory.index', ['subcategory' => $subcategory]);
     }
     public function new()
@@ -58,9 +58,9 @@ class SubCategoryController extends Controller
         $subcategory->save();
 
         if (isset($req->id) && ($req->id != null || $req->id != "")) {
-            return redirect()->back()->with("success", ".$req->name. 'is Updated successfully'");
+            return redirect()->back()->with("success", $req->name . " is updated successfully");
         }
-        return redirect()->back()->with('success', 'category is add successfully');
+        return redirect()->back()->with('success', 'Subcategory added successfully');
     }
     public function getAllsubcatgeory()
     {

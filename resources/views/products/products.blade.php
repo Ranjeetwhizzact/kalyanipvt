@@ -4,44 +4,39 @@
 @section('styles')
 @endsection
 @section('content')
-<<<<<<< HEAD
     {{-- <header> --}}
     <header class="sticky top-0 bg-white z-50">
         @include('header')
         @include('nav')
     </header>
     {{-- </header> --}}
-=======
-<header class="sticky top-0 bg-white z-50">
-        @include('header')
-        @include('nav')
-        </header>
->>>>>>> 9d9f8551668c17bc257d5f4c635c2bb151ab5794
     <section class="w-full max-sm:pt-2 ">
         <div class="flex md:flex-wrap lg:flex-nowrap items-start jusfity-center bg-gray-200">
             <div class="lg:w-1/2 md:p-7 lg:ps-24 lg:pt-12   max-sm:pt-5 max-sm:pl-2">
                 <div class="max-w-[521px]">
-                    <div class="HomeNavigator inline-block">
+                    @if ($productPageSetting->show_home_button ?? true)
+                        <div class="HomeNavigator inline-block">
 
-                        <a class="flex p-[5px_10px] bg-white rounded-2xl mb-[10px]" href="{{ route('home') }}">
-                            <i class="ri-home-4-line font-medium"></i>&nbsp;
-                            <h3 class="font-medium pl-2 pr-2">Home</h3>
-                        </a>
+                            <a class="flex p-[5px_10px] bg-white rounded-2xl mb-[10px]" href="{{ route('home') }}">
+                                <i class="ri-home-4-line font-medium"></i>&nbsp;
+                                <h3 class="font-medium pl-2 pr-2">Home</h3>
+                            </a>
+                        </div>
+                    @endif
+                    <h1 class="text-3xl max-sm:text-2xl font-bold mb-5">
+                        {!! $productPageSetting->title ?? 'Products We Offer for your<br>Agriculture Solution' !!}
+                    </h1>
+                    <div class="mb-3 max-sm:text-xs text-zinc-500 font-normal leading-relaxed">
+                        {!! $productPageSetting->subtitle ??
+                            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid non nisi voluptate ipsam architecto necessitatibus qui natus suscipit mollitia harum?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur earum rerum fugit officiis quisquam ipsam magni facilis aliquam corporis? Rerum.' !!}
                     </div>
-                    <h1 class="text-3xl max-sm:text-2xl font-bold mb-5">Products We Offer for your<br>
-                        Agriculture Solution</h1>
-                    <p class="mb-3 max-sm:text-xs text-zinc-500">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Aliquid non
-                        nisi voluptate
-                        ipsam architecto necessitatibus qui natus suscipit mollitia harum?Lorem, ipsum dolor sit amet
-                        consectetur adipisicing elit. Aspernatur earum rerum fugit officiis quisquam ipsam magni facilis
-                        aliquam corporis? Rerum.</p>
                     {{-- <a class="font-bold max-sm:text-1xs" href="">Learn More</a> --}}
                 </div>
 
             </div>
             <div class="w-full lg:w-1/2   h-full">
-                <img class="h-full w-full bg-cover object-cover" src="{{ asset('HomeImage.png') }}" alt="">
+                <img class="h-full w-full bg-cover object-cover"
+                    src="{{ asset($productPageSetting->image ?? 'HomeImage.png') }}" alt="Products Image">
             </div>
         </div>
     </section>
@@ -91,7 +86,7 @@
                         <div class="flex flex-col flex-grow p-4 border-x border-b border-gray-100 rounded-b-3xl">
                             <h3 class="text-3xl p-[5px_5px] max-sm:text-2xl max-xl:text-[25px]">{{ $item->name }}</h3>
                             <p class="p-[5px_5px] max-xl:text-[14px] h-20 overflow-hidden line-clamp-3">
-                                {{ $item->short_discription }}</p>
+                                {!! $item->short_discription !!}</p>
                             <div class="mt-4 pt-5 flex items-center justify-between border-t border-gray-50 w-full">
                                 {{-- <a href="{{ url('subcategory/' . $item->slug) }}" class="block w-full"> --}}
                                 <div class="block w-full">
@@ -187,7 +182,7 @@
         Generate Slugs
     </button>
 </form> --}}
-    <section style="background-image: url('{{ asset('map-base.png') }}')"
+    {{-- <section style="background-image: url('{{ asset('map-base.png') }}')"
         class="w-full mt-[20px] p-[3rem_2rem] md:p-[5rem_3rem] lg:p-[6rem_5rem] bg-cover bg-no-repeat bg-center">
         <p class="text-4xl font-medium tracking-[1px] w-full lg:w-[60%] xl:w-[55%] max-sm:text-2xl font-dmSans">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
@@ -219,7 +214,7 @@
             </div>
 
         </div>
-    </section>
+    </section> --}}
 
 
     <!-- WhatsApp Icon -->
@@ -229,11 +224,7 @@
 
 @endsection
 @section('scripts')
-<<<<<<< HEAD
     <script>
-=======
-   <script>
->>>>>>> 9d9f8551668c17bc257d5f4c635c2bb151ab5794
         document.addEventListener("DOMContentLoaded", function() {
 
             console.log("✅ Search JS Loaded");
@@ -255,7 +246,7 @@
 
                 clearTimeout(debounceTimer);
 
-                if (query.length < 2) {
+                if (query.length < 3) {
                     resultsBox.classList.add('hidden');
                     return;
                 }
@@ -280,23 +271,28 @@
 
                             data.forEach(product => {
 
-                                // safety check
-                                if (!product.subcategory || !product.subcategory
-                                    .category) return;
-
-                                let url =
-                                    `/${product.subcategory.category.slug}/${product.subcategory.slug}/${product.slug}`;
+                                let url;
+                                if (product.subcategory && product.subcategory
+                                    .category) {
+                                    url =
+                                        `/${product.subcategory.category.slug}/${product.subcategory.slug}/${product.slug}`;
+                                } else if (product.category) {
+                                    url =
+                                        `/${product.category.slug}/default/${product.slug}`;
+                                } else {
+                                    return;
+                                }
 
                                 let item = `
                             <a href="${url}"
                                class="block px-4 py-2 hover:bg-gray-100 border-b">
 
                                 <div class="font-medium text-sm">
-                                    ${product.title}
+                                    ${product.composition ?? ''}
                                 </div>
 
                                 <div class="text-xs text-gray-500">
-                                    ${product.composition ?? ''}
+                                    ${product.title}
                                 </div>
 
                             </a>

@@ -19,9 +19,9 @@
 
             {{-- RIGHT PARAGRAPH --}}
             @if ($paragraphLayout)
-                <p class="w-full text-base lg:w-[700px] m-auto font-inter text-gray-600 mt-3">
-                    {{ $paragraphLayout->paragraph }}
-                </p>
+                <div class="w-full text-base lg:w-[700px] m-auto font-inter text-gray-600 mt-3 rich-text-content">
+                    {!! $paragraphLayout->paragraph !!}
+                </div>
             @endif
 
         </div>

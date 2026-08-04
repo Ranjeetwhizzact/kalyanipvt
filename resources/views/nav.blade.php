@@ -2,12 +2,16 @@
 
     <div class="flex justify-between items-center">
         <a class="w-[110px] md:w-[140px] 2xl:w-[180px] flex items-center" href="{{ route('home') }}">
-            <img class="w-full h-auto object-contain" src="{{ asset('logo-nav.png') }}" alt="logo">
+            <img class="w-full h-auto object-contain" src="{{ !empty($footerSetting->logo) ? asset($footerSetting->logo) : asset('logo-nav.png') }}" alt="logo">
         </a>
         @php
-            $businessMenu = $headerMenu->firstWhere('name', 'Business Area');
+            $businessMenu = $headerMenu->firstWhere('name', 'Business Area') ?? $headerMenu->firstWhere('name', 'Business');
             $keyStrengthMenu = $headerMenu->firstWhere('name', 'Key Strength');
-            $aboutMenu = $headerMenu->firstWhere('name', 'About Kalyani');
+            $aboutMenu = $headerMenu->firstWhere('name', 'About Kalyani') ?? $headerMenu->firstWhere('name', "About Kalyani's");
+            $knownMenuNames = ['Home', 'About Kalyani', "About Kalyani's", 'Our Products', 'Business Area', 'Business', 'Key Strength', 'Blog', 'Contact Us'];
+            $extraMenus = $headerMenu->filter(function($menu) use ($knownMenuNames) {
+                return !in_array($menu->name, $knownMenuNames);
+            });
         @endphp
 
 
@@ -113,7 +117,7 @@
             <!-- BUSINESS AREA -->
             <li class="relative group">
                 <a href="#" class="flex items-center gap-1 text-zinc-600 font-medium hover:text-orange-500">
-                    Business Area
+                    {{ $businessMenu ? $businessMenu->name : 'Business Area' }}
                     <i class="ri-arrow-down-s-line"></i>
                 </a>
 
@@ -160,7 +164,30 @@
 
                 </ul>
             </li>
+            <!-- EXTRA DYNAMIC MENUS -->
+            @foreach ($extraMenus as $menu)
+                <li class="relative group">
+                    <a href="#" class="flex items-center gap-1 text-zinc-600 font-medium hover:text-orange-500">
+                        {{ $menu->name }}
+                        <i class="ri-arrow-down-s-line"></i>
+                    </a>
 
+                    <ul
+                        class="absolute left-0 top-full hidden group-hover:block bg-white shadow-lg rounded-lg w-60 z-50">
+                        @foreach ($menu->items as $item)
+                            <li>
+                                @php
+                                    $itemUrl = $item->page ? route('page.show', $item->page->slug) : '#';
+                                @endphp
+                                <a href="{{ $itemUrl }}" target="{{ $item->target }}"
+                                    class="block px-4 py-2 hover:bg-orange-50">
+                                    {{ $item->title }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </li>
+            @endforeach
 
             <!-- BLOG -->
             <li>
@@ -184,33 +211,34 @@
         </ul>
 
         <div class="relative hidden xl:flex items-center gap-3">
-            <!-- Search Toggle Button -->
-            <a href="javascript:void(0);" id="searchToggle"
-                class="relative z-30 w-[36px] h-[36px] 2xl:w-[50px] 2xl:h-[50px]
-               bg-[#FEECD4] rounded-full flex items-center justify-center">
-                <i class="ri-search-2-line text-xl text-[#ED7D0B]"></i>
-            </a>
-            <!-- Search Input -->
-            <input type="text" id="searchInput" placeholder="Search products..."
-                class="absolute left-[-260px] xl:left-[-249px] top-0
-                w-0 opacity-0 transition-all duration-300
-                h-[43px] 2xl:h-[50px]
-                px-5
-                rounded-full border outline-none bg-white
-                z-20 shadow-md">
+            <!-- Search Combo Wrapper -->
+            <div class="relative flex items-center">
+                <!-- Search Input Container -->
+                <div id="searchContainer"
+                    class="absolute right-[45px] 2xl:right-[58px] top-0 -translate-y-1/2 w-0 transition-all duration-300 z-50">
+                    <input type="text" id="searchInput" placeholder="Search products..."
+                        class="w-full h-[43px] 2xl:h-[50px] px-5 rounded-full border outline-none bg-white shadow-md opacity-0 pointer-events-none transition-all duration-300">
 
-            <!-- Results Dropdown -->
-            <div id="searchResults"
-                class="absolute left-[-260px] 2xl:left-[-250px] mt-[190px]
-                    w-[300px]
-                    bg-white shadow-lg rounded hidden z-40">
+                    <!-- Results Dropdown -->
+                    <div id="searchResults"
+                        class="absolute top-full left-0 w-full mt-[6px] max-h-[300px] overflow-y-auto
+                            bg-white shadow-lg rounded-xl hidden z-50 border border-gray-200">
+                    </div>
+                </div>
+
+                <!-- Search Toggle Button -->
+                <a href="javascript:void(0);" id="searchToggle"
+                    class="relative z-30 w-[36px] h-[36px] 2xl:w-[50px] 2xl:h-[50px]
+                   bg-[#FEECD4] rounded-full flex items-center justify-center">
+                    <i class="ri-search-2-line text-xl text-[#ED7D0B]"></i>
+                </a>
             </div>
 
             <!-- Brochure Button -->
             @if ($corporateBrochure)
                 <a class="rounded-full px-[22px] py-[10px] 2xl:px-[25px] 2xl:py-[13.9px] font-medium md:text-sm 2xl:text-base text-white bg-[rgba(237,125,11,1)]"
                     href="{{ asset('storage/' . $corporateBrochure->file_path) }}" target="_blank">
-                    Corporate Brochure
+                    {{ $corporateBrochure->title }}
                 </a>
             @endif
         </div>
@@ -251,7 +279,7 @@
 
             <!-- HEADER -->
             <div class="flex justify-between p-4 items-center bg-white">
-                <img src="{{ asset('logo-nav.png') }}" class="h-12">
+                <img src="{{ !empty($footerSetting->logo) ? asset($footerSetting->logo) : asset('logo-nav.png') }}" class="h-12">
                 <button id="closeNav" class="text-3xl">
                     <i class="ri-close-line"></i>
                 </button>
@@ -369,7 +397,7 @@
                     <details>
 
                         <summary class="flex justify-between items-center px-5 py-3 cursor-pointer bg-gray-100">
-                            Business Area
+                            {{ $businessMenu ? $businessMenu->name : 'Business Area' }}
                             <i class="ri-arrow-down-s-line"></i>
                         </summary>
 
@@ -427,7 +455,28 @@
 
                 </li>
 
-
+                <!-- EXTRA DYNAMIC MENUS -->
+                @foreach ($extraMenus as $menu)
+                    <li class="border-b">
+                        <details>
+                            <summary class="flex justify-between items-center px-5 py-3 cursor-pointer bg-gray-100">
+                                {{ $menu->name }}
+                                <i class="ri-arrow-down-s-line"></i>
+                            </summary>
+                            <div>
+                                @foreach ($menu->items as $item)
+                                    @php
+                                        $itemUrl = $item->page ? route('page.show', $item->page->slug) : '#';
+                                    @endphp
+                                    <a href="{{ $itemUrl }}" target="{{ $item->target }}"
+                                        class="block px-6 py-2 hover:bg-orange-50">
+                                        {{ $item->title }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        </details>
+                    </li>
+                @endforeach
 
                 <!-- BLOG -->
                 <li>
@@ -448,7 +497,7 @@
                     <li>
                         <a href="{{ asset('storage/' . $corporateBrochure->file_path) }}" target="_blank"
                             class="block mx-5 my-3 text-center bg-[#ED7D0B] text-white py-2 rounded-full">
-                            Corporate Brochure
+                            {{ $corporateBrochure->title }}
                         </a>
                     </li>
                 @endif
@@ -466,18 +515,23 @@
     const toggleBtn = document.getElementById('searchToggle');
     const searchInput = document.getElementById('searchInput');
     const resultsBox = document.getElementById('searchResults');
+    const searchContainer = document.getElementById('searchContainer');
 
     // Toggle Search Input
     toggleBtn.addEventListener('click', function(e) {
         e.preventDefault();
 
-        if (searchInput.classList.contains('w-0')) {
-            searchInput.classList.remove('w-0', 'opacity-0');
-            searchInput.classList.add('w-[300px]', 'opacity-100');
+        if (searchContainer.classList.contains('w-0')) {
+            searchContainer.classList.remove('w-0');
+            searchContainer.classList.add('w-[260px]', '2xl:w-[300px]');
+            searchInput.classList.remove('opacity-0', 'pointer-events-none');
             searchInput.focus();
         } else {
-            searchInput.classList.add('w-0', 'opacity-0');
-            searchInput.classList.remove('w-[300px]', 'opacity-100');
+            searchContainer.classList.add('w-0');
+            searchContainer.classList.remove('w-[260px]', '2xl:w-[300px]');
+            searchInput.classList.add('opacity-0', 'pointer-events-none');
+            searchInput.value = '';
+            resultsBox.innerHTML = '';
             resultsBox.classList.add('hidden');
         }
     });
@@ -487,7 +541,7 @@
 
         let query = this.value;
 
-        if (query.length < 2) {
+        if (query.length < 3) {
             resultsBox.innerHTML = '';
             resultsBox.classList.add('hidden');
             return;
@@ -506,16 +560,29 @@
                 let html = '';
 
                 data.forEach(product => {
+                    let url;
+                    if (product.subcategory && product.subcategory.category) {
+                        url =
+                            `/${product.subcategory.category.slug}/${product.subcategory.slug}/${product.slug}`;
+                    } else if (product.category) {
+                        url = `/${product.category.slug}/default/${product.slug}`;
+                    } else {
+                        return;
+                    }
+                    let imgUrl = product.image ? (product.image.startsWith('http') ? product.image :
+                            (product.image.startsWith('/') ? product.image : '/' + product.image)) :
+                        '/logo.png';
                     html += `
-                        <a href="/${product.subcategory.category.slug}/${product.subcategory.slug}/${product.slug}"
+                        <a href="${url}"
                            class="flex items-center p-3 hover:bg-gray-100 border-b">
 
-                            <img src="${product.image}"
+                            <img src="${imgUrl}"
+                                 onerror="this.src='/logo.png';"
                                  class="w-10 h-10 object-cover rounded mr-3">
 
                             <div>
-                                <p class="font-medium">${product.title}</p>
-                                <p class="text-sm text-gray-500">${product.composition}</p>
+                                <p class="font-medium">${product.composition}</p>
+                                <p class="text-sm text-gray-500">${product.title}</p>
                             </div>
                         </a>
                     `;
@@ -553,7 +620,7 @@
 
         let query = this.value;
 
-        if (query.length < 2) {
+        if (query.length < 3) {
             mobileResults.innerHTML = '';
             return;
         }
@@ -565,17 +632,29 @@
                 let html = '';
 
                 data.forEach(product => {
-
+                    let url;
+                    if (product.subcategory && product.subcategory.category) {
+                        url =
+                            `/${product.subcategory.category.slug}/${product.subcategory.slug}/${product.slug}`;
+                    } else if (product.category) {
+                        url = `/${product.category.slug}/default/${product.slug}`;
+                    } else {
+                        return;
+                    }
+                    let imgUrl = product.image ? (product.image.startsWith('http') ? product.image :
+                            (product.image.startsWith('/') ? product.image : '/' + product.image)) :
+                        '/logo.png';
                     html += `
-                <a href="/${product.subcategory.category.slug}/${product.subcategory.slug}/${product.slug}"
+                <a href="${url}"
                    class="flex items-center p-3 border-b">
 
-                    <img src="${product.image}"
+                    <img src="${imgUrl}"
+                    onerror="this.src='/logo.png';"
                     class="w-10 h-10 object-cover rounded mr-3">
 
                     <div>
-                        <p class="font-medium">${product.title}</p>
-                        <p class="text-sm text-gray-500">${product.composition}</p>
+                        <p class="font-medium">${product.composition}</p>
+                        <p class="text-sm text-gray-500">${product.title}</p>
                     </div>
 
                 </a>

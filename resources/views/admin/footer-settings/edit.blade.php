@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Footer Settings</title>
+    <title>Site Settings</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
 </head>
@@ -15,8 +15,8 @@
     <div class="main-content flex-1 p-6 ml-64 transition-all duration-300">
 
         <div class="bg-white p-6 mb-4 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold">Footer Settings</h2>
-            <p class="text-gray-600 mt-2">Manage copyright text, Privacy Policy and Terms of Use links.</p>
+            <h2 class="text-2xl font-bold">Site Settings</h2>
+            <p class="text-gray-600 mt-2">Manage website logo, copyright text, Privacy Policy, and Terms of Use links.</p>
         </div>
 
         @if (session('success'))
@@ -26,9 +26,20 @@
         @endif
 
         <div class="bg-white p-6 rounded-lg shadow-md max-w-2xl">
-            <form action="{{ route('admin.footer-settings.update') }}" method="POST">
+            <form action="{{ route('admin.footer-settings.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-2">Website Logo</label>
+                    @if (!empty($setting->logo))
+                        <div class="mb-2">
+                            <img src="{{ asset($setting->logo) }}" alt="Current Logo" class="h-16 object-contain border rounded p-1 bg-gray-50">
+                        </div>
+                    @endif
+                    <input type="file" name="logo" class="w-full px-4 py-2 border rounded-lg @error('logo') border-red-500 @enderror">
+                    @error('logo')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
+                </div>
 
                 <div class="mb-4">
                     <label class="block text-sm font-medium mb-2">Copyright Text</label>

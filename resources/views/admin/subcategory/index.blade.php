@@ -106,8 +106,8 @@
                                 </td>
                                 <td class="py-3 px-4 table-cell">
                                     <p class=" line-clamp-3 h-18 overflow-hidden text-ellipsis">
-                                    {{$item->short_discription}}
-                                    <p>
+                                    {{ strip_tags(html_entity_decode($item->short_discription)) }}
+                                    </p>
                                 </td>
 
                                 <td class="py-3 px-4">{{$item->is_active}}</td>

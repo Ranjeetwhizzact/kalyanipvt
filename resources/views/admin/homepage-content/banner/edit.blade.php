@@ -61,16 +61,35 @@
                     enctype="multipart/form-data">
                     @csrf
 
-                    <!-- Current Banner Image -->
+                    <!-- Banner Type -->
                     <div class="mb-4">
-                        <label class="block text-sm font-medium mb-2">Current Banner</label>
+                        <label class="block text-sm font-medium mb-2">Banner Type</label>
+                        <select id="banner_type" name="banner_type" class="w-full px-4 py-2 border rounded-lg">
+                            <option value="slider" {{ $banner->banner_image ? 'selected' : '' }}>Slider Image Banner</option>
+                            <option value="text_only" {{ !$banner->banner_image ? 'selected' : '' }}>Text-Only Section Title (No Image)</option>
+                        </select>
+                    </div>
 
+                    <!-- Current Banner Image -->
+                    <div id="image_field_container" class="mb-4">
                         @if ($banner->banner_image)
-                            <img src="{{ asset($banner->banner_image) }}"
+                            <label class="block text-sm font-medium mb-2">Current Banner Image</label>
+                            <img id="current_banner_img" src="{{ asset($banner->banner_image) }}"
                                 class="w-48 h-28 object-cover rounded mb-2">
                         @endif
+                        <label class="block text-sm font-medium mb-2">Upload New Image</label>
+                        <input type="file" id="banner_image_input" name="banner_image" class="w-full px-4 py-2 border rounded-lg">
+                    </div>
 
-                        <input type="file" name="banner_image" class="w-full px-4 py-2 border rounded-lg">
+                    <!-- Text-Only Notice -->
+                    <div id="text_only_notice" class="mb-4 hidden">
+                        <div class="p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-700 flex items-start gap-2">
+                            <i class="ri-information-line text-lg mt-0.5"></i>
+                            <div>
+                                <strong class="font-semibold">Text-Only Section Title:</strong>
+                                This entry manages the products section title and description text. No image is required or displayed on the frontend.
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Title -->
@@ -131,7 +150,39 @@
     </div>
     <script src="{{ asset('backend/admin/Scripts/jquery-1.6.3.js') }}" type="text/javascript"></script>
     <script src="{{ asset('backend/admin/Scripts/jquery.cleditor.js') }}" type="text/javascript"></script>
-    <script type="text/javascript"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const bannerTypeSelect = document.getElementById('banner_type');
+            const imageFieldContainer = document.getElementById('image_field_container');
+            const bannerImageInput = document.getElementById('banner_image_input');
+            const textOnlyNotice = document.getElementById('text_only_notice');
+
+            if (!bannerTypeSelect || !imageFieldContainer) {
+                return;
+            }
+
+            function toggleFields() {
+                if (bannerTypeSelect.value === 'text_only') {
+                    imageFieldContainer.style.display = 'none';
+                    if (bannerImageInput) {
+                        bannerImageInput.value = '';
+                    }
+                    if (textOnlyNotice) {
+                        textOnlyNotice.style.display = 'block';
+                        textOnlyNotice.classList.remove('hidden');
+                    }
+                } else {
+                    imageFieldContainer.style.display = 'block';
+                    if (textOnlyNotice) {
+                        textOnlyNotice.style.display = 'none';
+                    }
+                }
+            }
+
+            bannerTypeSelect.addEventListener('change', toggleFields);
+            toggleFields();
+        });
+    </script>
 </body>
 
 </html>

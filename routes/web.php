@@ -199,7 +199,7 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::post('social-media/store', [HomePageContentController::class, 'socialstore'])->name('admin.social.store');
     Route::get('social-media/edit/{id}', [HomePageContentController::class, 'socialedit'])->name('admin.social.edit');
     Route::post('social-media/update/{id}', [HomePageContentController::class, 'socialupdate'])->name('admin.social.update');
-    Route::post('social-media/delete/{id}', [HomePageContentController::class, 'socialdelete'])->name('admin.social.delete');
+    Route::delete('social-media/delete/{id}', [HomePageContentController::class, 'socialdelete'])->name('admin.social.delete');
 
     Route::get('/stat/get-all', [HomePageContentController::class, 'statindex'])->name('admin.stats.index');
     Route::get('/stat/create', [HomePageContentController::class, 'statcreate'])->name('admin.stats.create');
@@ -250,6 +250,10 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::get('/corporate-media/edit/{id}', [CorporateMediaController::class, 'edit'])->name('admin.corporate-media.edit');
     Route::post('/corporate-media/update/{id}', [CorporateMediaController::class, 'update'])->name('admin.corporate-media.update');
     Route::delete('/corporate-media/delete/{id}', [CorporateMediaController::class, 'destroy'])->name('admin.corporate-media.delete');
+
+    // Product Page Settings
+    Route::get('/product-page-settings/edit', [\App\Http\Controllers\admin\ProductPageSettingController::class, 'edit'])->name('admin.product-page-settings.edit');
+    Route::put('/product-page-settings/update', [\App\Http\Controllers\admin\ProductPageSettingController::class, 'update'])->name('admin.product-page-settings.update');
 
     Route::get('/company-profile', [CompanyProfileController::class, 'index'])->name('admin.company-profile.index');
     Route::get('/company-profile/create', [CompanyProfileController::class, 'create'])->name('admin.company-profile.create');

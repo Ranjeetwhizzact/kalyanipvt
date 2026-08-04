@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Contact Us - Kalyani Industries Limited')
+@section('title', 'Blogs Details - Kalyani Industries Limited')
 @section('styles')
 @endsection
 @section('content')
@@ -97,20 +97,6 @@
 
         <aside class="lg:w-1/3 mt-16 lg:mt-0">
             <div class="sticky top-10 space-y-10">
-
-                <div class="bg-orange-900 rounded-3xl p-8 text-white relative overflow-hidden shadow-xl">
-                    <div class="relative z-10">
-                        <h3 class="text-2xl font-extrabold mb-4 italic">Kalyani Plus</h3>
-                        <p class="text-blue-100 mb-6 text-sm">Get unlimited access to 100+ premium tech courses and industry
-                            certifications.</p>
-                        <button
-                            class="w-full bg-orange-500 py-3 hover:border-orange-500 hover:text-orange-500 rounded-xl font-bold uppercase tracking-wider hover:bg-white hover:text-skill-orange transition">
-                            Enroll Now
-                        </button>
-                    </div>
-                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full"></div>
-                </div>
-
                 <div class="bg-white rounded-3xl p-8 shadow-sm border border-slate-100">
                     <h3 class="text-lg font-bold text-slate-900 mb-6 border-b pb-4">
                         Recent Stories
@@ -137,18 +123,6 @@
                         @endforeach
                     </div>
                 </div>
-                <div class="bg-white rounded-3xl p-8 shadow-sm border border-slate-100">
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">Weekly Briefing</h3>
-                    <p class="text-sm text-slate-500 mb-6">The best of Kalyani articles sent to your inbox.</p>
-                    <form class="space-y-3">
-                        <input type="email" placeholder="Email Address"
-                            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-skill-blue outline-none transition">
-                        <button
-                            class="w-full bg-slate-900 text-white py-3 rounded-xl font-bold hover:bg-skill-blue transition">Join
-                            Newsletter</button>
-                    </form>
-                </div>
-
             </div>
         </aside>
 

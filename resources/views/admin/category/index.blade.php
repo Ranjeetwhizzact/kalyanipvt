@@ -99,11 +99,17 @@
                                         <td class="py-2 text-sm px-4">{{ $x }}</td>
                                         <td class="py-2 px-3">{{ $item->name }}</td>
                                         <td class="py-2 px-3 table-cell">
-                                            <img src="{{asset('backend/assests/img/article2.png')}}" class="h-10 w-10 rounded-full object-cover" alt="Product Image">
+                                            @if($item->icon)
+                                                <img src="{{ asset($item->icon) }}" class="h-10 w-10 rounded-full object-cover border border-gray-200" alt="{{ $item->name }}">
+                                            @elseif($item->img)
+                                                <img src="{{ asset($item->img) }}" class="h-10 w-10 rounded-full object-cover border border-gray-200" alt="{{ $item->name }}">
+                                            @else
+                                                <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-[10px] text-gray-500 font-bold border border-gray-200">N/A</div>
+                                            @endif
                                         </td>
                                         <td class="py-2 px-3 table-cell">
                                             <p class=" line-clamp-3 h-18 overflow-hidden text-ellipsis">
-                                            {{ $item->short_discription }}
+                                             {{ strip_tags(html_entity_decode($item->short_discription)) }}
                                             </p>
                                         </td>
                                         {{-- <td class="py-2 px-3 table-cell">{{ $item->discription }}</td> --}}

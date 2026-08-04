@@ -8,7 +8,7 @@
             </label>
             <!-- Logo (Image) -->
             <a href="{{ route('dashboard') }}" class="flex items-center">
-                <img src="{{ asset('logo-nav.png') }}" alt="Dashboard Logo" class="h-15 w-32 hidden sm:block">
+                <img src="{{ !empty($footerSetting->logo) ? asset($footerSetting->logo) : asset('logo-nav.png') }}" alt="Dashboard Logo" class="h-15 w-32 hidden sm:block">
             </a>
         </div>
     </div>
@@ -76,7 +76,7 @@
                     <li>
                         <a href="{{ route('admin.footer-settings.edit') }}"
                             class="block pl-3 py-2 hover:bg-gray-700 transition-colors">
-                            Footer Settings
+                            Site Settings
                         </a>
                     </li>
                 </ul>
@@ -223,6 +223,12 @@
                         <a href="{{ route('admin.company-profile.index') }}"
                             class="block pl-3 py-2 hover:bg-gray-700 transition-colors">
                             Company Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.product-page-settings.edit') }}"
+                            class="block pl-3 py-2 hover:bg-gray-700 transition-colors">
+                            Product Page Settings
                         </a>
                     </li>
                 </ul>

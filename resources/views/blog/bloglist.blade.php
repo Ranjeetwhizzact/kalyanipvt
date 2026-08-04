@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Contact Us - Kalyani Industries Limited')
+@section('title', 'Blogs Details - Kalyani Industries Limited')
 @section('styles')
 @endsection
 @section('content')

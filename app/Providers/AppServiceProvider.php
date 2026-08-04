@@ -49,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
 
             $contactDetails = Contact::query()->where('status', 'active')->get();
 
-            $contactSettings = \App\Models\ContactPageSetting::first();
+            $contactSettings = \App\Models\ContactPageSetting::query()->first();
 
             $footerLinks = FooterLink::query()->where('is_active', 1)
                 ->orderBy('column_group')
@@ -57,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
                 ->get()
                 ->groupBy('column_group');
 
-            $footerSetting = FooterSetting::first();
+            $footerSetting = FooterSetting::query()->first();
 
             $socialLinks = SocialMediaLinks::query()->where('is_active', 1)
                 ->orderBy('display_order')

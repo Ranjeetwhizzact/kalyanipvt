@@ -29,9 +29,9 @@ md:[background-image:linear-gradient(90deg,rgba(255,255,255,1)0%,rgba(255,255,25
                     </h6>
 
                     <!-- Paragraph -->
-                    <p class="text-sm md:text-base text-gray-600 px-2 leading-relaxed">
-                        {{ $layout->paragraph }}
-                    </p>
+                    <div class="text-sm md:text-base text-gray-600 px-2 leading-relaxed rich-text-content">
+                        {!! $layout->paragraph !!}
+                    </div>
 
                 </div>
 

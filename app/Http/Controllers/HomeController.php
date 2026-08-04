@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Adsmodel;
+use App\Models\Category;
 use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\CertificatePageSection;
@@ -25,7 +26,7 @@ class HomeController extends Controller
     public function index()
     {
         // Certificates
-        $pagesection = CertificatePageSection::where('section_type', 'section')
+        $pagesection = CertificatePageSection::query()->where('section_type', 'section')
             ->where('home_image', '!=', null)
             ->select('id', 'home_image', 'title')
             ->where('is_active', 1)
@@ -33,18 +34,18 @@ class HomeController extends Controller
             ->get();
 
         // Basic Data
-        $videos = Video::where('is_active', 1)->orderBy('sequence_no', 'asc')->get();
-        $banner = Banner::where('is_active', 1)->first();
-        $statSection = HomepageStat::where('is_active', 1)->get();
-        $achievementSetting = HomepageStat::whereNotNull('section_heading')
+        $videos = Video::query()->where('is_active', 1)->orderBy('sequence_no', 'asc')->get();
+        $banner = Banner::query()->where('is_active', 1)->first();
+        $statSection = HomepageStat::query()->where('is_active', 1)->get();
+        $achievementSetting = HomepageStat::query()->whereNotNull('section_heading')
             ->whereNotNull('section_description')
             ->first();
-        $socialLinks = SocialMediaLinks::where('is_active', 1)
+        $socialLinks = SocialMediaLinks::query()->where('is_active', 1)
             ->orderBy('display_order')
             ->get();
 
         // Manufacturing Key Section
-        $manufacturingPage = Page::where('slug', 'manufacturing-strenght')
+        $manufacturingPage = Page::query()->where('slug', 'manufacturing-strenght')
             ->with(['sections.layouts.points'])
             ->first();
 
@@ -79,7 +80,7 @@ class HomeController extends Controller
         //         : Str::limit(strip_tags($keyStrength->paragraph), 500);
         // }
         // International Business Section
-        $internationalBusiness = Page::where('slug', 'international-business')
+        $internationalBusiness = Page::query()->where('slug', 'international-business')
             ->with(['sections.layouts.points'])
             ->first();
         $business = null;
@@ -100,17 +101,17 @@ class HomeController extends Controller
         }
 
         // Company Profile
-        $companyProfile = Section::where('section_key', 'Company Profile')->first();
+        $companyProfile = Section::query()->where('section_key', 'Company Profile')->first();
 
         // News
-        $news = News::where('is_active', 'Active')
+        $news = News::query()->where('is_active', 'Active')
             ->where('section_type', 'Industry News')
             ->orderBy('date', 'desc')
             ->take(10)
             ->get();
 
         // Testimonials
-        $testimonials = Testimonal::where('is_active', 'Active')
+        $testimonials = Testimonal::query()->where('is_active', 'Active')
             ->orderBy('date', 'desc')
             ->get();
 
@@ -118,7 +119,7 @@ class HomeController extends Controller
             ->latest()
             ->first();
 
-        $activeModel = Adsmodel::where('status', 1)
+        $activeModel = Adsmodel::query()->where('status', 1)
             ->orderBy('id', 'desc')
             ->first();
 
@@ -137,7 +138,11 @@ class HomeController extends Controller
             ->whereNotNull('subtitle')
             ->first();
 
-        return view('index', compact('pagesection', 'videos', 'banner', 'statSection', 'socialLinks', 'manufacturingPage', 'keyStrengthImage', 'keyStrength', 'internationalBusiness', 'business', 'companyProfile', 'news', 'testimonials', 'businessImage', 'setting', 'achievementSetting', 'activeModel', 'certificateSection', 'HomepageText'));
+        $categories = Category::with('subcategories')
+            ->where('is_active', 'active')
+            ->get();
+
+        return view('index', compact('pagesection', 'videos', 'banner', 'statSection', 'socialLinks', 'manufacturingPage', 'keyStrengthImage', 'keyStrength', 'internationalBusiness', 'business', 'companyProfile', 'news', 'testimonials', 'businessImage', 'setting', 'achievementSetting', 'activeModel', 'certificateSection', 'HomepageText', 'categories'));
     }
 
     public function contactUs()

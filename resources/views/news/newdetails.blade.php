@@ -55,7 +55,7 @@
                         </h1>
 
                         <div class="prose prose-lg max-w-none text-gray-600 leading-relaxed space-y-6">
-                            {!! nl2br(e($newsdetail->description)) !!}
+                            {!! $newsdetail->description !!}
                         </div>
 
                         <div class="mt-12 pt-8 border-t border-gray-100 flex items-center justify-between">
@@ -103,14 +103,6 @@
                                     </div>
                                 </a>
                             @endforeach
-                        </div>
-
-                        <div class="mt-10 p-6 bg-gradient-to-br from-orange-600 to-red-600 rounded-2xl ">
-                            <p class="text-xs font-bold text-white uppercase tracking-widest opacity-80">Got questions?</p>
-                            <h4 class="text-lg font-bold text-white mt-1 mb-4">Contact our experts today.</h4>
-                            <a href="/contact"
-                                class="inline-block bg-white text-orange-600 text-xs font-bold py-2 px-6 rounded-lg shadow-xl hover:scale-105 transition-transform">Get
-                                in Touch</a>
                         </div>
                     </div>
                 </div>

@@ -25,16 +25,17 @@ class HomePageContentController extends Controller
     public function bannerstore(Request $request)
     {
         $request->validate([
+            'banner_type' => 'nullable|in:slider,text_only',
             'banner_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
             'title' => 'required|max:255',
             'subtitle' => 'nullable|max:255',
             'link' => 'nullable|max:255',
-            'is_active' => 'nullable | in:0,1',
-            'display_order' => 'nullable | integer',
+            'is_active' => 'nullable|in:0,1',
+            'display_order' => 'nullable|integer',
         ]);
 
         $imageBanner = null;
-        if ($request->hasFile('banner_image')) {
+        if ($request->banner_type !== 'text_only' && $request->hasFile('banner_image')) {
             $file = $request->file('banner_image');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $destinationPath = public_path('banner_image');
@@ -70,6 +71,7 @@ class HomePageContentController extends Controller
         $banner = Banner::findOrFail($banner_id);
 
         $request->validate([
+            'banner_type' => 'nullable|in:slider,text_only',
             'banner_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
             'title' => 'required|max:255',
             'subtitle' => 'nullable|max:255',
@@ -78,7 +80,12 @@ class HomePageContentController extends Controller
             'display_order' => 'nullable|integer',
         ]);
 
-        if ($request->hasFile('banner_image')) {
+        if ($request->banner_type === 'text_only') {
+            if ($banner->banner_image && file_exists(public_path($banner->banner_image))) {
+                unlink(public_path($banner->banner_image));
+            }
+            $banner->banner_image = null;
+        } elseif ($request->hasFile('banner_image')) {
 
             if ($banner->banner_image && file_exists(public_path($banner->banner_image))) {
                 unlink(public_path($banner->banner_image));
