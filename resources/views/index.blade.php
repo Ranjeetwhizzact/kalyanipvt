@@ -135,7 +135,7 @@
             <!-- Key Strength Section -->
             <div class="col-span-3 lg:col-span-1 flex flex-wrap">
                 @if ($keyStrength)
-                    <div class="md:h-[342px] lg:h-[440px] overflow-hidden relative">
+                    <div class="md:h-[442px] lg:h-[522px] overflow-hidden relative">
                         <h3 class="text-md sm:text-2xl lg:text-4xl font-normal flex">
                             <img src="{{ asset('list-icon.png') }}" alt="" class="object-contain mr-2 w-7 mt-2">
                             {{ $manufacturingPage->title ?? 'Our Key Strength' }}
@@ -149,12 +149,12 @@
                             {!! $keyStrength->paragraph !!}
                         </p>
                     </div>
-
-                    <a href="{{ route('page.show', $manufacturingPage->slug) }}" class="font-semibold text-blue-600">
+                    <a href="{{ route('page.show', $manufacturingPage->slug) }}" class="font-semibold text-blue-600 h-5">
                         Read More...
                     </a>
+
                     @if (!empty($keyStrengthImage?->image))
-                        <div class="w-full aspect-square rounded-lg overflow-hidden my-6 mb-0">
+                        <div class="w-full aspect-square rounded-lg overflow-hidden my-0 mb-0">
                             <img class="w-full h-full object-cover"
                                 src="{{ asset('storage/' . $keyStrengthImage->image) }}" alt="Key Strength Image">
                         </div>
@@ -240,7 +240,7 @@
                         {{ $internationalBusiness->title ?? 'International Business' }}
                     </h3>
 
-                    <p class="text-base text-zinc-500 h-32 overflow-hidden line-clamp-4">
+                    <p class="text-base text-zinc-500 h-30 overflow-hidden line-clamp-4">
                         {!! $business?->paragraph !!}
                     </p>
 

@@ -47,6 +47,62 @@
                     @error('subtitle')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
                 </div>
 
+                <hr class="my-6">
+                <h3 class="text-lg font-bold mb-4">Map Section (Stats)</h3>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-2">Map Section Paragraph</label>
+                    <textarea name="map_paragraph" rows="3"
+                        class="w-full px-4 py-2 border rounded-lg @error('map_paragraph') border-red-500 @enderror"
+                        placeholder="Lorem ipsum dolor sit amet...">{{ old('map_paragraph', $setting->map_paragraph) }}</textarea>
+                    @error('map_paragraph')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-2">Map Background Image</label>
+
+                    @if ($setting->map_image)
+                        <div class="mb-3">
+                            <p class="text-xs text-gray-500 mb-1">Current Image:</p>
+                            <img src="{{ asset($setting->map_image) }}" class="h-40 w-auto object-cover rounded-lg shadow-md border" alt="Map Background">
+                        </div>
+                    @endif
+
+                    <input type="file" name="map_image"
+                        class="w-full px-4 py-2 border rounded-lg @error('map_image') border-red-500 @enderror">
+                    <p class="text-xs text-gray-500 mt-1">Recommended: wide landscape image (JPEG, PNG, GIF, max 2MB). Leave empty to keep current.</p>
+                    @error('map_image')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Stat 1 Label</label>
+                        <input type="text" name="stat1_label" value="{{ old('stat1_label', $setting->stat1_label) }}"
+                            class="w-full px-4 py-2 border rounded-lg mb-2" placeholder="Distributor">
+                        <label class="block text-sm font-medium mb-2">Stat 1 Value</label>
+                        <input type="text" name="stat1_value" value="{{ old('stat1_value', $setting->stat1_value) }}"
+                            class="w-full px-4 py-2 border rounded-lg" placeholder="20+">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Stat 2 Label</label>
+                        <input type="text" name="stat2_label" value="{{ old('stat2_label', $setting->stat2_label) }}"
+                            class="w-full px-4 py-2 border rounded-lg mb-2" placeholder="Served Country">
+                        <label class="block text-sm font-medium mb-2">Stat 2 Value</label>
+                        <input type="text" name="stat2_value" value="{{ old('stat2_value', $setting->stat2_value) }}"
+                            class="w-full px-4 py-2 border rounded-lg" placeholder="34k+">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Stat 3 Label</label>
+                        <input type="text" name="stat3_label" value="{{ old('stat3_label', $setting->stat3_label) }}"
+                            class="w-full px-4 py-2 border rounded-lg mb-2" placeholder="Product Category">
+                        <label class="block text-sm font-medium mb-2">Stat 3 Value</label>
+                        <input type="text" name="stat3_value" value="{{ old('stat3_value', $setting->stat3_value) }}"
+                            class="w-full px-4 py-2 border rounded-lg" placeholder="10k+">
+                    </div>
+                </div>
+
+                <hr class="my-6">
+
                 <div class="mb-6">
                     <label class="block text-sm font-medium mb-2">Header Image</label>
                     

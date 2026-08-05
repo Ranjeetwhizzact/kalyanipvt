@@ -13,5 +13,13 @@ class ProductPageSetting extends Model
         'subtitle',
         'image',
         'show_home_button',
+        'map_paragraph',
+        'map_image',
+        'stat1_label',
+        'stat1_value',
+        'stat2_label',
+        'stat2_value',
+        'stat3_label',
+        'stat3_value',
     ];
 }

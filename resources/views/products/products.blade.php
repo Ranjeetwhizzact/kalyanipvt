@@ -182,39 +182,38 @@
         Generate Slugs
     </button>
 </form> --}}
-    {{-- <section style="background-image: url('{{ asset('map-base.png') }}')"
+    <section style="background-image: url('{{ asset($productPageSetting->map_image ?? 'map-base.png') }}')"
         class="w-full mt-[20px] p-[3rem_2rem] md:p-[5rem_3rem] lg:p-[6rem_5rem] bg-cover bg-no-repeat bg-center">
         <p class="text-4xl font-medium tracking-[1px] w-full lg:w-[60%] xl:w-[55%] max-sm:text-2xl font-dmSans">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-            magna aliqua.
+            {!! $productPageSetting->map_paragraph ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' !!}
         </p>
 
         <div class="flex max-sm:flex-wrap items-center mt-10 gap-10">
 
             <!-- DISTRIBUTER -->
             <div>
-                <p class="uppercase text-xs tracking-wider">Distributor</p>
+                <p class="uppercase text-xs tracking-wider">{{ $productPageSetting->stat1_label ?? 'Distributor' }}</p>
                 <h1 class="text-7xl font-extrabold text-sawarabimincho text-orange-500">
-                    20+
+                    {{ $productPageSetting->stat1_value ?? '20+' }}
                 </h1>
             </div>
 
             <div>
-                <p class="uppercase text-xs tracking-wider">Served Country</p>
+                <p class="uppercase text-xs tracking-wider">{{ $productPageSetting->stat2_label ?? 'Served Country' }}</p>
                 <h1 class="text-7xl font-extrabold text-sawarabimincho text-outline">
-                    34k+
+                    {{ $productPageSetting->stat2_value ?? '34k+' }}
                 </h1>
             </div>
 
             <div>
-                <p class="uppercase text-xs tracking-wider">Product Category</p>
+                <p class="uppercase text-xs tracking-wider">{{ $productPageSetting->stat3_label ?? 'Product Category' }}</p>
                 <h1 class="text-7xl font-extrabold text-sawarabimincho text-outline">
-                    10k+
+                    {{ $productPageSetting->stat3_value ?? '10k+' }}
                 </h1>
             </div>
 
         </div>
-    </section> --}}
+    </section>
 
 
     <!-- WhatsApp Icon -->
