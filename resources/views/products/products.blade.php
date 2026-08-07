@@ -197,8 +197,20 @@
                     {{ $productPageSetting->stat1_value ?? '20+' }}
                 </h1>
             </div>
-
             <div>
+                <p class="uppercase text-xs tracking-wider">{{ $productPageSetting->stat2_label ?? 'Distributor' }}</p>
+                <h1 class="text-7xl font-extrabold text-sawarabimincho text-orange-500">
+                    {{ $productPageSetting->stat2_value ?? '20+' }}
+                </h1>
+            </div>
+            <div>
+                <p class="uppercase text-xs tracking-wider">{{ $productPageSetting->stat3_label ?? 'Distributor' }}</p>
+                <h1 class="text-7xl font-extrabold text-sawarabimincho text-orange-500">
+                    {{ $productPageSetting->stat3_value ?? '20+' }}
+                </h1>
+            </div>
+
+            {{-- <div>
                 <p class="uppercase text-xs tracking-wider">{{ $productPageSetting->stat2_label ?? 'Served Country' }}</p>
                 <h1 class="text-7xl font-extrabold text-sawarabimincho text-outline">
                     {{ $productPageSetting->stat2_value ?? '34k+' }}
@@ -210,7 +222,7 @@
                 <h1 class="text-7xl font-extrabold text-sawarabimincho text-outline">
                     {{ $productPageSetting->stat3_value ?? '10k+' }}
                 </h1>
-            </div>
+            </div> --}}
 
         </div>
     </section>

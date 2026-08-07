@@ -231,6 +231,12 @@
                             Product Page Settings
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.blog-page-settings.edit') }}"
+                            class="block pl-3 py-2 hover:bg-gray-700 transition-colors">
+                            Blog Page Settings
+                        </a>
+                    </li>
                 </ul>
 
             </li>

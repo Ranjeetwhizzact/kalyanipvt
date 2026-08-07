@@ -237,7 +237,13 @@ class HomeController extends Controller
     {
         $blogs = Blog::where('is_active', 'active')->orderBy('created_at', 'desc')->get();
 
-        return view('blog.bloglist', compact('blogs'));
+        $blogPageSetting = \App\Models\BlogPageSetting::firstOrCreate([], [
+            'title' => 'Our',
+            'title_highlight' => 'Latest Insights',
+            'subtitle' => 'Stay updated with the latest trends in technology, career growth, and professional skill development.',
+        ]);
+
+        return view('blog.bloglist', compact('blogs', 'blogPageSetting'));
     }
 
     public function blogdetail($slug)

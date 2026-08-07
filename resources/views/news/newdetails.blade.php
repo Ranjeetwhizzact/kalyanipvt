@@ -3,6 +3,7 @@
 @section('title', $newsdetail->title . ' - Kalyani Industries Limited')
 
 @section('styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         /* Custom scrollbar for sidebar */
         .custom-scrollbar::-webkit-scrollbar {
@@ -60,20 +61,12 @@
 
                         <div class="mt-12 pt-8 border-t border-gray-100 flex items-center justify-between">
                             <span class="text-gray-900 font-bold uppercase text-xs tracking-widest">Share this story:</span>
-                            <div class="flex space-x-4">
-                                <a href="#"
-                                    class="p-2 bg-blue-50 text-blue-500 rounded-full hover:bg-blue-500 hover:text-white transition"><img
-                                        src="{{ asset('icon_img/facebook.png') }}" alt="Facebook"
-                                        class="w-10 h-auto object-contain rounded-full hover:scale-110 transition-transform duration-200"></a>
-                                <a href="#"
-                                    class="p-2 bg-sky-50 text-black rounded-full hover:bg-black hover:text-white transition"><img
-                                        src="{{ asset('icon_img/twitter.png') }}" alt="Twitter"
-                                        class="w-10 h-auto object-contain rounded-full hover:scale-110 transition-transform duration-200"></a>
-                                <a href="#"
-                                    class="p-2 bg-green-50 text-green-500 rounded-full hover:bg-green-500 hover:text-white transition"><img
-                                        src="{{ asset('icon_img/whatapp.png') }}" alt="WhatsApp"
-                                        class="w-10 h-auto object-contain rounded-full hover:scale-110 transition-transform duration-200"></a>
-                            </div>
+                            <!-- Copy Link -->
+                            <button onclick="copyToClipboard('{{ request()->fullUrl() }}', this)"
+                                title="Copy Link"
+                                class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-orange-600 hover:text-white hover:border-orange-600 transition duration-300">
+                                <i class="fa-solid fa-link text-lg"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -112,4 +105,23 @@
     </main>
 
     @include('footer')
+@endsection
+
+@section('scripts')
+<script>
+    // Copy Link function
+    function copyToClipboard(text, element) {
+        navigator.clipboard.writeText(text).then(function() {
+            const originalHtml = element.innerHTML;
+            element.innerHTML = '<i class="fa-solid fa-check text-green-500 text-lg"></i>';
+            element.classList.add('border-green-500');
+            setTimeout(() => {
+                element.innerHTML = originalHtml;
+                element.classList.remove('border-green-500');
+            }, 2000);
+        }).catch(function(err) {
+            console.error('Could not copy link: ', err);
+        });
+    }
+</script>
 @endsection

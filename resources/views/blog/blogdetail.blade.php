@@ -83,14 +83,15 @@
                 </div>
 
                 {{-- Share --}}
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3">
                     <span class="text-sm font-bold text-slate-400">SHARE:</span>
 
-                    <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}" target="_blank"
-                        class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-skill-blue hover:text-white transition">
-                        <i class="fa-brands fa-x-twitter"></i>
-                    </a>
-
+                    <!-- Copy Link -->
+                    <button onclick="copyToClipboard('{{ request()->fullUrl() }}', this)"
+                        title="Copy Link"
+                        class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-orange-600 hover:text-white hover:border-orange-600 transition duration-300">
+                        <i class="fa-solid fa-link text-lg"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -135,5 +136,20 @@
 
 @endsection
 @section('scripts')
-
+<script>
+    // Copy Link function
+    function copyToClipboard(text, element) {
+        navigator.clipboard.writeText(text).then(function() {
+            const originalHtml = element.innerHTML;
+            element.innerHTML = '<i class="fa-solid fa-check text-green-500 text-lg"></i>';
+            element.classList.add('border-green-500');
+            setTimeout(() => {
+                element.innerHTML = originalHtml;
+                element.classList.remove('border-green-500');
+            }, 2000);
+        }).catch(function(err) {
+            console.error('Could not copy link: ', err);
+        });
+    }
+</script>
 @endsection

@@ -12,10 +12,10 @@
     <div class="bg-white border-b border-gray-100 py-12 px-4">
         <div class="max-w-7xl mx-auto text-center">
             <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-                Our <span class="text-orange-500">Latest Insights</span>
+                {{ $blogPageSetting->title }} <span class="text-orange-500">{{ $blogPageSetting->title_highlight }}</span>
             </h1>
             <p class="text-gray-500 text-lg max-w-2xl mx-auto">
-                Stay updated with the latest trends in technology, career growth, and professional skill development.
+                {{ $blogPageSetting->subtitle }}
             </p>
         </div>
     </div>

@@ -255,6 +255,10 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::get('/product-page-settings/edit', [\App\Http\Controllers\admin\ProductPageSettingController::class, 'edit'])->name('admin.product-page-settings.edit');
     Route::put('/product-page-settings/update', [\App\Http\Controllers\admin\ProductPageSettingController::class, 'update'])->name('admin.product-page-settings.update');
 
+    // Blog Page Settings
+    Route::get('/blog-page-settings/edit', [\App\Http\Controllers\admin\BlogPageSettingController::class, 'edit'])->name('admin.blog-page-settings.edit');
+    Route::put('/blog-page-settings/update', [\App\Http\Controllers\admin\BlogPageSettingController::class, 'update'])->name('admin.blog-page-settings.update');
+
     Route::get('/company-profile', [CompanyProfileController::class, 'index'])->name('admin.company-profile.index');
     Route::get('/company-profile/create', [CompanyProfileController::class, 'create'])->name('admin.company-profile.create');
     Route::post('/company-profile/store', [CompanyProfileController::class, 'store'])->name('admin.company-profile.store');

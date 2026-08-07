@@ -2,14 +2,14 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-1 mb-8 relative">
 
         {{-- Column 1 Links --}}
-        <div class="flex flex-col space-y-1 text-sm md:text-md 2xl:text-lg">
+        <div class="flex flex-col  text-sm md:text-md 2xl:text-lg">
             @foreach ($footerLinks->get(1, collect()) as $link)
                 <a href="{{ $link->url }}" class="hover:text-red-500">{{ $link->title }}</a>
             @endforeach
         </div>
 
         {{-- Column 2 Links --}}
-        <div class="flex flex-col space-y-1 text-sm md:text-md 2xl:text-lg">
+        <div class="flex flex-col  text-sm md:text-md 2xl:text-lg">
             @foreach ($footerLinks->get(2, collect()) as $link)
                 <a href="{{ $link->url }}" class="hover:text-red-500">{{ $link->title }}</a>
             @endforeach
